@@ -1,0 +1,7 @@
+\select@language {american}
+\contentsline {section}{\numberline {1}Introduction to QWSR}{1}{section.1}
+\contentsline {section}{\numberline {2}General Workflow}{1}{section.2}
+\contentsline {subsection}{\numberline {2.1}Introduction}{2}{subsection.2.1}
+\contentsline {section}{\numberline {A}Getting Started in R}{3}{appendix.A}
+\contentsline {subsection}{\numberline {A.1}New to R?}{3}{subsection.A.1}
+\contentsline {subsection}{\numberline {A.2}R User: Installing QWSR}{4}{subsection.A.2}

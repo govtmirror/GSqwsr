@@ -1,0 +1,150 @@
+%\VignetteIndexEntry{Introduction to the USGSwsQWSR package}
+%\VignetteEngine{knitr::knitr}
+%\VignetteDepends{USGSwsQW,latticeExtra,MASS}
+%\VignetteSuggests{xtable}
+%\VignetteImports{quantreg}
+%\VignettePackage{USGSwsQWSR}
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{times}
+\usepackage{hyperref}
+\usepackage[numbers, round]{natbib}
+\usepackage[american]{babel}
+\usepackage{authblk}
+\usepackage{subfig}
+\usepackage{placeins}
+\usepackage{footnote}
+\usepackage{tabularx}
+\renewcommand\Affilfont{\itshape\small}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\usepackage{graphicx}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+%------------------------------------------------------------
+% newcommand
+%------------------------------------------------------------
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{\textit{#1}}
+\newcommand{\Rpackage}[1]{\textit{#1}}
+\newcommand{\Rexpression}[1]{\texttt{#1}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+
+\begin{document}
+
+
+<<openLibrary, echo=FALSE>>=
+library(xtable)
+options(continue=" ")
+options(width=60)
+library(knitr)
+
+@
+
+
+%------------------------------------------------------------
+\title{The QWSR R package}
+%------------------------------------------------------------
+\author[1]{Laura De Cicco}
+\author[1]{Steve Corsi}
+\author[1]{Austin Baldwin}
+\affil[1]{United States Geological Survey}
+
+
+<<include=TRUE ,echo=FALSE,eval=TRUE>>=
+opts_chunk$set(highlight=TRUE, tidy=TRUE, keep.space=TRUE, keep.blank.space=FALSE, keep.comment=TRUE, tidy=FALSE,comment="")
+knit_hooks$set(inline = function(x) {
+   if (is.numeric(x)) round(x, 3)})
+knit_hooks$set(crop = hook_pdfcrop)
+@
+
+
+\maketitle
+\tableofcontents
+
+%------------------------------------------------------------
+\section{Introduction to QWSR}
+%------------------------------------------------------------ 
+
+
+%------------------------------------------------------------
+\section{General Workflow}
+%------------------------------------------------------------ 
+
+<<start,eval = TRUE>>=
+library(USGSwsQWSR)
+@
+
+
+%------------------------------------------------------------
+\subsection{Introduction}
+%------------------------------------------------------------
+
+
+\clearpage
+\appendix
+
+%------------------------------------------------------------ 
+\section{Getting Started in R}
+\label{sec:appendix1}
+%------------------------------------------------------------ 
+This section describes the options for downloading and installing the dataRetrieval package.
+
+%------------------------------------------------------------
+\subsection{New to R?}
+%------------------------------------------------------------ 
+If you are new to R, you will need to first install the latest version of R, which can be found here: \url{http://www.r-project.org/}.
+
+There are many options for running and editing R code, one nice environment to learn R is RStudio. RStudio can be downloaded here: \url{http://rstudio.org/}. Once R and RStudio are installed, the dataRetrieval package needs to be installed as described in the next section.
+
+At any time, you can get information about any function in R by typing a question mark before the functions name.  This will open a file (in RStudio, in the Help window) that describes the function, the required arguments, and provides working examples.
+
+<<helpFunc,eval = FALSE>>=
+?plotSteps
+@
+
+To see the raw code for a particular code, type the name of the function:
+<<rawFunc,eval = TRUE>>=
+plotSteps
+@
+
+%------------------------------------------------------------
+\subsection{R User: Installing QWSR}
+%------------------------------------------------------------ 
+Before installing QWSR, the dependent packages must be first be installed:
+
+<<installFromCran,eval = FALSE>>=
+install.packages(c("XML", "lubridate", "akima", 
+                   "leaps", "car", "mvtnorm", 
+                   "relimp", "BSDA", "RODBC"), 
+                 dependencies=TRUE)
+install.packages(c("USGSwsBase","USGSwsData",
+                   "USGSwsGraphs","USGSwsStats",
+                   "USGSwsQW"), repos="http://usgs-r.github.com")
+@
+
+It is a good idea to re-start R after installing the package, especially if installing an updated version. Some users have found it necessary to delete the previous version's package folder before installing newer version of dataRetrieval. If you are experiencing issues after updating a package, trying deleting the package folder - the default location for Windows is something like this: C:/Users/userA/Documents/R/win-library/2.15/dataRetrieval, and the default for a Mac: /Users/userA/Library/R/2.15/library/dataRetrieval. Then, re-install the package using the directions above. Moving to CRAN should solve this problem.
+
+After installing the package, you need to open the library each time you re-start R.  This is done with the simple command:
+<<openLibraryTest, eval=FALSE>>=
+library(USGSwsQWSR)
+@
+
+
+
+
+\end{document}

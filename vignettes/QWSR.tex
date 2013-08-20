@@ -1,0 +1,331 @@
+%\VignetteIndexEntry{Introduction to the USGSwsQWSR package}
+%\VignetteEngine{knitr::knitr}
+%\VignetteDepends{USGSwsQW,latticeExtra,MASS}
+%\VignetteSuggests{xtable}
+%\VignetteImports{quantreg}
+%\VignettePackage{USGSwsQWSR}
+
+\documentclass[a4paper,11pt]{article}\usepackage{graphicx, color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
+\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
+\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
+\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
+\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
+\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
+\newcommand{\hlslot}[1]{\textit{#1}}%
+\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.2,0.2,0.2}{#1}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+\usepackage{amsmath}
+\usepackage{times}
+\usepackage{hyperref}
+\usepackage[numbers, round]{natbib}
+\usepackage[american]{babel}
+\usepackage{authblk}
+\usepackage{subfig}
+\usepackage{placeins}
+\usepackage{footnote}
+\usepackage{tabularx}
+\renewcommand\Affilfont{\itshape\small}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\usepackage{graphicx}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+%------------------------------------------------------------
+% newcommand
+%------------------------------------------------------------
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{\textit{#1}}
+\newcommand{\Rpackage}[1]{\textit{#1}}
+\newcommand{\Rexpression}[1]{\texttt{#1}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+\begin{document}
+
+
+
+
+
+
+%------------------------------------------------------------
+\title{The QWSR R package}
+%------------------------------------------------------------
+\author[1]{Laura De Cicco}
+\author[1]{Steve Corsi}
+\author[1]{Austin Baldwin}
+\affil[1]{United States Geological Survey}
+
+
+
+
+
+
+\maketitle
+\tableofcontents
+
+%------------------------------------------------------------
+\section{Introduction to QWSR}
+%------------------------------------------------------------ 
+
+
+%------------------------------------------------------------
+\section{General Workflow}
+%------------------------------------------------------------ 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlfunctioncall{library}(USGSwsQWSR)
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsQW}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsBase}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: lubridate}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: XML}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsGraphs}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: KernSmooth}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{KernSmooth 2.23 loaded\\Copyright M. P. Wand 1997-2009}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: akima}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsStats}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: leaps}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: boot}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: survival}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: splines}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\\Attaching package: 'survival'}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{The following object is masked from 'package:boot':
+
+\ \ \ \ aml}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: mvtnorm}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: latticeExtra}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: RColorBrewer}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: lattice}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\\Attaching package: 'lattice'}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{The following object is masked from 'package:boot':
+
+\ \ \ \ melanoma}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: MASS}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\\Attaching package: 'MASS'}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{The following object is masked from 'package:USGSwsBase':
+
+\ \ \ \ select}}\end{kframe}
+\end{knitrout}
+
+
+
+%------------------------------------------------------------
+\subsection{Introduction}
+%------------------------------------------------------------
+
+
+\clearpage
+\appendix
+
+%------------------------------------------------------------ 
+\section{Getting Started in R}
+\label{sec:appendix1}
+%------------------------------------------------------------ 
+This section describes the options for downloading and installing the dataRetrieval package.
+
+%------------------------------------------------------------
+\subsection{New to R?}
+%------------------------------------------------------------ 
+If you are new to R, you will need to first install the latest version of R, which can be found here: \url{http://www.r-project.org/}.
+
+There are many options for running and editing R code, one nice environment to learn R is RStudio. RStudio can be downloaded here: \url{http://rstudio.org/}. Once R and RStudio are installed, the dataRetrieval package needs to be installed as described in the next section.
+
+At any time, you can get information about any function in R by typing a question mark before the functions name.  This will open a file (in RStudio, in the Help window) that describes the function, the required arguments, and provides working examples.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+?plotSteps
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+To see the raw code for a particular code, type the name of the function:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+plotSteps
+\end{alltt}
+\begin{verbatim}
+function (steps, localDT, transformResponse = "lognormal") 
+{
+    parOriginal <- par(no.readonly = TRUE)
+    responseVariable <- steps$response[1]
+    nSteps <- nrow(steps)
+    logPlot <- ""
+    distribution <- transformResponse
+    yMin <- min(localDT[, responseVariable]@.Data[, 2], na.rm = TRUE)
+    xMin <- yMin
+    lmFormula <- "obs ~ pred"
+    if ("lognormal" == transformResponse) {
+        logPlot <- "xy"
+        lmFormula <- "log10(obs) ~ log10(pred)"
+    }
+    for (i in 2:nSteps) {
+        formulaToUse <- substring(steps$scope[i], 3, nchar(steps$scope[i]))
+        formulaToUse <- paste(responseVariable, formulaToUse, 
+            sep = " ~ ")
+        cat(formulaToUse, "\n\n")
+        modelReturn <- do.call("censReg", list(formulaToUse, 
+            data = localDT, dist = distribution))
+        outlier <- findOutliers(modelReturn, localDT, transformResponse)
+        responseValue <- localDT[, responseVariable]@.Data[, 
+            2]
+        df <- data.frame(obs = responseValue, pred = modelReturn$YPRED)
+        dfOutliers <- data.frame(obsOut = responseValue[outlier], 
+            predOut = modelReturn$YPRED[outlier])
+        lineFit <- do.call("lm", list(lmFormula, data = df))
+        par(tcl = 0.3)
+        plot(df$pred, df$obs, ylab = "Observed", xlab = "Predicted", 
+            main = paste(responseVariable, i, sep = ":"), ylim = c(yMin, 
+                max(c(df$obs, df$pred))), xlim = c(xMin, max(c(df$obs, 
+                df$pred))), log = logPlot)
+        points(dfOutliers$predOut, dfOutliers$obsOut, col = "red", 
+            pch = 16)
+        if (sum(modelReturn$CENSFLAG) > 0) {
+            cenValsX <- modelReturn$YPRED[modelReturn$CENSFLAG]
+            cenValsY <- responseValue[modelReturn$CENSFLAG]
+            segments(x0 = cenValsX, y0 = cenValsY, x1 = cenValsX, 
+                y1 = yMin * 0.001)
+        }
+        abline(lineFit, col = "red")
+        abline(0, 1, col = "blue")
+        mtext(formulaToUse, side = 3, line = -1, cex = 0.7)
+        corStep <- cor(df$obs, df$pred)
+        goodness <- paste("slope: ", formatC(lineFit$coefficients[2], 
+            digits = 4), ", cor: ", formatC(corStep, digits = 4), 
+            ", rsme: ", formatC(rmse(modelReturn), digits = 4), 
+            sep = "")
+        mtext(goodness, side = 3, line = 0.5, cex = 0.7)
+    }
+    par(parOriginal)
+}
+<environment: namespace:USGSwsQWSR>
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+%------------------------------------------------------------
+\subsection{R User: Installing QWSR}
+%------------------------------------------------------------ 
+Before installing QWSR, the dependent packages must be first be installed:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlfunctioncall{install.packages}(\hlfunctioncall{c}(\hlstring{"XML"}, \hlstring{"lubridate"}, \hlstring{"akima"}, 
+                   \hlstring{"leaps"}, \hlstring{"car"}, \hlstring{"mvtnorm"}, 
+                   \hlstring{"relimp"}, \hlstring{"BSDA"}, \hlstring{"RODBC"}), 
+                 dependencies=TRUE)
+\hlfunctioncall{install.packages}(\hlfunctioncall{c}(\hlstring{"USGSwsBase"},\hlstring{"USGSwsData"},
+                   \hlstring{"USGSwsGraphs"},\hlstring{"USGSwsStats"},
+                   \hlstring{"USGSwsQW"}), repos=\hlstring{"http://usgs-r.github.com"})
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+It is a good idea to re-start R after installing the package, especially if installing an updated version. Some users have found it necessary to delete the previous version's package folder before installing newer version of dataRetrieval. If you are experiencing issues after updating a package, trying deleting the package folder - the default location for Windows is something like this: C:/Users/userA/Documents/R/win-library/2.15/dataRetrieval, and the default for a Mac: /Users/userA/Library/R/2.15/library/dataRetrieval. Then, re-install the package using the directions above. Moving to CRAN should solve this problem.
+
+After installing the package, you need to open the library each time you re-start R.  This is done with the simple command:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlfunctioncall{library}(USGSwsQWSR)
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+\end{document}
