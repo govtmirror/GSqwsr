@@ -28,7 +28,7 @@ analyzeSteps <- function(steps, responseVariable, siteINFO, xCorner = 0.65, yCor
   
   par(mar=c(5,5,5,5))
   
-  with(steps, plot(Correlation, xlab="Step", ylab="Corrolation, Slope, RSME", 
+  with(steps, plot(Correlation, xlab="Step", ylab="Corrolation, Slope, RMSE", 
                    ylim=c(0,1), axes=FALSE, pch=20, col="black",type="o"))
   with(steps, points(Slope, pch=20, col="red",type="o"))
   with(steps, points(Res.St.Error, pch=20, col="blue",type="o"))
@@ -42,7 +42,7 @@ analyzeSteps <- function(steps, responseVariable, siteINFO, xCorner = 0.65, yCor
   box()
   x1 <- grconvertX(xCorner, from="npc", to="user")
   y1 <- grconvertY(yCorner, from="npc", to="user")  
-  legend(x1, y1, c("Correlation", "Slope", "RSME", "PRESS"), 
+  legend(x1, y1, c("Correlation", "Slope", "RMSE", "PRESS"), 
          pch=c(20, 20, 20, 20),col=c("black", "red","blue","forestgreen"))
   
   prettyName <- simpleCap(siteINFO$station.nm)

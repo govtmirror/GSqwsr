@@ -19,9 +19,6 @@
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)
-#' returnPrelim <- prelimModelDev(DT,response,kitchenSink)
-#' modelReturn <- returnPrelim$DT.mod
-#' runPred(UV,DT,modelReturn)
 runPred <- function(localUV,localDT,finalModel,transformResponse="lognormal",dfReady=TRUE){
   
   evaluat <- runFit(localDT,finalModel,transformResponse)

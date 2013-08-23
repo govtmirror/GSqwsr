@@ -22,7 +22,17 @@
   Run the fitting routine
 }
 \examples{
-\dontrun{}
+DTComplete <- DTComplete
+UV <- UV
+QWcodes <- QWcodes
+siteINFO <- siteINFO
+response <- QWcodes$colName[1]
+DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+DT <- na.omit(DT)
+kitchenSink <- createFullFormula(DT,response)
+returnPrelim <- prelimModelDev(DT,response,kitchenSink)
+modelReturn <- returnPrelim$DT.mod
+runFit(DT,modelReturn)
 }
 \keyword{AMLE}
 \keyword{fit}

@@ -135,62 +135,31 @@
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlfunctioncall{library}(USGSwsQWSR)
+\hlfunctioncall{library}(dataRetrieval)
+\hlcomment{# Simple workflow}
+site <- \hlstring{"04027000"}
+siteName <- \hlstring{"Bad"}
+siteINFO <-  \hlfunctioncall{getSiteFileData}(site, interactive=FALSE)
+UVcodes <- \hlfunctioncall{whatUV}(site)
+QWcodes <- \hlfunctioncall{whatQW}(site, minCount=20, endDate=\hlstring{"2012-06-01"},ignoreGroups=\hlstring{"Information"})
+qwPCodes <- \hlfunctioncall{c}(\hlstring{"00940"},\hlstring{"00608"},\hlstring{"00613"},\hlstring{"00631"},\hlstring{"62855"},\hlstring{"00671"},\hlstring{"00665"},\hlstring{"80154"},\hlstring{"00618"})
+QWcodes <- QWcodes[\hlfunctioncall{which}(QWcodes$parameter_cd %in% qwPCodes),]
+uvPCodes <- \hlfunctioncall{c}(\hlstring{"00010"}, \hlstring{"00060"}, \hlstring{"00095"}, \hlstring{"00400"}, \hlstring{"63680"}, \hlstring{"00300"})
+UVP <- \hlfunctioncall{unique}(UVcodes$pCode[\hlfunctioncall{which}(UVcodes$pCode %in% uvPCodes)])
+BeginDate <- \hlfunctioncall{max}(UVcodes$StartDate[\hlfunctioncall{which}(UVcodes$pCode %in% uvPCodes)])
+
+QW <- \hlfunctioncall{importNWISqw}(site, params=qwPCodes, begin.date=BeginDate)
+QW$datetime <- \hlfunctioncall{as.POSIXct}(\hlfunctioncall{paste}(QW$sample_dt,\hlstring{" "},QW$sample_tm, \hlstring{":00"},sep=\hlstring{""}),tz=\hlstring{"UTC"})
+
+
+UV <- \hlfunctioncall{getMultipleUV}(site, BeginDate, UVP)
+
+mergeReturn <- \hlfunctioncall{mergeDatasets}(QW, UV, QWcodes)
+DTComplete <- mergeReturn$DTComplete
+QWcodes <- mergeReturn$QWcodes
+
 \end{alltt}
-
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsQW}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsBase}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: lubridate}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: XML}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsGraphs}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: KernSmooth}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{KernSmooth 2.23 loaded\\Copyright M. P. Wand 1997-2009}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: akima}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: USGSwsStats}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: leaps}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: boot}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: survival}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: splines}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\\Attaching package: 'survival'}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{The following object is masked from 'package:boot':
-
-\ \ \ \ aml}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: mvtnorm}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: latticeExtra}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: RColorBrewer}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: lattice}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\\Attaching package: 'lattice'}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{The following object is masked from 'package:boot':
-
-\ \ \ \ melanoma}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{Loading required package: MASS}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{\\Attaching package: 'MASS'}}
-
-{\ttfamily\noindent\itshape\color{messagecolor}{The following object is masked from 'package:USGSwsBase':
-
-\ \ \ \ select}}\end{kframe}
+\end{kframe}
 \end{knitrout}
 
 
@@ -221,6 +190,7 @@ At any time, you can get information about any function in R by typing a questio
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlfunctioncall{library}(USGSwsQWSR)
 ?plotSteps
 \end{alltt}
 \end{kframe}
@@ -233,62 +203,6 @@ To see the raw code for a particular code, type the name of the function:
 \begin{alltt}
 plotSteps
 \end{alltt}
-\begin{verbatim}
-function (steps, localDT, transformResponse = "lognormal") 
-{
-    parOriginal <- par(no.readonly = TRUE)
-    responseVariable <- steps$response[1]
-    nSteps <- nrow(steps)
-    logPlot <- ""
-    distribution <- transformResponse
-    yMin <- min(localDT[, responseVariable]@.Data[, 2], na.rm = TRUE)
-    xMin <- yMin
-    lmFormula <- "obs ~ pred"
-    if ("lognormal" == transformResponse) {
-        logPlot <- "xy"
-        lmFormula <- "log10(obs) ~ log10(pred)"
-    }
-    for (i in 2:nSteps) {
-        formulaToUse <- substring(steps$scope[i], 3, nchar(steps$scope[i]))
-        formulaToUse <- paste(responseVariable, formulaToUse, 
-            sep = " ~ ")
-        cat(formulaToUse, "\n\n")
-        modelReturn <- do.call("censReg", list(formulaToUse, 
-            data = localDT, dist = distribution))
-        outlier <- findOutliers(modelReturn, localDT, transformResponse)
-        responseValue <- localDT[, responseVariable]@.Data[, 
-            2]
-        df <- data.frame(obs = responseValue, pred = modelReturn$YPRED)
-        dfOutliers <- data.frame(obsOut = responseValue[outlier], 
-            predOut = modelReturn$YPRED[outlier])
-        lineFit <- do.call("lm", list(lmFormula, data = df))
-        par(tcl = 0.3)
-        plot(df$pred, df$obs, ylab = "Observed", xlab = "Predicted", 
-            main = paste(responseVariable, i, sep = ":"), ylim = c(yMin, 
-                max(c(df$obs, df$pred))), xlim = c(xMin, max(c(df$obs, 
-                df$pred))), log = logPlot)
-        points(dfOutliers$predOut, dfOutliers$obsOut, col = "red", 
-            pch = 16)
-        if (sum(modelReturn$CENSFLAG) > 0) {
-            cenValsX <- modelReturn$YPRED[modelReturn$CENSFLAG]
-            cenValsY <- responseValue[modelReturn$CENSFLAG]
-            segments(x0 = cenValsX, y0 = cenValsY, x1 = cenValsX, 
-                y1 = yMin * 0.001)
-        }
-        abline(lineFit, col = "red")
-        abline(0, 1, col = "blue")
-        mtext(formulaToUse, side = 3, line = -1, cex = 0.7)
-        corStep <- cor(df$obs, df$pred)
-        goodness <- paste("slope: ", formatC(lineFit$coefficients[2], 
-            digits = 4), ", cor: ", formatC(corStep, digits = 4), 
-            ", rsme: ", formatC(rmse(modelReturn), digits = 4), 
-            sep = "")
-        mtext(goodness, side = 3, line = 0.5, cex = 0.7)
-    }
-    par(parOriginal)
-}
-<environment: namespace:USGSwsQWSR>
-\end{verbatim}
 \end{kframe}
 \end{knitrout}
 

@@ -85,8 +85,31 @@ knit_hooks$set(crop = hook_pdfcrop)
 \section{General Workflow}
 %------------------------------------------------------------ 
 
-<<start,eval = TRUE>>=
+<<start,eval = FALSE>>=
 library(USGSwsQWSR)
+library(dataRetrieval)
+# Simple workflow
+site <- "04027000"
+siteName <- "Bad"
+siteINFO <-  getSiteFileData(site, interactive=FALSE)
+UVcodes <- whatUV(site)
+QWcodes <- whatQW(site, minCount=20, endDate="2012-06-01",ignoreGroups="Information")
+qwPCodes <- c("00940","00608","00613","00631","62855","00671","00665","80154","00618")
+QWcodes <- QWcodes[which(QWcodes$parameter_cd %in% qwPCodes),]
+uvPCodes <- c("00010", "00060", "00095", "00400", "63680", "00300")
+UVP <- unique(UVcodes$pCode[which(UVcodes$pCode %in% uvPCodes)])
+BeginDate <- max(UVcodes$StartDate[which(UVcodes$pCode %in% uvPCodes)])
+
+QW <- importNWISqw(site, params=qwPCodes, begin.date=BeginDate)
+QW$datetime <- as.POSIXct(paste(QW$sample_dt," ",QW$sample_tm, ":00",sep=""),tz="UTC")
+
+
+UV <- getMultipleUV(site, BeginDate, UVP)
+
+mergeReturn <- mergeDatasets(QW, UV, QWcodes)
+DTComplete <- mergeReturn$DTComplete
+QWcodes <- mergeReturn$QWcodes
+
 @
 
 
@@ -114,11 +137,12 @@ There are many options for running and editing R code, one nice environment to l
 At any time, you can get information about any function in R by typing a question mark before the functions name.  This will open a file (in RStudio, in the Help window) that describes the function, the required arguments, and provides working examples.
 
 <<helpFunc,eval = FALSE>>=
+library(USGSwsQWSR)
 ?plotSteps
 @
 
 To see the raw code for a particular code, type the name of the function:
-<<rawFunc,eval = TRUE>>=
+<<rawFunc,eval = FALSE>>=
 plotSteps
 @
 

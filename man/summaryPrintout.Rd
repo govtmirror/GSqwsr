@@ -3,7 +3,7 @@
 \title{summaryPrintout}
 \usage{
   summaryPrintout(modelReturn, siteINFO,
-    saveOutput = FALSE, fileName)
+    saveOutput = FALSE, fileName = "output.txt")
 }
 \arguments{
   \item{modelReturn}{censReg model results}
@@ -21,7 +21,16 @@
   Summarize the model results
 }
 \examples{
-\dontrun{}
+DTComplete <- DTComplete
+UV <- UV
+QWcodes <- QWcodes
+siteINFO <- siteINFO
+response <- QWcodes$colName[1]
+DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+DT <- na.omit(DT)
+kitchenSink <- createFullFormula(DT,response)
+modelReturn <- censReg(paste(response," ~ ", kitchenSink, sep=""), dist="lognormal", data=DT)
+summaryPrintout(modelReturn,siteINFO)
 }
 \keyword{summary}
 \keyword{text}

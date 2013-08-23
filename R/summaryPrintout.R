@@ -9,8 +9,17 @@
 #'@keywords summary text
 #'@export
 #'@examples
-#'\dontrun{}
-summaryPrintout <- function(modelReturn, siteINFO, saveOutput=FALSE,fileName){
+#' DTComplete <- DTComplete
+#' UV <- UV
+#' QWcodes <- QWcodes
+#' siteINFO <- siteINFO
+#' response <- QWcodes$colName[1]
+#' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+#' DT <- na.omit(DT)
+#' kitchenSink <- createFullFormula(DT,response)
+#' modelReturn <- censReg(paste(response," ~ ", kitchenSink, sep=""), dist="lognormal", data=DT)
+#' summaryPrintout(modelReturn,siteINFO)
+summaryPrintout <- function(modelReturn, siteINFO, saveOutput=FALSE,fileName="output.txt"){
   
   if(saveOutput) sink(fileName)
   
@@ -39,8 +48,10 @@ summaryPrintout <- function(modelReturn, siteINFO, saveOutput=FALSE,fileName){
   cat("Method: ", modelReturn$method, "\n")
   cat("Degrees of freedom: ", modelReturn$DF, "\n")
   cat("RMSE: ", rmse(modelReturn), "\n")
+  cat("RSQ: ", modelReturn$RSQ, "\n")
+  
   cat("Number of censored values: ", numCensored,"\n")
-  cat(printFormula, "\n")
+  cat(printFormula, "\n\n")
   print(modelStuff)
   cat("\n")
   cat("Correlation matrix of coefficients:","\n")
@@ -49,13 +60,13 @@ summaryPrintout <- function(modelReturn, siteINFO, saveOutput=FALSE,fileName){
   colnames(CVdf) <- c(names(coef(modelReturn)),"logSigma")
   rownames(CVdf) <- c(names(coef(modelReturn)),"logSigma")
   print(CVdf)
-  cat("\nTo clarify:\n")
-  cat("RSQ: ", modelReturn$RSQ, "\n")
-  cat("LLR: ", modelReturn$LLR, "\n")
-  cat("SCORR: ", modelReturn$SCORR, "\n")
-  cat("LLRAML: ", modelReturn$LLRAML, "\n")
-  cat("PLEVAML: ", modelReturn$PLEVAML, "\n")
-  cat("IERR: ", modelReturn$IERR, "\n")  
+#   cat("\nTo clarify:\n")
+  
+#   cat("LLR: ", modelReturn$LLR, "\n")
+#   cat("SCORR: ", modelReturn$SCORR, "\n")
+#   cat("LLRAML: ", modelReturn$LLRAML, "\n")
+#   cat("PLEVAML: ", modelReturn$PLEVAML, "\n")
+#   cat("IERR: ", modelReturn$IERR, "\n")  
   
   if (saveOutput) sink()
 }
