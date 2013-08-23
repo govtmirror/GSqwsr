@@ -9,7 +9,12 @@
 #'@keywords scatterplot
 #'@export
 #'@examples
-#'\dontrun{}
+#' DTComplete <- DTComplete
+#' QWcodes <- QWcodes
+#' response <- QWcodes$colName[1]
+#' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+#' DT <- na.omit(DT)
+#' predictVariableScatterPlots(DT,response)
 predictVariableScatterPlots <- function(localDT,responseVariable,transformResponse="lognormal"){
   
   explanvar <- names(localDT)[-which(names(localDT) %in% responseVariable)]
@@ -37,10 +42,14 @@ predictVariableScatterPlots <- function(localDT,responseVariable,transformRespon
                             x = list(relation = 'free')),
               strip=strip.custom(par.strip.text=list(cex=0.75)))
   dimnames(p)[[1]] <- explanvar.rho[dimnames(p)[[1]]]
-
+  if ("lognormal" == transformResponse){
+    logText <- "Log"
+  } else {
+    logText <- ""
+  }
   p <- update(p + layer(panel.quantile(x, 
                                        y, tau = c(0.5), superpose = TRUE)), 
-              auto.key = list(text = paste("Linear response variables,",transformResponse, responseVariable, c(50), "% quantile"), 
+              auto.key = list(text = paste("Linear response variables,",logText, responseVariable, c(50), "% quantile"), 
                               points = FALSE, lines = TRUE))
   
   print(p)
@@ -58,10 +67,10 @@ predictVariableScatterPlots <- function(localDT,responseVariable,transformRespon
                             x = list(log=TRUE,relation = 'free')),
               strip=strip.custom(par.strip.text=list(cex=0.75)))
   dimnames(p)[[1]] <- explanvar.rho[dimnames(p)[[1]]]
-  
+
   p <- update(p + layer(panel.quantile(x, 
                                        y, tau = c(0.5), superpose = TRUE)), 
-              auto.key = list(text = paste("Log response variables,", transformResponse, responseVariable, c(50), "% quantile"), 
+              auto.key = list(text = paste("Log response variables,", logText, responseVariable, c(50), "% quantile"), 
                               points = FALSE, lines = TRUE))
   
   print(p)
