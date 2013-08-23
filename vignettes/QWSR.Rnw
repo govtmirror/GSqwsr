@@ -86,29 +86,49 @@ knit_hooks$set(crop = hook_pdfcrop)
 %------------------------------------------------------------ 
 
 <<start,eval = FALSE>>=
-library(USGSwsQWSR)
-library(dataRetrieval)
-# Simple workflow
-site <- "04027000"
-siteName <- "Bad"
-siteINFO <-  getSiteFileData(site, interactive=FALSE)
-UVcodes <- whatUV(site)
-QWcodes <- whatQW(site, minCount=20, endDate="2012-06-01",ignoreGroups="Information")
-qwPCodes <- c("00940","00608","00613","00631","62855","00671","00665","80154","00618")
-QWcodes <- QWcodes[which(QWcodes$parameter_cd %in% qwPCodes),]
-uvPCodes <- c("00010", "00060", "00095", "00400", "63680", "00300")
-UVP <- unique(UVcodes$pCode[which(UVcodes$pCode %in% uvPCodes)])
-BeginDate <- max(UVcodes$StartDate[which(UVcodes$pCode %in% uvPCodes)])
+library("USGSwsQWSR")
 
-QW <- importNWISqw(site, params=qwPCodes, begin.date=BeginDate)
-QW$datetime <- as.POSIXct(paste(QW$sample_dt," ",QW$sample_tm, ":00",sep=""),tz="UTC")
+#Sample data included with package:
+DTComplete <- DTComplete
+UV <- UV
+QWcodes <- QWcodes
+siteINFO <- siteINFO
+
+investigateResponse <- "SuspSed"
+transformResponse <- "lognormal"
+
+DT <- DTComplete[c(investigateResponse,
+                   getPredictVariables(names(UV)), 
+                   "decYear","sinDY","cosDY","datetime")]
+DT <- na.omit(DT)
 
 
-UV <- getMultipleUV(site, BeginDate, UVP)
+predictVariables <- names(DT)[-which(names(DT) %in% investigateResponse)]
+predictVariables <- predictVariables[which(predictVariables != "datetime")]
+predictVariables <- predictVariables[which(predictVariables != "decYear")]
 
-mergeReturn <- mergeDatasets(QW, UV, QWcodes)
-DTComplete <- mergeReturn$DTComplete
-QWcodes <- mergeReturn$QWcodes
+#Check predictor variables
+predictVariableScatterPlots(DT,investigateResponse)
+
+# Create 'kitchen sink' formula:
+kitchenSink <- createFullFormula(DT,investigateResponse)
+
+#Run stepwise regression with "kitchen sink" as upper bound:
+returnPrelim <- prelimModelDev(DT,investigateResponse,kitchenSink,
+                               "BIC", #Other option is "AIC"
+                               transformResponse)
+
+steps <- returnPrelim$steps
+modelResult <- returnPrelim$modelStuff
+modelReturn <- returnPrelim$DT.mod
+
+# Analyze steps found:
+plotSteps(steps,DT,transformResponse)
+analyzeSteps(steps, investigateResponse,siteINFO)
+
+# Analyze model produced from stepwise regression:
+resultPlots(DT,modelReturn,siteINFO)
+resultResidPlots(DT,modelReturn,siteINFO)
 
 @
 

@@ -134,29 +134,49 @@
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlfunctioncall{library}(USGSwsQWSR)
-\hlfunctioncall{library}(dataRetrieval)
-\hlcomment{# Simple workflow}
-site <- \hlstring{"04027000"}
-siteName <- \hlstring{"Bad"}
-siteINFO <-  \hlfunctioncall{getSiteFileData}(site, interactive=FALSE)
-UVcodes <- \hlfunctioncall{whatUV}(site)
-QWcodes <- \hlfunctioncall{whatQW}(site, minCount=20, endDate=\hlstring{"2012-06-01"},ignoreGroups=\hlstring{"Information"})
-qwPCodes <- \hlfunctioncall{c}(\hlstring{"00940"},\hlstring{"00608"},\hlstring{"00613"},\hlstring{"00631"},\hlstring{"62855"},\hlstring{"00671"},\hlstring{"00665"},\hlstring{"80154"},\hlstring{"00618"})
-QWcodes <- QWcodes[\hlfunctioncall{which}(QWcodes$parameter_cd %in% qwPCodes),]
-uvPCodes <- \hlfunctioncall{c}(\hlstring{"00010"}, \hlstring{"00060"}, \hlstring{"00095"}, \hlstring{"00400"}, \hlstring{"63680"}, \hlstring{"00300"})
-UVP <- \hlfunctioncall{unique}(UVcodes$pCode[\hlfunctioncall{which}(UVcodes$pCode %in% uvPCodes)])
-BeginDate <- \hlfunctioncall{max}(UVcodes$StartDate[\hlfunctioncall{which}(UVcodes$pCode %in% uvPCodes)])
+\hlfunctioncall{library}(\hlstring{"USGSwsQWSR"})
 
-QW <- \hlfunctioncall{importNWISqw}(site, params=qwPCodes, begin.date=BeginDate)
-QW$datetime <- \hlfunctioncall{as.POSIXct}(\hlfunctioncall{paste}(QW$sample_dt,\hlstring{" "},QW$sample_tm, \hlstring{":00"},sep=\hlstring{""}),tz=\hlstring{"UTC"})
+\hlcomment{#Sample data included with package:}
+DTComplete <- DTComplete
+UV <- UV
+QWcodes <- QWcodes
+siteINFO <- siteINFO
+
+investigateResponse <- \hlstring{"SuspSed"}
+transformResponse <- \hlstring{"lognormal"}
+
+DT <- DTComplete[\hlfunctioncall{c}(investigateResponse,
+                   \hlfunctioncall{getPredictVariables}(\hlfunctioncall{names}(UV)), 
+                   \hlstring{"decYear"},\hlstring{"sinDY"},\hlstring{"cosDY"},\hlstring{"datetime"})]
+DT <- \hlfunctioncall{na.omit}(DT)
 
 
-UV <- \hlfunctioncall{getMultipleUV}(site, BeginDate, UVP)
+predictVariables <- \hlfunctioncall{names}(DT)[-\hlfunctioncall{which}(\hlfunctioncall{names}(DT) %in% investigateResponse)]
+predictVariables <- predictVariables[\hlfunctioncall{which}(predictVariables != \hlstring{"datetime"})]
+predictVariables <- predictVariables[\hlfunctioncall{which}(predictVariables != \hlstring{"decYear"})]
 
-mergeReturn <- \hlfunctioncall{mergeDatasets}(QW, UV, QWcodes)
-DTComplete <- mergeReturn$DTComplete
-QWcodes <- mergeReturn$QWcodes
+\hlcomment{#Check predictor variables}
+\hlfunctioncall{predictVariableScatterPlots}(DT,investigateResponse)
+
+\hlcomment{# Create 'kitchen sink' formula:}
+kitchenSink <- \hlfunctioncall{createFullFormula}(DT,investigateResponse)
+
+\hlcomment{#Run stepwise regression with "kitchen sink" as upper bound:}
+returnPrelim <- \hlfunctioncall{prelimModelDev}(DT,investigateResponse,kitchenSink,
+                               \hlstring{"BIC"}, #Other option is \hlstring{"AIC"}
+                               transformResponse)
+
+steps <- returnPrelim$steps
+modelResult <- returnPrelim$modelStuff
+modelReturn <- returnPrelim$DT.mod
+
+\hlcomment{# Analyze steps found:}
+\hlfunctioncall{plotSteps}(steps,DT,transformResponse)
+\hlfunctioncall{analyzeSteps}(steps, investigateResponse,siteINFO)
+
+\hlcomment{# Analyze model produced from stepwise regression:}
+\hlfunctioncall{resultPlots}(DT,modelReturn,siteINFO)
+\hlfunctioncall{resultResidPlots}(DT,modelReturn,siteINFO)
 
 \end{alltt}
 \end{kframe}

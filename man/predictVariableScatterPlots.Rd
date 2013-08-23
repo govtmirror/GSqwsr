@@ -21,7 +21,12 @@
   Plots scatterplot of predict variables.
 }
 \examples{
-\dontrun{}
+DTComplete <- DTComplete
+QWcodes <- QWcodes
+response <- QWcodes$colName[1]
+DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+DT <- na.omit(DT)
+predictVariableScatterPlots(DT,response)
 }
 \keyword{scatterplot}
 
