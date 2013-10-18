@@ -3,7 +3,7 @@
 \title{analyzeSteps}
 \usage{
   analyzeSteps(steps, responseVariable, siteINFO,
-    xCorner = 0.65, yCorner = 0.3)
+    xCorner = 0.6, yCorner = 0.35)
 }
 \arguments{
   \item{steps}{dataframe}

@@ -2,12 +2,14 @@
 \alias{getMultipleUV}
 \title{getMultipleUV}
 \usage{
-  getMultipleUV(Site, BeginDate, UVP)
+  getMultipleUV(Site, BeginDate, EndDate, UVP)
 }
 \arguments{
   \item{Site}{character, USGS site ID}
 
-  \item{BeginDate}{Date}
+  \item{BeginDate}{string}
+
+  \item{EndDate}{string}
 
   \item{UVP}{character vector of 5 digit USGS parameter
   codes}
@@ -20,9 +22,10 @@
 }
 \examples{
 site <- "04027000"
-start <- Sys.Date()
+startDate <- "2012-06-01"
+endDate <- ""
 UVP <- c("00060","00010")
-UV <- getMultipleUV(site, start,UVP)
+UV <- getMultipleUV(site, startDate,endDate,UVP)
 }
 \keyword{data}
 \keyword{NWIS}

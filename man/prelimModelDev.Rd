@@ -3,7 +3,7 @@
 \title{prelimModelDev}
 \usage{
   prelimModelDev(localDT, responseVariable,
-    upperBoundFormula, k = "AIC",
+    upperBoundFormula, k = "BIC",
     transformResponse = "lognormal")
 }
 \arguments{

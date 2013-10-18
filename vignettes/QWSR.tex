@@ -5,7 +5,7 @@
 %\VignetteImports{quantreg}
 %\VignettePackage{USGSwsQWSR}
 
-\documentclass[a4paper,11pt]{article}\usepackage{graphicx, color}
+\documentclass[a4paper,11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
@@ -18,21 +18,16 @@
 }
 \makeatother
 
-\definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
-\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
-\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
-\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
-\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
-\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
-\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
-\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
-\newcommand{\hlslot}[1]{\textit{#1}}%
-\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.2,0.2,0.2}{#1}}%
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
 
 \usepackage{framed}
 \makeatletter
@@ -134,50 +129,38 @@
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlfunctioncall{library}(\hlstring{"USGSwsQWSR"})
-
-\hlcomment{#Sample data included with package:}
-DTComplete <- DTComplete
-UV <- UV
-QWcodes <- QWcodes
-siteINFO <- siteINFO
-
-investigateResponse <- \hlstring{"SuspSed"}
-transformResponse <- \hlstring{"lognormal"}
-
-DT <- DTComplete[\hlfunctioncall{c}(investigateResponse,
-                   \hlfunctioncall{getPredictVariables}(\hlfunctioncall{names}(UV)), 
-                   \hlstring{"decYear"},\hlstring{"sinDY"},\hlstring{"cosDY"},\hlstring{"datetime"})]
-DT <- \hlfunctioncall{na.omit}(DT)
-
-
-predictVariables <- \hlfunctioncall{names}(DT)[-\hlfunctioncall{which}(\hlfunctioncall{names}(DT) %in% investigateResponse)]
-predictVariables <- predictVariables[\hlfunctioncall{which}(predictVariables != \hlstring{"datetime"})]
-predictVariables <- predictVariables[\hlfunctioncall{which}(predictVariables != \hlstring{"decYear"})]
-
-\hlcomment{#Check predictor variables}
-\hlfunctioncall{predictVariableScatterPlots}(DT,investigateResponse)
-
-\hlcomment{# Create 'kitchen sink' formula:}
-kitchenSink <- \hlfunctioncall{createFullFormula}(DT,investigateResponse)
-
-\hlcomment{#Run stepwise regression with "kitchen sink" as upper bound:}
-returnPrelim <- \hlfunctioncall{prelimModelDev}(DT,investigateResponse,kitchenSink,
-                               \hlstring{"BIC"}, #Other option is \hlstring{"AIC"}
-                               transformResponse)
-
-steps <- returnPrelim$steps
-modelResult <- returnPrelim$modelStuff
-modelReturn <- returnPrelim$DT.mod
-
-\hlcomment{# Analyze steps found:}
-\hlfunctioncall{plotSteps}(steps,DT,transformResponse)
-\hlfunctioncall{analyzeSteps}(steps, investigateResponse,siteINFO)
-
-\hlcomment{# Analyze model produced from stepwise regression:}
-\hlfunctioncall{resultPlots}(DT,modelReturn,siteINFO)
-\hlfunctioncall{resultResidPlots}(DT,modelReturn,siteINFO)
-
+\hlkwd{library}\hlstd{(}\hlstr{"USGSwsQWSR"}\hlstd{)}
+\hlcom{#Sample data included with package:}
+\hlstd{DTComplete} \hlkwb{<-} \hlstd{DTComplete}
+\hlstd{UV} \hlkwb{<-} \hlstd{UV}
+\hlstd{QWcodes} \hlkwb{<-} \hlstd{QWcodes}
+\hlstd{siteINFO} \hlkwb{<-} \hlstd{siteINFO}
+\hlstd{investigateResponse} \hlkwb{<-} \hlstr{"SuspSed"}
+\hlstd{transformResponse} \hlkwb{<-} \hlstr{"lognormal"}
+\hlstd{DT} \hlkwb{<-} \hlstd{DTComplete[}\hlkwd{c}\hlstd{(investigateResponse,}
+                   \hlkwd{getPredictVariables}\hlstd{(}\hlkwd{names}\hlstd{(UV)),}
+                   \hlstr{"decYear"}\hlstd{,}\hlstr{"sinDY"}\hlstd{,}\hlstr{"cosDY"}\hlstd{,}\hlstr{"datetime"}\hlstd{)]}
+\hlstd{DT} \hlkwb{<-} \hlkwd{na.omit}\hlstd{(DT)}
+\hlstd{predictVariables} \hlkwb{<-} \hlkwd{names}\hlstd{(DT)[}\hlopt{-}\hlkwd{which}\hlstd{(}\hlkwd{names}\hlstd{(DT)} \hlopt{%in%} \hlstd{investigateResponse)]}
+\hlstd{predictVariables} \hlkwb{<-} \hlstd{predictVariables[}\hlkwd{which}\hlstd{(predictVariables} \hlopt{!=} \hlstr{"datetime"}\hlstd{)]}
+\hlstd{predictVariables} \hlkwb{<-} \hlstd{predictVariables[}\hlkwd{which}\hlstd{(predictVariables} \hlopt{!=} \hlstr{"decYear"}\hlstd{)]}
+\hlcom{#Check predictor variables}
+\hlkwd{predictVariableScatterPlots}\hlstd{(DT,investigateResponse)}
+\hlcom{# Create 'kitchen sink' formula:}
+\hlstd{kitchenSink} \hlkwb{<-} \hlkwd{createFullFormula}\hlstd{(DT,investigateResponse)}
+\hlcom{#Run stepwise regression with "kitchen sink" as upper bound:}
+\hlstd{returnPrelim} \hlkwb{<-} \hlkwd{prelimModelDev}\hlstd{(DT,investigateResponse,kitchenSink,}
+                               \hlstr{"BIC"}\hlstd{,} \hlcom{#Other option is "AIC"}
+                               \hlstd{transformResponse)}
+\hlstd{steps} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{steps}
+\hlstd{modelResult} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{modelStuff}
+\hlstd{modelReturn} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{DT.mod}
+\hlcom{# Analyze steps found:}
+\hlkwd{plotSteps}\hlstd{(steps,DT,transformResponse)}
+\hlkwd{analyzeSteps}\hlstd{(steps, investigateResponse,siteINFO)}
+\hlcom{# Analyze model produced from stepwise regression:}
+\hlkwd{resultPlots}\hlstd{(DT,modelReturn,siteINFO)}
+\hlkwd{resultResidPlots}\hlstd{(DT,modelReturn,siteINFO)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -210,8 +193,8 @@ At any time, you can get information about any function in R by typing a questio
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlfunctioncall{library}(USGSwsQWSR)
-?plotSteps
+\hlkwd{library}\hlstd{(USGSwsQWSR)}
+\hlopt{?}\hlstd{plotSteps}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -221,7 +204,7 @@ To see the raw code for a particular code, type the name of the function:
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-plotSteps
+\hlstd{plotSteps}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -235,13 +218,13 @@ Before installing QWSR, the dependent packages must be first be installed:
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlfunctioncall{install.packages}(\hlfunctioncall{c}(\hlstring{"XML"}, \hlstring{"lubridate"}, \hlstring{"akima"}, 
-                   \hlstring{"leaps"}, \hlstring{"car"}, \hlstring{"mvtnorm"}, 
-                   \hlstring{"relimp"}, \hlstring{"BSDA"}, \hlstring{"RODBC"}), 
-                 dependencies=TRUE)
-\hlfunctioncall{install.packages}(\hlfunctioncall{c}(\hlstring{"USGSwsBase"},\hlstring{"USGSwsData"},
-                   \hlstring{"USGSwsGraphs"},\hlstring{"USGSwsStats"},
-                   \hlstring{"USGSwsQW"}), repos=\hlstring{"http://usgs-r.github.com"})
+\hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"XML"}\hlstd{,} \hlstr{"lubridate"}\hlstd{,} \hlstr{"akima"}\hlstd{,}
+                   \hlstr{"leaps"}\hlstd{,} \hlstr{"car"}\hlstd{,} \hlstr{"mvtnorm"}\hlstd{,}
+                   \hlstr{"relimp"}\hlstd{,} \hlstr{"BSDA"}\hlstd{,} \hlstr{"RODBC"}\hlstd{),}
+                 \hlkwc{dependencies}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"USGSwsBase"}\hlstd{,}\hlstr{"USGSwsData"}\hlstd{,}
+                   \hlstr{"USGSwsGraphs"}\hlstd{,}\hlstr{"USGSwsStats"}\hlstd{,}
+                   \hlstr{"USGSwsQW"}\hlstd{),} \hlkwc{repos}\hlstd{=}\hlstr{"http://usgs-r.github.com"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -253,7 +236,7 @@ After installing the package, you need to open the library each time you re-star
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlfunctioncall{library}(USGSwsQWSR)
+\hlkwd{library}\hlstd{(USGSwsQWSR)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
