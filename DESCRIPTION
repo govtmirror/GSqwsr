@@ -47,13 +47,14 @@ Depends:
     R (>= 3.0),
     USGSwsQW,
     latticeExtra,
+    dataRetrieval,
     MASS
 Imports:
     quantreg
 Suggests:
     xtable,
-    dataRetrieval,
-    EGRET
+    EGRET,
+    knitr
 LazyLoad: yes
 LazyData: yes
 VignetteBuilder: knitr
