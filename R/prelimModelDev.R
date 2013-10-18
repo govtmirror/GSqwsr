@@ -24,7 +24,7 @@
 #' modelReturn <- returnPrelim$DT.mod
 prelimModelDev <- function(localDT,responseVariable,
                            upperBoundFormula,
-                           k="AIC",
+                           k="BIC",
                            transformResponse="lognormal"){
   
   if ("AIC" == k){
