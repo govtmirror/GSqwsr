@@ -78,4 +78,11 @@ predictionPlot <- function(localUV,localDT,finalModel,transformResponse="lognorm
   mtext(formulaToUse, side=3, line=0.5,cex=0.7)
   
   par(parOriginal)
+
+  DFpredicted <- data.frame(dateTime=newUV$datetime,predVal=predVal)
+  
+  obs_pred <- mergeNearest(DT[,c("datetime",responseVariable)], dates.left="datetime", all.left=TRUE,
+                     right=DFpredicted, dates.right="dateTime", max.diff="2 hours")
+
+
 }

@@ -27,7 +27,7 @@ endDate <- ""
 UVP <- c("00060","00010")
 UV <- getMultipleUV(site, startDate,endDate,UVP)
 }
-\keyword{data}
 \keyword{NWIS}
+\keyword{data}
 \keyword{retrieval}
 

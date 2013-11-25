@@ -26,9 +26,9 @@
 site <- "04027000"
 uv <-whatUVNew(site)
 }
+\keyword{USGS}
 \keyword{data}
 \keyword{import}
 \keyword{service}
-\keyword{USGS}
 \keyword{web}
 
