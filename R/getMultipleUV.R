@@ -10,10 +10,10 @@
 #'@keywords NWIS data retrieval
 #'@export
 #'@examples
-#'site <- "04027000"
-#'startDate <- "2012-06-01"
-#'endDate <- ""
-#'UVP <- c("00060","00010")
+#'site <- "040851385"
+#'startDate <- "2013-06-01"
+#'endDate <- "2013-06-08"
+#'UVP <- c("00060","00095")
 #'UV <- getMultipleUV(site, startDate,endDate,UVP)
 getMultipleUV <- function(Site, BeginDate, EndDate,UVP){
   
