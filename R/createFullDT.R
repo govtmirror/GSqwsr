@@ -69,7 +69,7 @@ createFullDT <- function(formulaToUse, localDT){
     logVariables <- substr(spltReduced[logIndex],5,nchar(spltReduced[logIndex])-1)
     colName <- paste("log",logVariables,sep="")
     
-    localDT[colName] <- log(localDT[logVariables])
+    localDT[colName] <- log(localDT[localDT[logVariables] >= 0,logVariables])
     
     splt[logIndex] <- colName
   }
