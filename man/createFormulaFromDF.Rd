@@ -2,17 +2,17 @@
 \alias{createFormulaFromDF}
 \title{createFormulaFromDF}
 \usage{
-  createFormulaFromDF(df)
+createFormulaFromDF(df)
 }
 \arguments{
   \item{df}{dataframe}
 }
 \value{
-  modelFormula text string of formula that includes
-  variables and log variables in df
+modelFormula text string of formula that includes variables
+and log variables in df
 }
 \description{
-  Creates text for the 'kitchen sink' formula.
+Creates text for the 'kitchen sink' formula.
 }
 \examples{
 \dontrun{}

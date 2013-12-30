@@ -2,8 +2,7 @@
 \alias{plotSteps}
 \title{plotSteps}
 \usage{
-  plotSteps(steps, localDT,
-    transformResponse = "lognormal")
+plotSteps(steps, localDT, transformResponse = "lognormal")
 }
 \arguments{
   \item{steps}{dataframe}
@@ -16,11 +15,11 @@
   future}
 }
 \value{
-  retVal list of modelStuff, steps, DT.mod
+retVal list of modelStuff, steps, DT.mod
 }
 \description{
-  Run stepwise regression and generate simplifed model
-  output.
+Run stepwise regression and generate simplifed model
+output.
 }
 \examples{
 DTComplete <- DTComplete

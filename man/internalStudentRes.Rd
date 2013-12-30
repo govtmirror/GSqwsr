@@ -2,7 +2,7 @@
 \alias{internalStudentRes}
 \title{internalStudentRes}
 \usage{
-  internalStudentRes(DT, modelCoef, logResponse = FALSE)
+internalStudentRes(DT, modelCoef, logResponse = FALSE)
 }
 \arguments{
   \item{DT}{DTframe that includes all response and
@@ -13,10 +13,10 @@
   \item{logResponse}{logical}
 }
 \value{
-  StRes.all
+StRes.all
 }
 \description{
-  Compute internally Studentized residuals
+Compute internally Studentized residuals
 }
 \examples{
 \dontrun{}

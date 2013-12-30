@@ -2,7 +2,7 @@
 \alias{getMultipleUV}
 \title{getMultipleUV}
 \usage{
-  getMultipleUV(Site, BeginDate, EndDate, UVP)
+getMultipleUV(Site, BeginDate, EndDate, UVP)
 }
 \arguments{
   \item{Site}{character, USGS site ID}
@@ -15,16 +15,16 @@
   codes}
 }
 \value{
-  UV dataframe
+UV dataframe
 }
 \description{
-  Get unit value data from multiple parameters.
+Get unit value data from multiple parameters.
 }
 \examples{
-site <- "04027000"
-startDate <- "2012-06-01"
-endDate <- ""
-UVP <- c("00060","00010")
+site <- "040851385"
+startDate <- "2013-06-01"
+endDate <- "2013-06-08"
+UVP <- c("00060","00095")
 UV <- getMultipleUV(site, startDate,endDate,UVP)
 }
 \keyword{NWIS}

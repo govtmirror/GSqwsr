@@ -2,7 +2,7 @@
 \alias{createFullDT}
 \title{createFullDT}
 \usage{
-  createFullDT(formulaToUse, localDT)
+createFullDT(formulaToUse, localDT)
 }
 \arguments{
   \item{formulaToUse}{formula}
@@ -11,10 +11,10 @@
   model}
 }
 \value{
-  fullDTList list of
+fullDTList list of
 }
 \description{
-  Get log and interaction columns
+Get log and interaction columns
 }
 \examples{
 DTComplete <- DTComplete

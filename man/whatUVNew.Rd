@@ -2,7 +2,7 @@
 \alias{whatUVNew}
 \title{whatUVNew}
 \usage{
-  whatUVNew(siteNumber, service = "uv")
+whatUVNew(siteNumber, service = "uv")
 }
 \arguments{
   \item{siteNumber}{string USGS site number.  This is
@@ -13,14 +13,14 @@
   values)}
 }
 \value{
-  retval dataframe with all information found in the
-  expanded site file
+retval dataframe with all information found in the expanded
+site file
 }
 \description{
-  Imports a table of available parameters, period of
-  record, and count. There is also an option to load the
-  long parameter names and additional information on the
-  parameters with longNames=TRUE.
+Imports a table of available parameters, period of record,
+and count. There is also an option to load the long
+parameter names and additional information on the
+parameters with longNames=TRUE.
 }
 \examples{
 site <- "04027000"

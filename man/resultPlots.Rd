@@ -2,7 +2,7 @@
 \alias{resultPlots}
 \title{resultPlots}
 \usage{
-  resultPlots(localDT, finalModel, siteINFO)
+resultPlots(localDT, finalModel, siteINFO)
 }
 \arguments{
   \item{localDT}{dataframe in wide format}
@@ -14,10 +14,10 @@
   from dataRetrieval package)}
 }
 \value{
-  plot
+plot
 }
 \description{
-  Plots summary plots
+Plots summary plots
 }
 \examples{
 DTComplete <- DTComplete

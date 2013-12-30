@@ -2,8 +2,8 @@
 \alias{predictionPlot}
 \title{predictionPlot}
 \usage{
-  predictionPlot(localUV, localDT, finalModel,
-    transformResponse = "lognormal", siteINFO)
+predictionPlot(localUV, localDT, finalModel, transformResponse = "lognormal",
+  siteINFO)
 }
 \arguments{
   \item{localUV}{dataframe of unit values}
@@ -20,10 +20,10 @@
   from dataRetrieval package)}
 }
 \value{
-  plot
+plot
 }
 \description{
-  Plots summary plots
+Plots summary plots
 }
 \examples{
 DTComplete <- DTComplete

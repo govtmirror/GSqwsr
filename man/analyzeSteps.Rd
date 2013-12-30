@@ -2,8 +2,8 @@
 \alias{analyzeSteps}
 \title{analyzeSteps}
 \usage{
-  analyzeSteps(steps, responseVariable, siteINFO,
-    xCorner = 0.6, yCorner = 0.35)
+analyzeSteps(steps, responseVariable, siteINFO, xCorner = 0.6,
+  yCorner = 0.35)
 }
 \arguments{
   \item{steps}{dataframe}
@@ -22,10 +22,10 @@
   from dataRetrieval package)}
 }
 \value{
-  plot
+plot
 }
 \description{
-  Plot showing improvment in model choices
+Plot showing improvment in model choices
 }
 \examples{
 DTComplete <- DTComplete

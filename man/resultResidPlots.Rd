@@ -2,7 +2,7 @@
 \alias{resultResidPlots}
 \title{resultResidPlots}
 \usage{
-  resultResidPlots(localDT, finalModel, siteINFO)
+resultResidPlots(localDT, finalModel, siteINFO)
 }
 \arguments{
   \item{localDT}{dataframe in wide format}
@@ -14,10 +14,10 @@
   from dataRetrieval package)}
 }
 \value{
-  plot
+plot
 }
 \description{
-  Plots summary with residuals plots
+Plots summary with residuals plots
 }
 \examples{
 DTComplete <- DTComplete

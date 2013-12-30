@@ -2,8 +2,8 @@
 \alias{predictVariableScatterPlots}
 \title{predictVariableScatterPlots}
 \usage{
-  predictVariableScatterPlots(localDT, responseVariable,
-    transformResponse = "lognormal")
+predictVariableScatterPlots(localDT, responseVariable,
+  transformResponse = "lognormal")
 }
 \arguments{
   \item{localDT}{dataframe in wide format}
@@ -15,10 +15,10 @@
   future}
 }
 \value{
-  plot
+plot
 }
 \description{
-  Plots scatterplot of predict variables.
+Plots scatterplot of predict variables.
 }
 \examples{
 DTComplete <- DTComplete

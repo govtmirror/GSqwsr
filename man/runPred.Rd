@@ -2,8 +2,8 @@
 \alias{runPred}
 \title{runPred}
 \usage{
-  runPred(localUV, localDT, finalModel,
-    transformResponse = "lognormal", dfReady = TRUE)
+runPred(localUV, localDT, finalModel, transformResponse = "lognormal",
+  dfReady = TRUE)
 }
 \arguments{
   \item{localUV}{dataframe of unit values}
@@ -20,10 +20,10 @@
   includes time/log columns}
 }
 \value{
-  predictedReturn list
+predictedReturn list
 }
 \description{
-  Run the model
+Run the model
 }
 \examples{
 DTComplete <- DTComplete
@@ -34,6 +34,9 @@ response <- QWcodes$colName[1]
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 kitchenSink <- createFullFormula(DT,response)
+returnPrelim <- prelimModelDev(DT,response,kitchenSink,"BIC","lognormal")
+modelReturn <- returnPrelim$DT.mod
+predictedReturn <- runPred(UV, DT, modelReturn,dfReady=FALSE)
 }
 \keyword{AMLE}
 \keyword{fit}

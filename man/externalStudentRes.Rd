@@ -2,8 +2,7 @@
 \alias{externalStudentRes}
 \title{externalStudentRes}
 \usage{
-  externalStudentRes(localDT, modelCoefList,
-    transformResponse = "lognormal")
+externalStudentRes(localDT, modelCoefList, transformResponse = "lognormal")
 }
 \arguments{
   \item{localDT}{DTframe that includes all response and
@@ -16,10 +15,10 @@
   future}
 }
 \value{
-  StRes.all
+StRes.all
 }
 \description{
-  Compute internally Studentized residuals
+Compute internally Studentized residuals
 }
 \examples{
 DTComplete <- DTComplete

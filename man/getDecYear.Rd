@@ -2,16 +2,16 @@
 \alias{getDecYear}
 \title{getDecYear}
 \usage{
-  getDecYear(dateTime)
+getDecYear(dateTime)
 }
 \arguments{
   \item{dateTime}{POSIXct}
 }
 \value{
-  decYear numeric
+decYear numeric
 }
 \description{
-  Returns decimal year from POSIXct
+Returns decimal year from POSIXct
 }
 \examples{
 date1 <- as.POSIXct("2012-01-02 12:38:00")

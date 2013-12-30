@@ -2,8 +2,8 @@
 \alias{summaryPrintout}
 \title{summaryPrintout}
 \usage{
-  summaryPrintout(modelReturn, siteINFO,
-    saveOutput = FALSE, fileName = "output.txt")
+summaryPrintout(modelReturn, siteINFO, saveOutput = FALSE,
+  fileName = "output.txt")
 }
 \arguments{
   \item{modelReturn}{censReg model results}
@@ -18,7 +18,7 @@
   to}
 }
 \description{
-  Summarize the model results
+Summarize the model results
 }
 \examples{
 DTComplete <- DTComplete

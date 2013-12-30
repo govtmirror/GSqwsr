@@ -2,16 +2,16 @@
 \alias{createModelEquation}
 \title{createModelEquation}
 \usage{
-  createModelEquation(modelReturn)
+createModelEquation(modelReturn)
 }
 \arguments{
   \item{modelReturn}{censReg model results}
 }
 \value{
-  combo string
+combo string
 }
 \description{
-  Create the model equation including coefficients.
+Create the model equation including coefficients.
 }
 \examples{
 DTComplete <- DTComplete

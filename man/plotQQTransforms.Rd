@@ -2,10 +2,9 @@
 \alias{plotQQTransforms}
 \title{plotQQTransforms}
 \usage{
-  plotQQTransforms(localDT, responseVariable,
-    printLinear = TRUE, printLog = TRUE,
-    printSquare = FALSE, printSQRT = FALSE,
-    printEXP = FALSE)
+plotQQTransforms(localDT, responseVariable, printLinear = TRUE,
+  printLog = TRUE, printSquare = FALSE, printSQRT = FALSE,
+  printEXP = FALSE)
 }
 \arguments{
   \item{localDT}{dataframe in wide format}
@@ -23,10 +22,10 @@
   \item{printEXP}{logical}
 }
 \value{
-  plot
+plot
 }
 \description{
-  Plots Q-Q of predict variables.
+Plots Q-Q of predict variables.
 }
 \examples{
 \dontrun{}

@@ -2,9 +2,8 @@
 \alias{whatQW}
 \title{whatQW}
 \usage{
-  whatQW(site, minCount = 50, endDate = "2013-01-01",
-    startDate = "", getFullNames = TRUE,
-    ignoreGroups = c("Physical", "Information"))
+whatQW(site, minCount = 50, endDate = "2013-01-01", startDate = "",
+  getFullNames = TRUE, ignoreGroups = c("Physical", "Information"))
 }
 \arguments{
   \item{site}{character USGS site ID (usually 8 digits)}
@@ -24,10 +23,10 @@
   was TRUE)}
 }
 \value{
-  QWcodes dataframe
+QWcodes dataframe
 }
 \description{
-  Get QW parameters for a USGS site
+Get QW parameters for a USGS site
 }
 \examples{
 site <- "04027000"

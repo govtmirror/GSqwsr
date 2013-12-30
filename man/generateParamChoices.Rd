@@ -2,8 +2,8 @@
 \alias{generateParamChoices}
 \title{generateParamChoices}
 \usage{
-  generateParamChoices(predictVariables, modelReturn,
-    pathToSave = "", save = FALSE)
+generateParamChoices(predictVariables, modelReturn, pathToSave = "",
+  save = FALSE)
 }
 \arguments{
   \item{predictVariables}{string vector of prediction
@@ -16,8 +16,8 @@
   \item{save}{logical}
 }
 \description{
-  Generate a file to be used to narrow down allowed
-  parameters in model creation.
+Generate a file to be used to narrow down allowed
+parameters in model creation.
 }
 \examples{
 \dontrun{}

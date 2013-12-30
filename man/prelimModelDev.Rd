@@ -2,9 +2,8 @@
 \alias{prelimModelDev}
 \title{prelimModelDev}
 \usage{
-  prelimModelDev(localDT, responseVariable,
-    upperBoundFormula, k = "BIC",
-    transformResponse = "lognormal")
+prelimModelDev(localDT, responseVariable, upperBoundFormula, k = "BIC",
+  transformResponse = "lognormal")
 }
 \arguments{
   \item{localDT}{dataframe of potential input variables to
@@ -25,11 +24,11 @@
   future}
 }
 \value{
-  retVal list of modelStuff, steps, localDT.mod
+retVal list of modelStuff, steps, localDT.mod
 }
 \description{
-  Run stepwise regression and generate simplifed model
-  output.
+Run stepwise regression and generate simplifed model
+output.
 }
 \examples{
 DTComplete <- DTComplete

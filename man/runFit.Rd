@@ -2,8 +2,7 @@
 \alias{runFit}
 \title{runFit}
 \usage{
-  runFit(localDT, finalModel,
-    transformResponse = "lognormal")
+runFit(localDT, finalModel, transformResponse = "lognormal")
 }
 \arguments{
   \item{finalModel}{results from censReg}
@@ -16,10 +15,10 @@
   future}
 }
 \value{
-  evaluat list
+evaluat list
 }
 \description{
-  Run the fitting routine
+Run the fitting routine
 }
 \examples{
 DTComplete <- DTComplete
