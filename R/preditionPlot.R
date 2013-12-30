@@ -56,10 +56,17 @@ predictionPlot <- function(localUV,localDT,finalModel,transformResponse="lognorm
   } else {
     newUV <- data.frame(datetime=newUV)
   }
-  plot(newUV$datetime,predVal,
-       xlab="Date", ylab=responseVariable,col="blue",type="l",log=logPlot)
-  points(localDT$datetime, localDT[[responseVariable]]@.Data[,2],col="red",pch=20)
   
+  if(sum(predVal) == 0){
+    cat("All predictions came back as zero!\n")
+    plot(newUV$datetime,predVal,
+         xlab="Date", ylab=responseVariable,col="blue",type="l")    
+  } else {
+    plot(newUV$datetime,predVal,
+         xlab="Date", ylab=responseVariable,col="blue",type="l",log=logPlot)  
+  }
+  
+  points(localDT$datetime, localDT[[responseVariable]]@.Data[,2],col="red",pch=20)
   if (sum(finalModel$CENSFLAG) > 0){
     cenValsY <- localDT[[responseVariable]][finalModel$CENSFLAG]
     cenValsX <- localDT$datetime[finalModel$CENSFLAG]
