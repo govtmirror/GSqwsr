@@ -19,6 +19,9 @@
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)
+#' returnPrelim <- prelimModelDev(DT,response,kitchenSink,"BIC","lognormal")
+#' modelReturn <- returnPrelim$DT.mod
+#' predictedReturn <- runPred(UV, DT, modelReturn,dfReady=FALSE)
 runPred <- function(localUV,localDT,finalModel,transformResponse="lognormal",dfReady=TRUE){
   
   evaluat <- runFit(localDT,finalModel,transformResponse)
@@ -42,8 +45,10 @@ runPred <- function(localUV,localDT,finalModel,transformResponse="lognormal",dfR
     newUV <- newUV[,which(names(newUV) %in% colNames)]
     newUV <- na.omit(newUV)
 
-    testFinite <- apply(newUV, 1, function(x) all(is.finite(x)))
-    newUV <- newUV[testFinite,]
+    if (is.data.frame(newUV)){
+      testFinite <- apply(newUV, 1, function(x) all(is.finite(x)))
+      newUV <- newUV[testFinite,]
+    }
         
   } else {
     newUV <- localUV
