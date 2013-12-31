@@ -1,6 +1,7 @@
 #'createFullDT
 #'
-#'Get log and interaction columns
+#'Get log and interaction columns. Using a formula with raw data column names, log and interaction columns will be computed.
+#'If negative values are found in the raw data column than need to be log transformed, the values are changed to 1. 
 #'
 #'@param formulaToUse formula
 #'@param localDT dataframe of potential input variables to model
