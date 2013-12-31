@@ -20,8 +20,8 @@ getDecYear <- function(dateTime){
 #   hour <- dateTime$hour
 #   minute <- dateTime$min
 #   decYear <- year + (Day -0.5)/366 + (hour)/(24*366) + minute/(24*60*366)
-  jan1 <- as.POSIXlt(paste(year,"-01-01",sep=""))
-  jan1NextYear <- as.POSIXlt(paste(year+1,"-01-01",sep=""))
+  jan1 <- as.POSIXlt(paste(year,"-01-01",sep=""),format="%Y-%m-%d")
+  jan1NextYear <- as.POSIXlt(paste(year+1,"-01-01",sep=""),format="%Y-%m-%d")
   decimal <- as.numeric(difftime(dateTime, jan1, units = "secs"))
   decimal <- decimal/as.numeric(difftime(jan1NextYear, jan1, units = "secs"))
   
