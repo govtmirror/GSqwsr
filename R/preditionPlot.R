@@ -48,9 +48,9 @@ predictionPlot <- function(localUV,localDT,finalModel,transformResponse="lognorm
   
   if (!is.null(names(newUV))){
     if (ncol(newUV) > 2){
-      testFinite <- apply(newUV[,-1], 1, function(x) all(is.finite(x)))
+      testFinite <- apply(newUV[,names(newUV) != "datetime"], 1, function(x) all(is.finite(x)))
     } else {
-      testFinite <- is.finite(newUV[,-1])
+      testFinite <- is.finite(newUV[,names(newUV) != "datetime"])
     }
     newUV <- newUV[testFinite,]
   } else {
