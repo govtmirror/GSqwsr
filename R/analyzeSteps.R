@@ -1,6 +1,6 @@
 #'analyzeSteps
 #'
-#'Plot showing improvment in model choices
+#'Plot showing improvement in model choices
 #'
 #'@param steps dataframe
 #'@param responseVariable string column header of single response variable to model
