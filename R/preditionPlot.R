@@ -58,7 +58,7 @@ predictionPlot <- function(localUV,localDT,finalModel,transformResponse="lognorm
   }
   
   if(sum(predVal) == 0){
-    cat("All predictions came back as zero!\n")
+    cat("All predictions came back as zero:", responseVariable,"\n")
     plot(newUV$datetime,predVal,
          xlab="Date", ylab=responseVariable,col="blue",type="l")    
   } else {
