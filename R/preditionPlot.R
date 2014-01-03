@@ -27,23 +27,21 @@ predictionPlot <- function(localUV,localDT,finalModel,transformResponse="lognorm
   parOriginal <- par(no.readonly = TRUE)
   
   responseVariable <- rownames(attributes(finalModel$terms)$factors)[1]
-  predictedReturn <- runPred(localUV,localDT,finalModel,transformResponse,dfReady=FALSE)
 
-  logPlot <- ""
-  predVal <- predictedReturn$ESTIM
-  
-  if ("lognormal" == transformResponse){
-    logPlot <- "y"
-    predVal <- predictedReturn$BACKEST
-  }
-  
   terms <- attributes(finalModel$terms)$term.labels
   formulaToUse <- paste(terms,collapse=" + ")
   
   newUVList <- createFullDT(formulaToUse, localUV)
   colNames <- c("",newUVList$colNames)
   newUV <- newUVList$DT
-  newUV <- newUV[,which(names(newUV) %in% c("datetime",colNames))]
+  
+  if ("sinDY" %in% newUVList$colNames | "cosDY" %in% newUVList$colNames | "decYear" %in% newUVList$colNames){
+    decYear <- getDecYear(newUV$datetime)
+    newUV$decYear <- decYear
+    newUV$sinDY <- sin(decYear * 2 * pi)
+    newUV$cosDY <- cos(decYear * 2 * pi)
+  }
+  newUV <- newUV[,which(names(newUV) %in% c("datetime",newUVList$colNames))]
   newUV <- na.omit(newUV)
   
   if (!is.null(names(newUV))){
@@ -56,6 +54,11 @@ predictionPlot <- function(localUV,localDT,finalModel,transformResponse="lognorm
   } else {
     newUV <- data.frame(datetime=newUV)
   }
+  row.names(newUV) <- NULL
+
+  predVal <- runPred(newUV,localDT,finalModel,transformResponse,dfReady=TRUE)
+  
+  logPlot <- ifelse("lognormal" == transformResponse, "y", "")
   
   if(sum(predVal) == 0){
     cat("All predictions came back as zero:", responseVariable,"\n")
