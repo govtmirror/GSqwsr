@@ -56,13 +56,36 @@ runPred <- function(localUV,localDT,finalModel,transformResponse="lognormal",dfR
 
   if (length(orderOfVariables[-1]) > 1){
     newUV <- newUV[,orderOfVariables[-1]]
-  } 
+  } else {
+    newUV <- newUV[,!(names(newUV) %in% "datetime")]
+  }
 
   PredictionData <- as.matrix(cbind(1, newUV))
   
   rownames(PredictionData) <- NULL
   colnames(PredictionData)[1] <- ""
   
-  predictedReturn <- censReg_AMLE.pred(evaluat, PredictionData)
-  return(predictedReturn)
+  if(nrow(PredictionData) > 150000){
+    index1 <- 1:as.integer(nrow(PredictionData)/2)
+    pred1Data <- PredictionData[index1,]
+    predictedReturn1 <- censReg_AMLE.pred(evaluat, pred1Data)
+    index2 <- c(as.integer((1+nrow(PredictionData)/2)):nrow(PredictionData))
+    pred2Data <- PredictionData[index2,]
+    predictedReturn2 <- censReg_AMLE.pred(evaluat, pred2Data)
+    if("lognormal" == transformResponse){
+      predictedReturnData <- c(predictedReturn1$BACKEST, predictedReturn2$BACKEST)
+    } else {
+      predictedReturnData <- c(predictedReturn1$ESTIM, predictedReturn2$ESTIM)
+    }
+  } else {
+    predictedReturn <- censReg_AMLE.pred(evaluat, PredictionData)
+    if("lognormal" == transformResponse){
+      predictedReturnData <- predictedReturn$BACKEST
+    } else {
+      predictedReturnData <- predictedReturn$ESTIM
+    }
+  }
+  
+  
+  return(predictedReturnData)
 }
