@@ -65,33 +65,17 @@ externalStudentRes <- function(localDT, modelCoefList,transformResponse="lognorm
         
         y <- DT00[,responseVariable]@.Data[,2]
         
-#         if ("lognormal" == transformResponse){
-#           y<-log(subRespAll)
-#         }
-        
         DT00pred <- as.data.frame(DT00[,colNames])
         names(DT00pred) <- colNames
         
         X <- as.matrix(cbind(rep(1,nrow(DT00pred)),DT00pred))
-        
-#         DT00pred <- as.data.frame(DT00[,c(colNames,"datetime")])
-#         names(DT00pred) <- c(colNames,"datetime")
 
-#         predReturn <- runPred(DT00pred,DT00[,c(responseVariable, colNames)],
-#                               m2,transformResponse=transformResponse)
-        predReturn <- runPred(DT00pred,DT00,
+        predictions <- runPred(DT00pred,DT00,
                               m2,transformResponse=transformResponse, dfReady=TRUE)
-        
-        predictions <- predReturn$ESTIM
-        
-        if ("lognormal" == transformResponse){
-          predictions <- predReturn$BACKEST
-        }
   
         Beta <- coef(m2)        
-#         predictions <- X%*%Beta
+
         residuals <- predictions - y
-        
         
         LOOresiduals[k] <- residuals[k]
 
