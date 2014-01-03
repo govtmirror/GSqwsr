@@ -25,7 +25,7 @@ analyzeSteps(steps, responseVariable, siteINFO, xCorner = 0.6,
 plot
 }
 \description{
-Plot showing improvment in model choices
+Plot showing improvement in model choices
 }
 \examples{
 DTComplete <- DTComplete

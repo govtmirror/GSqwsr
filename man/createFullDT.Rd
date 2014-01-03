@@ -14,7 +14,11 @@ createFullDT(formulaToUse, localDT)
 fullDTList list of
 }
 \description{
-Get log and interaction columns
+Get log and interaction columns. Using a formula with raw
+data column names, log and interaction columns will be
+computed. If negative values are found in the raw data
+column than need to be log transformed, the values are
+changed to 1.
 }
 \examples{
 DTComplete <- DTComplete
