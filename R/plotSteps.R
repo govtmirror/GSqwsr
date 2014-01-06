@@ -1,6 +1,10 @@
-#'plotSteps
+#'Plots showing obs. vs pred. of each step in stepwise regression
 #'
-#'Run stepwise regression and generate simplifed model output.
+#'@description Plots showing observed versus predicted for each step calculated in the stepwise
+#'regression. A 1:1 blue line is plotted for reference. The results of a basic linear regression 
+#'between all the points is shown in red. Censored values are signified with a segment from the detection level. 
+#'Outliers are shown as solid red circles, as calculated by \code{findOutliers}. In this function, 
+#'outliers are defined as points that have greater than 3 external studentized residuals.
 #'
 #'@param steps dataframe
 #'@param localDT dataframe of potential input variables to model
@@ -9,10 +13,9 @@
 #'@keywords plot
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' response <- "Ammonia.N"
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)

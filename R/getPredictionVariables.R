@@ -7,8 +7,7 @@
 #'@keywords predict
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
+#' UV <- StLouisUV
 #' predictVars <- getPredictVariables(names(UV))
 getPredictVariables <- function(DTnames){
   splitNames <- sapply(strsplit(DTnames, "_"),function(x)x[length(x)])

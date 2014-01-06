@@ -1,6 +1,8 @@
-#'getMultipleUV
-#'
 #'Get unit value data from multiple parameters.
+#'
+#'Get unit value data from multiple parameters. A single USGS site id, start and end date
+#'(in "YYYY-mm-dd" format), and multiple 5-digit parameter codes are inputs. A single data frame with
+#'with all the raw data from the multiple web service calls is returned. 
 #'
 #'@param Site character, USGS site ID
 #'@param BeginDate string
