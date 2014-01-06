@@ -1,31 +1,44 @@
-#'prelimModelDev
+#'Stepwise regression using censReg function
 #'
-#'Run stepwise regression and generate simplifed model output.
+#'@description Run stepwise regression and generate simplifed model output. See \code{?censReg} for information on
+#'the censored data regression function. For an "AIC" stepwise regression, set \code{k="AIC"}, this internally defines \code{k=2}.
+#'For a "BIC" stepwise regression, set \code{k="BIC"}, which internally defintes'\code{k=log(length(responseVariable))}.
+#'A number for k (the multiple of the number of degrees of freedom used for the penalty) can also be specified.
+#'
+#'This function has a unique feature that can be turned off by setting autoSinCos to \code{FALSE}. If there are columns in the DT data that include sine and cosine of the decimal year 
+#'(as indicated by column names sinDY and cosDY) then when one of those columns is selected in the stepwise regression,
+#'the other column automatically is included in the next step. To disable this feature, set autoSinCos to \code{FALSE}.
 #'
 #'@param localDT dataframe of potential input variables to model
 #'@param responseVariable string column header of single response variable to model
 #'@param upperBoundFormula string of upper bound for model generation
 #'@param k string either "AIC", "BIC", or value of the multiple of the number of degrees of freedom used for the penalty.
 #'@param transformResponse string can be "normal" or "lognormal", perhaps try to generalize this more in future
-#'@return retVal list of modelStuff, steps, localDT.mod
+#'@param autoSinCos logical, turns off the feature to automatically include sinDY and cosDY if either is picked in the stepwise regression.
+#'The default is TRUE, which includes the feature.
+#'@return The output is a named list that can be split into 3 dataframes: modelInformation, steps, and DT.mod.
+#'DT.mod is generated from the output of the censReg function. steps is a dataframe that shows information
+#'for each of the steps taken during the stepwise regression. modelInformation is a dataframe that contains information 
+#'for the final model, including the names of the chosen parameters, their coefficients, standard error, p-value, and standard coefficient.
+#'See \code{?censReg} for information on how these were calculated.
 #'@keywords studentized residuals
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' response <- "Ammonia.N"
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)
 #' returnPrelim <- prelimModelDev(DT,response,kitchenSink)
 #' steps <- returnPrelim$steps
-#' modelResult <- returnPrelim$modelStuff
+#' modelResult <- returnPrelim$modelInformation
 #' modelReturn <- returnPrelim$DT.mod
 prelimModelDev <- function(localDT,responseVariable,
                            upperBoundFormula,
                            k="BIC",
-                           transformResponse="lognormal"){
+                           transformResponse="lognormal",
+                           autoSinCos=TRUE){
   
   if ("AIC" == k){
     k <- 2
@@ -47,42 +60,44 @@ prelimModelDev <- function(localDT,responseVariable,
   steps <- with(pathToModel, data.frame(step=Step, AIC=AIC,
              Deviance=Deviance, Resid.Dev=get('Resid. Dev'), Resid.Df=get('Resid. Df')))
   
-  if(any(grepl("sinDY",as.character(steps$step)) | grepl("cosDY",as.character(steps$step)))){
+  if(!autoSinCos){
+    if(any(grepl("sinDY",as.character(steps$step)) | grepl("cosDY",as.character(steps$step)))){
+      
+      if (!(any(grepl("sinDY",as.character(steps$step))) & any(grepl("cosDY",as.character(steps$step))))){
     
-    if (!(any(grepl("sinDY",as.character(steps$step))) & any(grepl("cosDY",as.character(steps$step))))){
-  
-      if(any(grepl("sinDY",as.character(steps$step)))){
-        firstIndex <- which(grepl("sinDY",as.character(steps$step)))[1]
-        lowerScope <- paste(as.character(steps$step[2:firstIndex]),collapse=" ")
-        lowerScope <- paste("~ ", substring(lowerScope, 2, nchar(lowerScope)), " + cosDY",sep="")
-      } else {
-        firstIndex <- which(grepl("cosDY",as.character(steps$step)))[1]
-        lowerScope <- paste(as.character(steps$step[2:firstIndex]),collapse=" ")
-        lowerScope <- paste("~ ", substring(lowerScope, 2, nchar(lowerScope)), " + sinDY",sep="")
+        if(any(grepl("sinDY",as.character(steps$step)))){
+          firstIndex <- which(grepl("sinDY",as.character(steps$step)))[1]
+          lowerScope <- paste(as.character(steps$step[2:firstIndex]),collapse=" ")
+          lowerScope <- paste("~ ", substring(lowerScope, 2, nchar(lowerScope)), " + cosDY",sep="")
+        } else {
+          firstIndex <- which(grepl("cosDY",as.character(steps$step)))[1]
+          lowerScope <- paste(as.character(steps$step[2:firstIndex]),collapse=" ")
+          lowerScope <- paste("~ ", substring(lowerScope, 2, nchar(lowerScope)), " + sinDY",sep="")
+        }
+        
+        formulaToUseNew <- paste(responseVariable,lowerScope)
+        
+        DT.mod <- do.call("stepAIC", args=list(object=call("censReg",
+                                 formulaToUseNew,
+                                 data=localDT,
+                                 dist=distribution),
+                     scope=list(lower= formula(lowerScope), upper=formula(paste("~ ",upperBoundFormula,sep=""))), k=k))
+    
+        pathToModel2 <- DT.mod$anova
+        
+        steps2 <- with(pathToModel2, data.frame(step=Step, AIC=AIC,
+                    Deviance=Deviance, Resid.Dev=get('Resid. Dev'), Resid.Df=get('Resid. Df')))
+        steps2$step <- as.character(steps2$step)
+        
+        if(any(grepl("sinDY",as.character(steps$step)))){
+          steps2$step[1] <- "+ cosDY"
+        } else {
+          steps2$step[1] <- "+ sinDY"
+        }
+        
+              
+        steps <- rbind(steps[1:firstIndex,],steps2)
       }
-      
-      formulaToUseNew <- paste(responseVariable,lowerScope)
-      
-      DT.mod <- do.call("stepAIC", args=list(object=call("censReg",
-                               formulaToUseNew,
-                               data=localDT,
-                               dist=distribution),
-                   scope=list(lower= formula(lowerScope), upper=formula(paste("~ ",upperBoundFormula,sep=""))), k=k))
-  
-      pathToModel2 <- DT.mod$anova
-      
-      steps2 <- with(pathToModel2, data.frame(step=Step, AIC=AIC,
-                  Deviance=Deviance, Resid.Dev=get('Resid. Dev'), Resid.Df=get('Resid. Df')))
-      steps2$step <- as.character(steps2$step)
-      
-      if(any(grepl("sinDY",as.character(steps$step)))){
-        steps2$step[1] <- "+ cosDY"
-      } else {
-        steps2$step[1] <- "+ sinDY"
-      }
-      
-            
-      steps <- rbind(steps[1:firstIndex,],steps2)
     }
   }
   
@@ -138,7 +153,7 @@ prelimModelDev <- function(localDT,responseVariable,
                                         StCoef=StCoef
   ))
 
-  retVal <- list(modelStuff=modelStuff, steps=steps, DT.mod=DT.mod)
+  retVal <- list(modelInformation=modelStuff, steps=steps, DT.mod=DT.mod)
   return(retVal)
 }
   
