@@ -1,13 +1,17 @@
-#'createFormulaFromDF
+#'Creates text for upperBoundFormula from a dataframe
 #'
-#'Creates text for the 'kitchen sink' formula.
+#'Creates text for upperBoundFormula prelimModelDev formula. Takes a dataframe (df), one column
+#'is named 'Scalar', and one is named 'variableNames', the rest are the available parameters. Each row in the data
+#'contains one of the available parameters. For every 1 in the 'Scalar' column, the parameter is
+#'added to the formula. If a 1 is in the matrix of parameters, interaction terms are created.
 #'
 #'@param df dataframe
 #'@return modelFormula text string of formula that includes variables and log variables in df
 #'@keywords formula creation
 #'@export
 #'@examples
-#'\dontrun{}
+#'parameters <- sampleParameters
+#'formulaText <- createFormulaFromDF(parameters)
 createFormulaFromDF <- function(df){
   
   scalarVariables <- NULL

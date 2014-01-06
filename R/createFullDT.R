@@ -1,22 +1,26 @@
-#'createFullDT
+#'Create log and interaction columns
 #'
-#'Get log and interaction columns. Using a formula with raw data column names, log and interaction columns will be computed.
-#'If negative values are found in the raw data column than need to be log transformed, the values are changed to 1. 
+#'Create log and interaction columns. Using a formula and raw data, log and interaction columns will be computed.
+#'If negative values are found in the raw data column that need to be log transformed, the values are changed to 1. 
 #'
 #'@param formulaToUse formula
 #'@param localDT dataframe of potential input variables to model
-#'@return fullDTList list of 
+#'@return fullDTList list of DT (data frame with new log and interaction columns), 
+#'modelFormula (text of formula to use with new column names), 
+#'and colNames (all column names)
 #'@keywords transforms
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' response <- "Ammonia.N"
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
-#' basicFormula <- "Flow + log(Flow)"
-#' newDT <- createFullDT(basicFormula,DT)
+#' basicFormula <- "Flow + log(Flow) + Wtemp:Flow"
+#' returnData <- createFullDT(basicFormula,DT)
+#' newDT <- returnData$DT
+#' modelFormula <- returnData$modelFormula
+#' newColumns <- returnData$colNames
 createFullDT <- function(formulaToUse, localDT){
   
   splt <- unlist(strsplit(formulaToUse, " \\+ "))
