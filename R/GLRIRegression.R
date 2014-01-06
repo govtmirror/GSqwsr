@@ -76,4 +76,56 @@ NULL
 #' @keywords sites
 NULL
 
+#' StLouisUV example data
+#'
+#' Example UV data from St. Louis
+#'
+#' @name StLouisUV
+#' @docType data
+#' @keywords sites
+NULL
 
+#' StLouisQW example data
+#'
+#' Example QW data from St. Louis
+#'
+#' @name StLouisQW
+#' @docType data
+#' @keywords sites
+NULL
+
+#' StLouisDT example data
+#'
+#' Example DTComplete data from St. Louis
+#'
+#' @name StLouisDT
+#' @docType data
+#' @keywords sites
+NULL
+
+#' StLouisQWcodes example data
+#'
+#' Example QWcodes data from St. Louis
+#'
+#' @name StLouisQWcodes
+#' @docType data
+#' @keywords sites
+NULL
+
+#' StLouisInfo example data
+#'
+#' Example siteINFO data from St. Louis
+#'
+#' @name StLouisInfo
+#' @docType data
+#' @keywords sites
+NULL
+
+#' sampleParameters example data
+#'
+#' Example parameter data for regression model.
+#'
+#' @name sampleParameters
+#' @docType data
+#' @keywords sites
+NULL
