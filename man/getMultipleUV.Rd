@@ -1,6 +1,6 @@
 \name{getMultipleUV}
 \alias{getMultipleUV}
-\title{getMultipleUV}
+\title{Get unit value data from multiple parameters.}
 \usage{
 getMultipleUV(Site, BeginDate, EndDate, UVP)
 }
@@ -18,7 +18,11 @@ getMultipleUV(Site, BeginDate, EndDate, UVP)
 UV dataframe
 }
 \description{
-Get unit value data from multiple parameters.
+Get unit value data from multiple parameters. A single USGS
+site id, start and end date (in "YYYY-mm-dd" format), and
+multiple 5-digit parameter codes are inputs. A single data
+frame with with all the raw data from the multiple web
+service calls is returned.
 }
 \examples{
 site <- "040851385"

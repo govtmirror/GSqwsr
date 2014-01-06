@@ -1,6 +1,6 @@
 \name{getDecYear}
 \alias{getDecYear}
-\title{getDecYear}
+\title{Returns decimal year from POSIXct}
 \usage{
 getDecYear(dateTime)
 }

@@ -89,10 +89,10 @@ knit_hooks$set(crop = hook_pdfcrop)
 library("USGSwsQWSR")
 
 #Sample data included with package:
-DTComplete <- DTComplete
-UV <- UV
-QWcodes <- QWcodes
-siteINFO <- siteINFO
+DTComplete <- StLouisDT
+UV <- StLouisUV
+QWcodes <- StLouisQWcodes
+siteINFO <- StLouisInfo
 
 investigateResponse <- "SuspSed"
 transformResponse <- "lognormal"
@@ -129,6 +129,9 @@ analyzeSteps(steps, investigateResponse,siteINFO)
 # Analyze model produced from stepwise regression:
 resultPlots(DT,modelReturn,siteINFO)
 resultResidPlots(DT,modelReturn,siteINFO)
+
+# Create prediction plots
+predictionPlot(UV,DT,modelReturn,siteINFO=siteINFO)
 
 @
 

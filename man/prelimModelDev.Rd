@@ -1,9 +1,9 @@
 \name{prelimModelDev}
 \alias{prelimModelDev}
-\title{prelimModelDev}
+\title{Stepwise regression using censReg function}
 \usage{
 prelimModelDev(localDT, responseVariable, upperBoundFormula, k = "BIC",
-  transformResponse = "lognormal")
+  transformResponse = "lognormal", autoSinCos = TRUE)
 }
 \arguments{
   \item{localDT}{dataframe of potential input variables to
@@ -22,25 +22,53 @@ prelimModelDev(localDT, responseVariable, upperBoundFormula, k = "BIC",
   \item{transformResponse}{string can be "normal" or
   "lognormal", perhaps try to generalize this more in
   future}
+
+  \item{autoSinCos}{logical, turns off the feature to
+  automatically include sinDY and cosDY if either is picked
+  in the stepwise regression. The default is TRUE, which
+  includes the feature.}
 }
 \value{
-retVal list of modelStuff, steps, localDT.mod
+The output is a named list that can be split into 3
+dataframes: modelInformation, steps, and DT.mod. DT.mod is
+generated from the output of the censReg function. steps is
+a dataframe that shows information for each of the steps
+taken during the stepwise regression. modelInformation is a
+dataframe that contains information for the final model,
+including the names of the chosen parameters, their
+coefficients, standard error, p-value, and standard
+coefficient. See \code{?censReg} for information on how
+these were calculated.
 }
 \description{
 Run stepwise regression and generate simplifed model
-output.
+output. See \code{?censReg} for information on the censored
+data regression function. For an "AIC" stepwise regression,
+set \code{k="AIC"}, this internally defines \code{k=2}. For
+a "BIC" stepwise regression, set \code{k="BIC"}, which
+internally defintes'\code{k=log(length(responseVariable))}.
+A number for k (the multiple of the number of degrees of
+freedom used for the penalty) can also be specified.
+
+This function has a unique feature that can be turned off
+by setting autoSinCos to \code{FALSE}. If there are columns
+in the DT data that include sine and cosine of the decimal
+year (as indicated by column names sinDY and cosDY) then
+when one of those columns is selected in the stepwise
+regression, the other column automatically is included in
+the next step. To disable this feature, set autoSinCos to
+\code{FALSE}.
 }
 \examples{
-DTComplete <- DTComplete
-UV <- UV
-QWcodes <- QWcodes
-response <- QWcodes$colName[1]
+DTComplete <- StLouisDT
+UV <- StLouisUV
+response <- "Ammonia.N"
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 kitchenSink <- createFullFormula(DT,response)
 returnPrelim <- prelimModelDev(DT,response,kitchenSink)
 steps <- returnPrelim$steps
-modelResult <- returnPrelim$modelStuff
+modelResult <- returnPrelim$modelInformation
 modelReturn <- returnPrelim$DT.mod
 }
 \keyword{residuals}

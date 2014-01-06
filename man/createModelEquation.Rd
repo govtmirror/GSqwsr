@@ -1,6 +1,6 @@
 \name{createModelEquation}
 \alias{createModelEquation}
-\title{createModelEquation}
+\title{Create the model equation including coefficients.}
 \usage{
 createModelEquation(modelReturn)
 }
@@ -11,14 +11,14 @@ createModelEquation(modelReturn)
 combo string
 }
 \description{
-Create the model equation including coefficients.
+Create the model equation including coefficients. Accepts
+the results of a censReg regression model and turns it into
+an text equation suitable for plot captions.
 }
 \examples{
-DTComplete <- DTComplete
-UV <- UV
-QWcodes <- QWcodes
-siteINFO <- siteINFO
-response <- QWcodes$colName[1]
+DTComplete <- StLouisDT
+UV <- StLouisUV
+response <- "Ammonia.N"
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 kitchenSink <- createFullFormula(DT,response)
