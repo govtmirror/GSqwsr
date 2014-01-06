@@ -1,6 +1,7 @@
-#'findOutliers
+#'Calculates potential outliers based on external studentized residuals
 #'
-#'Find index of outliers using external studentized residuals.
+#'Find index of outliers using external studentized residuals. Outliers are values that have
+#'external studentized residuals greater than 3 or less than negative 3.
 #'
 #'@param localDT DTframe that includes all response and predictor variables
 #'@param modelReturn list returned from censReg
@@ -9,10 +10,10 @@
 #'@keywords studentized residuals
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' siteINFO <- siteINFO
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' QWcodes <- StLouisQWcodes
+#' siteINFO <- StLouisInfo
 #' response <- QWcodes$colName[1]
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)

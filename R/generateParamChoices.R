@@ -1,6 +1,10 @@
-#'generateParamChoices
+#'Generate a dataframe with parameter options for model creation.
 #'
-#'Generate a file to be used to narrow down allowed parameters in model creation.
+#'Generate a dataframe and optional csv file to be used to narrow down allowed parameters 
+#'in model creation. Creates a dataframe in which one column
+#'is named 'Scalar', one is named 'variableNames', and the rest are the available parameters. 
+#'Each row in the dataframe contains one of the available parameters. Using ones and zeros, 
+#'formulas can easily be created including log transforms and interaction terms with the \code{createFormulaFromDF} function.
 #'
 #'@param predictVariables string vector of prediction variables
 #'@param modelReturn censReg object returned from censReg
@@ -9,7 +13,16 @@
 #'@keywords model parameter list
 #'@export
 #'@examples
-#'\dontrun{}
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' response <- "Ammonia.N"
+#' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+#' DT <- na.omit(DT)
+#' predictVariables <- names(DT)[-which(names(DT) %in% c(response,"datetime","decYear"))]
+#' kitchenSink <- createFullFormula(DT,response)
+#' returnPrelim <- prelimModelDev(DT,response,kitchenSink)
+#' modelReturn <- returnPrelim$DT.mod
+#' choices <- generateParamChoices(predictVariables,modelReturn)
 generateParamChoices <- function(predictVariables, modelReturn, pathToSave="", save=FALSE){
   
   predictVariables <- predictVariables[which(predictVariables != "datetime")]

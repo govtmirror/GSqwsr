@@ -1,4 +1,4 @@
-#'getDecYear
+#'Returns decimal year from POSIXct
 #'
 #'Returns decimal year from POSIXct
 #'
