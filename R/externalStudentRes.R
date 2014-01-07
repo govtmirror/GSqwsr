@@ -3,7 +3,7 @@
 #'Compute internally Studentized residuals. The function can calculate multiple models, therefore 
 #'the model coefficients most be input as a named list (where the name is the response variable for 
 #'that model result). Residuals of censored values are calculated simply by the prediction minus detection limit.
-#'Predictions are calculated with the \code{censReg} function.
+#'Predictions are calculated with the \link{censReg} function.
 #'
 #'@param localDT dataframe that includes all response and predictor variables
 #'@param modelCoefList list of model coefficients

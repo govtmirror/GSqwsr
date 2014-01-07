@@ -23,7 +23,7 @@ named 'variableNames', and the rest are the available
 parameters. Each row in the dataframe contains one of the
 available parameters. Using ones and zeros, formulas can
 easily be created including log transforms and interaction
-terms with the \code{createFormulaFromDF} function.
+terms with the \link{createFormulaFromDF} function.
 }
 \examples{
 DTComplete <- StLouisDT

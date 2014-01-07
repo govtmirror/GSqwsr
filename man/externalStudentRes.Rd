@@ -24,7 +24,7 @@ most be input as a named list (where the name is the
 response variable for that model result). Residuals of
 censored values are calculated simply by the prediction
 minus detection limit. Predictions are calculated with the
-\code{censReg} function.
+\link{censReg} function.
 }
 \examples{
 DTComplete <- StLouisDT

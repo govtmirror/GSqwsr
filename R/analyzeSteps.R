@@ -1,10 +1,10 @@
 #'Plot showing improvement in models during stepwise regression
 #'
 #'Plot showing improvement in model choices during the course of the stepwise regression. Five criteria are shown: Correlation, slope, RMSE,
-#'PRESS, and AIC. For corrolation, see \code{?cor}. RMSE is the root-mean-squared error of the difference between
-#'observed values and the predicted values (see \code{?rmse}). The PRESS statistic (prediction error
+#'PRESS, and AIC. For corrolation, see \link{cor}. RMSE is the root-mean-squared error of the difference between
+#'observed values and the predicted values. The PRESS statistic (prediction error
 #'sum of squares) stastic (Helsel and Hirsch, 2002) is calculated using external studentized residuals (see 
-#'\code{?externalStudentRes}). AIC is the Akaike information criterion. When running the 
+#'\link{externalStudentRes}). AIC is the Akaike information criterion. When running the 
 #'\code{prelimModelDev} function, specifying "AIC" or "BIC" (Bayesian information criterion) will change the value of k used to calculate
 #'the AIC value. For an "AIC" stepwise regression, \code{k=2}, for a "BIC" stepwise regression, 
 #'\code{k=log(length(responseVariable))}. Finally 'slope' is simply the slope of a linear regression of

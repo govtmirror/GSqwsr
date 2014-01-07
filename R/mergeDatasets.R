@@ -3,14 +3,14 @@
 #'Creates a list of merged datasets, along with updating the QWcodes dataframe. The function looks for
 #'qw objects in the QW dataframe, cross-references them with the QWcodes table, and merges those
 #'columns with the nearest UV (unit value) data. The function will merge the UV data that is nearest
-#'to the QW data, see \code{?mergeNearest} for more options on specifying the acceptable time gap between
+#'to the QW data, see \link{mergeNearest} for more options on specifying the acceptable time gap between
 #'the two datasets. 
 #'
 #'@param localQW dataframe water quality dataset. Should have qw objects, 
 #'along with a column called "datetime" in POSIXct.
 #'@param localUV dataframe unit value dataset. Should have one column called "datetime" in POSIXct.
 #'@param QWcodes dataframe
-#'@param max.diff string default is "2 hours". See \code{?mergeNearest} for more options.
+#'@param max.diff string default is "2 hours". See \link{mergeNearest} for more options.
 #'@return retList list including the DT list and updated QWcodes
 #'@keywords merge datasets
 #'@export

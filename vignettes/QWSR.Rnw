@@ -77,9 +77,9 @@ knit_hooks$set(crop = hook_pdfcrop)
 \tableofcontents
 
 %------------------------------------------------------------
-\section{Introduction to QWSR}
+\section{Introduction to USGSwsQWSR package}
 %------------------------------------------------------------ 
-
+The USGSwsQWSR package was designed to 
 
 %------------------------------------------------------------
 \section{General Workflow}
@@ -102,10 +102,9 @@ DT <- DTComplete[c(investigateResponse,
                    "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 
+predictVariables <- names(DT)[-which(names(DT) 
+                  %in% c(investigateResponse,"datetime","decYear"))]
 
-predictVariables <- names(DT)[-which(names(DT) %in% investigateResponse)]
-predictVariables <- predictVariables[which(predictVariables != "datetime")]
-predictVariables <- predictVariables[which(predictVariables != "decYear")]
 
 #Check predictor variables
 predictVariableScatterPlots(DT,investigateResponse)
@@ -172,7 +171,7 @@ plotSteps
 %------------------------------------------------------------
 \subsection{R User: Installing QWSR}
 %------------------------------------------------------------ 
-Before installing QWSR, the dependent packages must be first be installed:
+Before installing USGSwsQWSR, the dependent packages must be first be installed:
 
 <<installFromCran,eval = FALSE>>=
 install.packages(c("XML", "lubridate", "akima", 
@@ -181,10 +180,9 @@ install.packages(c("XML", "lubridate", "akima",
                  dependencies=TRUE)
 install.packages(c("USGSwsBase","USGSwsData",
                    "USGSwsGraphs","USGSwsStats",
-                   "USGSwsQW"), repos="http://usgs-r.github.com")
+                   "USGSwsQW","USGSwsQWSR"), repos="http://usgs-r.github.com")
 @
 
-It is a good idea to re-start R after installing the package, especially if installing an updated version. Some users have found it necessary to delete the previous version's package folder before installing newer version of dataRetrieval. If you are experiencing issues after updating a package, trying deleting the package folder - the default location for Windows is something like this: C:/Users/userA/Documents/R/win-library/2.15/dataRetrieval, and the default for a Mac: /Users/userA/Library/R/2.15/library/dataRetrieval. Then, re-install the package using the directions above. Moving to CRAN should solve this problem.
 
 After installing the package, you need to open the library each time you re-start R.  This is done with the simple command:
 <<openLibraryTest, eval=FALSE>>=

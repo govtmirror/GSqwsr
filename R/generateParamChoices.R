@@ -4,7 +4,7 @@
 #'in model creation. Creates a dataframe in which one column
 #'is named 'Scalar', one is named 'variableNames', and the rest are the available parameters. 
 #'Each row in the dataframe contains one of the available parameters. Using ones and zeros, 
-#'formulas can easily be created including log transforms and interaction terms with the \code{createFormulaFromDF} function.
+#'formulas can easily be created including log transforms and interaction terms with the \link{createFormulaFromDF} function.
 #'
 #'@param predictVariables string vector of prediction variables
 #'@param modelReturn censReg object returned from censReg

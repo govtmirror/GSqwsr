@@ -1,6 +1,6 @@
 #'Plots Q-Q of predict variables.
 #'
-#'Plots Q-Q of predict variables.See \code{?qqmath} for more information on q-q (quantile-quantile) plots.
+#'Plots Q-Q of predict variables.See \link{qqmath} for more information on q-q (quantile-quantile) plots.
 #'
 #'@param localDT dataframe in wide format
 #'@param responseVariable character
