@@ -1,4 +1,4 @@
-#'R Squared
+#'Calculates R^2 and adjusted R^2 values
 #'
 #'Calculates R^2 and adjusted R^2 values
 #'

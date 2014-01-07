@@ -1,6 +1,6 @@
 #'Returns decimal year from POSIXct
 #'
-#'Returns decimal year from POSIXct
+#'Returns decimal year from POSIXct.
 #'
 #'@param dateTime POSIXct
 #'@return decYear numeric

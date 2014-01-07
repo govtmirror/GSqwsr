@@ -1,21 +1,23 @@
-#'predictionPlot
+#'Prediction plot of model results over time.
 #'
-#'Plots summary plots
+#'Using unit value data, returns a plot of the model results. Predictions are bias corrected if 
+#'transform response is set to "lognormal". Predictions are plotted as a blue line, actual sample
+#'measurements are plotted as solid red points. Censored values are distinguished with line segments,
+#'and the points are .
+#'The plot title is generated from the siteINFO dataframe, which needs columns station.nm and site.no. 
 #'
-#'@param localUV dataframe of unit values
-#'@param localDT dataframe in wide format
+#'@param localUV dataframe of unit values, which needs to includes one column called "datetime" that is in POSIXct.
+#'@param localDT dataframe in wide format, which needs to includes one column called "datetime" that is in POSIXct.
 #'@param finalModel censReg model results
 #'@param transformResponse string can be "lognormal" or "normal", perhaps try to generalize this more in future
 #'@param siteINFO dataframe including station name (station.nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
-#'@return plot
 #'@keywords scatterplot
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' siteINFO <- siteINFO
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' response <- "Ammonia.N"
+#' siteINFO <- StLouisInfo
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)
