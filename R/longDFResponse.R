@@ -1,4 +1,4 @@
-#'longDFResponse
+#'Custom reshape function for plotQQTransforms and predictVariablesScatterPlots.
 #'
 #'Reshapes a wide dataframe to long.
 #'
@@ -7,9 +7,6 @@
 #'@param responseVariable character
 #'@return Long dataframe with value, variable, and response columns
 #'@keywords reshape long
-#'@export
-#'@examples
-#'\dontrun{}
 longDFResponse <- function(x,predictVariables,responseVariable){
   DTsub <- x[,predictVariables]
   DTsub$responseHigh <- x[,responseVariable]@.Data[,2]
