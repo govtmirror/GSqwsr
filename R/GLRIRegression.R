@@ -1,10 +1,10 @@
-#' GLRI Regression package
+#' Surrogate regression package
 #'
 #' \tabular{ll}{
-#' Package: \tab GLRIRegression\cr
+#' Package: \tab USGSwsQWSR\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0.0\cr
-#' Date: \tab 2013-04-26\cr
+#' Version: \tab 1.1.1\cr
+#' Date: \tab 2014-01-07\cr
 #' License: \tab Unlimited for this package, dependencies have more restrictive licensing.\cr
 #' Copyright: \tab This software is in the public domain because it contains materials
 #' that originally came from the United States Geological Survey, an agency of
@@ -16,64 +16,10 @@
 #'
 #' Collection of functions to simplify data retrieval, model creation, and model analysis.
 #'
-#' @name GLRIRegression-package
+#' @name USGSwsQWSR-package
 #' @docType package
-#' @author Laura De Cicco \email{ldecicco@@usgs.gov}
+#' @author Laura De Cicco \email{ldecicco@@usgs.gov}, Steve Corsi \email{srcorsi@@usgs.gov}
 #' @keywords data, retrieval, regressions
-NULL
-
-#' Site List
-#'
-#' Site list as of May 8, 2013
-#'
-#' @name siteTable
-#' @docType data
-#' @keywords sites
-NULL
-
-#' Example UV data
-#'
-#' Example UV data from St. Louis
-#'
-#' @name UV
-#' @docType data
-#' @keywords sites
-NULL
-
-#' Example QW data
-#'
-#' Example QW data from St. Louis
-#'
-#' @name QW
-#' @docType data
-#' @keywords sites
-NULL
-
-#' Example DTComplete data
-#'
-#' Example DTComplete data from St. Louis
-#'
-#' @name DTComplete
-#' @docType data
-#' @keywords sites
-NULL
-
-#' Example QWcodes data
-#'
-#' Example QWcodes data from St. Louis
-#'
-#' @name QWcodes
-#' @docType data
-#' @keywords sites
-NULL
-
-#' Example siteINFO data
-#'
-#' Example siteINFO data from St. Louis
-#'
-#' @name siteINFO
-#' @docType data
-#' @keywords sites
 NULL
 
 #' StLouisUV example data
@@ -126,6 +72,15 @@ NULL
 #' Example parameter data for regression model.
 #'
 #' @name sampleParameters
+#' @docType data
+#' @keywords sites
+NULL
+
+#' StLouisQW example data
+#'
+#' Example QW data from St. Louis
+#'
+#' @name StLouisQW
 #' @docType data
 #' @keywords sites
 NULL
