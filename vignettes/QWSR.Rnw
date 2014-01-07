@@ -57,7 +57,7 @@ library(knitr)
 
 
 %------------------------------------------------------------
-\title{The QWSR R package}
+\title{The USGSwsQWSR R package}
 %------------------------------------------------------------
 \author[1]{Laura De Cicco}
 \author[1]{Steve Corsi}
@@ -79,10 +79,11 @@ knit_hooks$set(crop = hook_pdfcrop)
 %------------------------------------------------------------
 \section{Introduction to USGSwsQWSR package}
 %------------------------------------------------------------ 
-The USGSwsQWSR package was designed to 
+The USGSwsQWSR package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
 
 %------------------------------------------------------------
 \section{General Workflow}
+\label{sec:workflow}
 %------------------------------------------------------------ 
 
 <<start,eval = FALSE>>=
@@ -136,9 +137,29 @@ predictionPlot(UV,DT,modelReturn,siteINFO=siteINFO)
 
 
 %------------------------------------------------------------
-\subsection{Introduction}
+\section{Workflow Details}
+\label{sec:details}
 %------------------------------------------------------------
 
+%------------------------------------------------------------
+\subsection{Data Retrieval}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Data Merging}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Data Investigation}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Stepwise Regression}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Model Analysis}
+%------------------------------------------------------------
 
 \clearpage
 \appendix

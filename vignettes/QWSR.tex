@@ -102,7 +102,7 @@
 
 
 %------------------------------------------------------------
-\title{The QWSR R package}
+\title{The USGSwsQWSR R package}
 %------------------------------------------------------------
 \author[1]{Laura De Cicco}
 \author[1]{Steve Corsi}
@@ -118,49 +118,63 @@
 \tableofcontents
 
 %------------------------------------------------------------
-\section{Introduction to QWSR}
+\section{Introduction to USGSwsQWSR package}
 %------------------------------------------------------------ 
-
+The USGSwsQWSR package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
 
 %------------------------------------------------------------
 \section{General Workflow}
+\label{sec:workflow}
 %------------------------------------------------------------ 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{library}\hlstd{(}\hlstr{"USGSwsQWSR"}\hlstd{)}
+
 \hlcom{#Sample data included with package:}
-\hlstd{DTComplete} \hlkwb{<-} \hlstd{DTComplete}
-\hlstd{UV} \hlkwb{<-} \hlstd{UV}
-\hlstd{QWcodes} \hlkwb{<-} \hlstd{QWcodes}
-\hlstd{siteINFO} \hlkwb{<-} \hlstd{siteINFO}
+\hlstd{DTComplete} \hlkwb{<-} \hlstd{StLouisDT}
+\hlstd{UV} \hlkwb{<-} \hlstd{StLouisUV}
+\hlstd{QWcodes} \hlkwb{<-} \hlstd{StLouisQWcodes}
+\hlstd{siteINFO} \hlkwb{<-} \hlstd{StLouisInfo}
+
 \hlstd{investigateResponse} \hlkwb{<-} \hlstr{"SuspSed"}
 \hlstd{transformResponse} \hlkwb{<-} \hlstr{"lognormal"}
+
 \hlstd{DT} \hlkwb{<-} \hlstd{DTComplete[}\hlkwd{c}\hlstd{(investigateResponse,}
                    \hlkwd{getPredictVariables}\hlstd{(}\hlkwd{names}\hlstd{(UV)),}
                    \hlstr{"decYear"}\hlstd{,}\hlstr{"sinDY"}\hlstd{,}\hlstr{"cosDY"}\hlstd{,}\hlstr{"datetime"}\hlstd{)]}
 \hlstd{DT} \hlkwb{<-} \hlkwd{na.omit}\hlstd{(DT)}
-\hlstd{predictVariables} \hlkwb{<-} \hlkwd{names}\hlstd{(DT)[}\hlopt{-}\hlkwd{which}\hlstd{(}\hlkwd{names}\hlstd{(DT)} \hlopt{%in%} \hlstd{investigateResponse)]}
-\hlstd{predictVariables} \hlkwb{<-} \hlstd{predictVariables[}\hlkwd{which}\hlstd{(predictVariables} \hlopt{!=} \hlstr{"datetime"}\hlstd{)]}
-\hlstd{predictVariables} \hlkwb{<-} \hlstd{predictVariables[}\hlkwd{which}\hlstd{(predictVariables} \hlopt{!=} \hlstr{"decYear"}\hlstd{)]}
+
+\hlstd{predictVariables} \hlkwb{<-} \hlkwd{names}\hlstd{(DT)[}\hlopt{-}\hlkwd{which}\hlstd{(}\hlkwd{names}\hlstd{(DT)}
+                  \hlopt{%in%} \hlkwd{c}\hlstd{(investigateResponse,}\hlstr{"datetime"}\hlstd{,}\hlstr{"decYear"}\hlstd{))]}
+
+
 \hlcom{#Check predictor variables}
 \hlkwd{predictVariableScatterPlots}\hlstd{(DT,investigateResponse)}
+
 \hlcom{# Create 'kitchen sink' formula:}
 \hlstd{kitchenSink} \hlkwb{<-} \hlkwd{createFullFormula}\hlstd{(DT,investigateResponse)}
+
 \hlcom{#Run stepwise regression with "kitchen sink" as upper bound:}
 \hlstd{returnPrelim} \hlkwb{<-} \hlkwd{prelimModelDev}\hlstd{(DT,investigateResponse,kitchenSink,}
                                \hlstr{"BIC"}\hlstd{,} \hlcom{#Other option is "AIC"}
                                \hlstd{transformResponse)}
+
 \hlstd{steps} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{steps}
 \hlstd{modelResult} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{modelStuff}
 \hlstd{modelReturn} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{DT.mod}
+
 \hlcom{# Analyze steps found:}
 \hlkwd{plotSteps}\hlstd{(steps,DT,transformResponse)}
 \hlkwd{analyzeSteps}\hlstd{(steps, investigateResponse,siteINFO)}
+
 \hlcom{# Analyze model produced from stepwise regression:}
 \hlkwd{resultPlots}\hlstd{(DT,modelReturn,siteINFO)}
 \hlkwd{resultResidPlots}\hlstd{(DT,modelReturn,siteINFO)}
+
+\hlcom{# Create prediction plots}
+\hlkwd{predictionPlot}\hlstd{(UV,DT,modelReturn,}\hlkwc{siteINFO}\hlstd{=siteINFO)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -168,9 +182,29 @@
 
 
 %------------------------------------------------------------
-\subsection{Introduction}
+\section{Workflow Details}
+\label{sec:details}
 %------------------------------------------------------------
 
+%------------------------------------------------------------
+\subsection{Data Retrieval}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Data Merging}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Data Investigation}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Stepwise Regression}
+%------------------------------------------------------------
+
+%------------------------------------------------------------
+\subsection{Model Analysis}
+%------------------------------------------------------------
 
 \clearpage
 \appendix
@@ -213,7 +247,7 @@ To see the raw code for a particular code, type the name of the function:
 %------------------------------------------------------------
 \subsection{R User: Installing QWSR}
 %------------------------------------------------------------ 
-Before installing QWSR, the dependent packages must be first be installed:
+Before installing USGSwsQWSR, the dependent packages must be first be installed:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -224,13 +258,12 @@ Before installing QWSR, the dependent packages must be first be installed:
                  \hlkwc{dependencies}\hlstd{=}\hlnum{TRUE}\hlstd{)}
 \hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"USGSwsBase"}\hlstd{,}\hlstr{"USGSwsData"}\hlstd{,}
                    \hlstr{"USGSwsGraphs"}\hlstd{,}\hlstr{"USGSwsStats"}\hlstd{,}
-                   \hlstr{"USGSwsQW"}\hlstd{),} \hlkwc{repos}\hlstd{=}\hlstr{"http://usgs-r.github.com"}\hlstd{)}
+                   \hlstr{"USGSwsQW"}\hlstd{,}\hlstr{"USGSwsQWSR"}\hlstd{),} \hlkwc{repos}\hlstd{=}\hlstr{"http://usgs-r.github.com"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
 
 
-It is a good idea to re-start R after installing the package, especially if installing an updated version. Some users have found it necessary to delete the previous version's package folder before installing newer version of dataRetrieval. If you are experiencing issues after updating a package, trying deleting the package folder - the default location for Windows is something like this: C:/Users/userA/Documents/R/win-library/2.15/dataRetrieval, and the default for a Mac: /Users/userA/Library/R/2.15/library/dataRetrieval. Then, re-install the package using the directions above. Moving to CRAN should solve this problem.
 
 After installing the package, you need to open the library each time you re-start R.  This is done with the simple command:
 \begin{knitrout}
