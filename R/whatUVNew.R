@@ -1,6 +1,7 @@
-#' whatUVNew
+#' Imports a table of available parameters, period of record, and count. 
 #'
-#' Imports a table of available parameters, period of record, and count. There is also an option to load the long parameter names and additional information on the parameters with longNames=TRUE.
+#' Imports a table of available parameters, period of record, and count. Information is retrieved from \url{http://waterservices.usgs.gov/}
+#' site information service.
 #'
 #' @param siteNumber string USGS site number.  This is usually an 8 digit number
 #' @param service string defaults to "uv" (unit values), other options are "qw" (water quality) and "dv" (daily values)

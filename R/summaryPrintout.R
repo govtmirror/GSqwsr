@@ -1,19 +1,18 @@
-#'summaryPrintout
+#'Text summarization of the model results
 #'
 #'Summarize the model results
 #'
 #'@param modelReturn censReg model results
 #'@param siteINFO dataframe including station name (station.nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
-#'@param saveOutput logical 
-#'@param fileName string full path and file name to save to
+#'@param saveOutput logical defaults to FALSE. Set to TRUE if an output file is desired
+#'@param fileName string full path and file name to save output
 #'@keywords summary text
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' siteINFO <- siteINFO
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' response <- "Ammonia.N"
+#' siteINFO <- StLouisInfo
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)
