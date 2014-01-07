@@ -1,6 +1,6 @@
 \name{saveModelResults}
 \alias{saveModelResults}
-\title{saveModelResults}
+\title{Saves critical objects for model analysis}
 \usage{
 saveModelResults(pathToSave, DT, UV, modelReturn, siteINFO)
 }

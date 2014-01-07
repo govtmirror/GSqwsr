@@ -1,6 +1,6 @@
 \name{whatUVNew}
 \alias{whatUVNew}
-\title{whatUVNew}
+\title{Imports a table of available parameters, period of record, and count.}
 \usage{
 whatUVNew(siteNumber, service = "uv")
 }
@@ -18,9 +18,9 @@ site file
 }
 \description{
 Imports a table of available parameters, period of record,
-and count. There is also an option to load the long
-parameter names and additional information on the
-parameters with longNames=TRUE.
+and count. Information is retrieved from
+\url{http://waterservices.usgs.gov/} site information
+service.
 }
 \examples{
 site <- "04027000"

@@ -1,6 +1,6 @@
 \name{runFit}
 \alias{runFit}
-\title{runFit}
+\title{Run the fitting routine}
 \usage{
 runFit(localDT, finalModel, transformResponse = "lognormal")
 }
@@ -21,17 +21,16 @@ evaluat list
 Run the fitting routine
 }
 \examples{
-DTComplete <- DTComplete
-UV <- UV
-QWcodes <- QWcodes
-siteINFO <- siteINFO
-response <- QWcodes$colName[1]
+DTComplete <- StLouisDT
+UV <- StLouisUV
+response <- "Ammonia.N"
+siteINFO <- StLouisInfo
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 kitchenSink <- createFullFormula(DT,response)
 returnPrelim <- prelimModelDev(DT,response,kitchenSink)
 modelReturn <- returnPrelim$DT.mod
-runFit(DT,modelReturn)
+fitReturn <- runFit(DT,modelReturn)
 }
 \keyword{AMLE}
 \keyword{fit}

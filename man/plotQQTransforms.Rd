@@ -1,6 +1,6 @@
 \name{plotQQTransforms}
 \alias{plotQQTransforms}
-\title{plotQQTransforms}
+\title{Plots Q-Q of predict variables.}
 \usage{
 plotQQTransforms(localDT, responseVariable, printLinear = TRUE,
   printLog = TRUE, printSquare = FALSE, printSQRT = FALSE,
@@ -11,24 +11,32 @@ plotQQTransforms(localDT, responseVariable, printLinear = TRUE,
 
   \item{responseVariable}{character}
 
-  \item{printLinear}{logical}
+  \item{printLinear}{logical option to print a page of
+  linear plots (default to TRUE)}
 
-  \item{printLog}{logical}
+  \item{printLog}{logical option to print a page of log
+  (base 10) plots (defaults to TRUE)}
 
-  \item{printSquare}{logical}
+  \item{printSquare}{logical option to print a page of
+  squared plots (defaults to FALSE)}
 
-  \item{printSQRT}{logical}
+  \item{printSQRT}{logical option to print a page of square
+  root plots (defaults to FALSE)}
 
-  \item{printEXP}{logical}
-}
-\value{
-plot
+  \item{printEXP}{logical option to print a page of
+  exponential plots (defaults to FALSE)}
 }
 \description{
-Plots Q-Q of predict variables.
+Plots Q-Q of predict variables.See \code{?qqmath} for more
+information on q-q (quantile-quantile) plots.
 }
 \examples{
-\dontrun{}
+DTComplete <- StLouisDT
+response <- "Ammonia.N"
+UV <- StLouisUV
+DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+DT <- na.omit(DT)
+plotQQTransforms(DT,response)
 }
 \keyword{qq}
 

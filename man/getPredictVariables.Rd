@@ -1,6 +1,6 @@
 \name{getPredictVariables}
 \alias{getPredictVariables}
-\title{getPredictVariables}
+\title{Returns a character vector of prediction variables.}
 \usage{
 getPredictVariables(DTnames)
 }
@@ -12,11 +12,13 @@ predictVariables string predict variables based on column
 headers
 }
 \description{
-Returns a character vector of prediction variables.
+Returns a character vector of prediction variables. Accepts
+column names as an input, this function filters out '_cd'
+columns as well as "agency", "site", "tz". These are
+typical column names retrieved from NWIS web services.
 }
 \examples{
-DTComplete <- DTComplete
-UV <- UV
+UV <- StLouisUV
 predictVars <- getPredictVariables(names(UV))
 }
 \keyword{predict}

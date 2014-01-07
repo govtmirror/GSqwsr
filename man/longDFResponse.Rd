@@ -1,6 +1,6 @@
 \name{longDFResponse}
 \alias{longDFResponse}
-\title{longDFResponse}
+\title{Custom reshape function for plotQQTransforms and predictVariablesScatterPlots.}
 \usage{
 longDFResponse(x, predictVariables, responseVariable)
 }
@@ -16,9 +16,6 @@ Long dataframe with value, variable, and response columns
 }
 \description{
 Reshapes a wide dataframe to long.
-}
-\examples{
-\dontrun{}
 }
 \keyword{long}
 \keyword{reshape}

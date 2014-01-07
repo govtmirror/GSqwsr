@@ -1,6 +1,6 @@
 \name{predictVariableScatterPlots}
 \alias{predictVariableScatterPlots}
-\title{predictVariableScatterPlots}
+\title{Plots scatterplot of predict variables.}
 \usage{
 predictVariableScatterPlots(localDT, responseVariable,
   transformResponse = "lognormal")
@@ -8,22 +8,21 @@ predictVariableScatterPlots(localDT, responseVariable,
 \arguments{
   \item{localDT}{dataframe in wide format}
 
-  \item{responseVariable}{character}
+  \item{responseVariable}{string column name of response
+  variable in localDT dataframe}
 
   \item{transformResponse}{string can be "normal" or
   "lognormal", perhaps try to generalize this more in
   future}
 }
-\value{
-plot
-}
 \description{
-Plots scatterplot of predict variables.
+Plots scatterplot of predict variables. One page of linear,
+and one page of log transformed data.
 }
 \examples{
-DTComplete <- DTComplete
-QWcodes <- QWcodes
-response <- QWcodes$colName[1]
+DTComplete <- StLouisDT
+response <- "Ammonia.N"
+UV <- StLouisUV
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 predictVariableScatterPlots(DT,response)

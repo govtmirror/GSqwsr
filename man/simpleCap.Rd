@@ -1,6 +1,6 @@
 \name{simpleCap}
 \alias{simpleCap}
-\title{simpleCap}
+\title{Return string with initial capital letters}
 \usage{
 simpleCap(x)
 }

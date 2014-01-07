@@ -1,6 +1,6 @@
 \name{rSqr}
 \alias{rSqr}
-\title{R Squared}
+\title{Calculates R^2 and adjusted R^2 values}
 \usage{
 rSqr(observed, resid, p)
 }

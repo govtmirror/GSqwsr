@@ -1,6 +1,6 @@
 \name{runPred}
 \alias{runPred}
-\title{runPred}
+\title{Run the model prediction}
 \usage{
 runPred(localUV, localDT, finalModel, transformResponse = "lognormal",
   dfReady = TRUE)
@@ -23,14 +23,16 @@ runPred(localUV, localDT, finalModel, transformResponse = "lognormal",
 predictedReturn list
 }
 \description{
-Run the model
+Run the model prediction. Takes unit value data (UV) and
+model results to calculate the predicted values. If
+transformResponse is set to "lognormal", a bias correction
+is included.
 }
 \examples{
-DTComplete <- DTComplete
-UV <- UV
-QWcodes <- QWcodes
-siteINFO <- siteINFO
-response <- QWcodes$colName[1]
+DTComplete <- StLouisDT
+response <- "Ammonia.N"
+UV <- StLouisUV
+siteINFO <- StLouisInfo
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 kitchenSink <- createFullFormula(DT,response)

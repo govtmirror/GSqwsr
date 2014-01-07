@@ -1,6 +1,6 @@
 \name{resultResidPlots}
 \alias{resultResidPlots}
-\title{resultResidPlots}
+\title{Plots model summary plots using residuals}
 \usage{
 resultResidPlots(localDT, finalModel, siteINFO)
 }
@@ -17,14 +17,20 @@ resultResidPlots(localDT, finalModel, siteINFO)
 plot
 }
 \description{
-Plots summary with residuals plots
+Plots a set of plots to summarize the model results and
+behavior. The first plot (A) is always observed versus
+predicted, the second (B) is residuals vs. predicted, the
+third (C) is residuals vs. time, and the fourth (D) is
+residual quantiles vs. theoretical quantiles. There are
+then individual plots for each prediction variable of
+residuals vs. prediction value. Residuals for censored
+values are calculated using the detection limit.
 }
 \examples{
-DTComplete <- DTComplete
-UV <- UV
-QWcodes <- QWcodes
-siteINFO <- siteINFO
-response <- QWcodes$colName[1]
+DTComplete <- StLouisDT
+UV <- StLouisUV
+response <- "Ammonia.N"
+siteINFO <- StLouisInfo
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 kitchenSink <- createFullFormula(DT,response)
