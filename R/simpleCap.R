@@ -1,4 +1,4 @@
-#'simpleCap
+#'Return string with initial capital letters
 #'
 #'Return string with initial capital letters
 #'

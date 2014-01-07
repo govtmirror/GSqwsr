@@ -1,4 +1,4 @@
-#'saveModelResults
+#'Saves critical objects for model analysis
 #'
 #'Saves critical objects for model analysis
 #'

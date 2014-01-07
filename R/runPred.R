@@ -1,6 +1,7 @@
-#'runPred
+#'Run the model prediction
 #'
-#'Run the model
+#'Run the model prediction. Takes unit value data (UV) and model results to calculate the predicted values. If 
+#'transformResponse is set to "lognormal", a bias correction is included.
 #'
 #'@param localUV dataframe of unit values
 #'@param localDT dataframe in wide format
@@ -11,11 +12,10 @@
 #'@keywords AMLE fit
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' siteINFO <- siteINFO
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' response <- "Ammonia.N"
+#' UV <- StLouisUV
+#' siteINFO <- StLouisInfo
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)
