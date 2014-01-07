@@ -1,17 +1,16 @@
-#'predictVariableScatterPlots
-#'
 #'Plots scatterplot of predict variables.
 #'
+#'Plots scatterplot of predict variables. One page of linear, and one page of log transformed data.
+#'
 #'@param localDT dataframe in wide format
-#'@param responseVariable character
+#'@param responseVariable string column name of response variable in localDT dataframe
 #'@param transformResponse string can be "normal" or "lognormal", perhaps try to generalize this more in future
-#'@return plot
 #'@keywords scatterplot
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' QWcodes <- QWcodes
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' response <- "Ammonia.N"
+#' UV <- StLouisUV
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' predictVariableScatterPlots(DT,response)

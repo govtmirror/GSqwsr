@@ -1,19 +1,23 @@
-#'plotQQTransforms
-#'
 #'Plots Q-Q of predict variables.
+#'
+#'Plots Q-Q of predict variables.See \code{?qqmath} for more information on q-q (quantile-quantile) plots.
 #'
 #'@param localDT dataframe in wide format
 #'@param responseVariable character
-#'@param printLinear logical
-#'@param printLog logical
-#'@param printSquare logical
-#'@param printSQRT logical
-#'@param printEXP logical
-#'@return plot
+#'@param printLinear logical option to print a page of linear plots (default to TRUE)
+#'@param printLog logical option to print a page of log (base 10) plots (defaults to TRUE)
+#'@param printSquare logical option to print a page of squared plots (defaults to FALSE)
+#'@param printSQRT logical option to print a page of square root plots (defaults to FALSE)
+#'@param printEXP logical option to print a page of exponential plots (defaults to FALSE)
 #'@keywords qq
 #'@export
 #'@examples
-#'\dontrun{}
+#' DTComplete <- StLouisDT
+#' response <- "Ammonia.N"
+#' UV <- StLouisUV
+#' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
+#' DT <- na.omit(DT)
+#' plotQQTransforms(DT,response)
 plotQQTransforms <- function(localDT, responseVariable,printLinear=TRUE,printLog=TRUE,printSquare=FALSE,
                              printSQRT=FALSE,printEXP=FALSE){
   
