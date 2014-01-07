@@ -1,8 +1,11 @@
-#'externalStudentRes
-#'
 #'Compute internally Studentized residuals
 #'
-#'@param localDT DTframe that includes all response and predictor variables
+#'Compute internally Studentized residuals. The function can calculate multiple models, therefore 
+#'the model coefficients most be input as a named list (where the name is the response variable for 
+#'that model result). Residuals of censored values are calculated simply by the prediction minus detection limit.
+#'Predictions are calculated with the \code{censReg} function.
+#'
+#'@param localDT dataframe that includes all response and predictor variables
 #'@param modelCoefList list of model coefficients
 #'@param transformResponse string can be "normal" or "lognormal", perhaps try to generalize this more in future
 #'@return StRes.all
@@ -22,7 +25,7 @@
 #' names(modelCoef) <- c(dimnames(modelReturn$XLCAL)[[2]],"logSigma")
 #' modelCoefList <- list()
 #' modelCoefList[[rownames(attributes(modelReturn$terms)$factors)[1]]] <- modelCoef
-#' externalStudentRes(DT,modelCoefList)
+#' extStudent <- externalStudentRes(DT,modelCoefList)
 externalStudentRes <- function(localDT, modelCoefList,transformResponse="lognormal"){
   #Initialize needed vectors
   StRes.all.ext <- nrow(localDT)
