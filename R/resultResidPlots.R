@@ -1,6 +1,10 @@
-#'resultResidPlots
+#'Plots model summary plots using residuals
 #'
-#'Plots summary with residuals plots
+#'Plots a set of plots to summarize the model results and behavior. The first plot (A) is always observed
+#'versus predicted, the second (B) is residuals vs. predicted, the third (C) is residuals vs. time, and
+#'the fourth (D) is residual quantiles vs. theoretical quantiles. There are then individual plots for each
+#'prediction variable of residuals vs. prediction value. Residuals for censored values are calculated
+#'using the detection limit.
 #'
 #'@param localDT dataframe in wide format
 #'@param finalModel censReg model results
@@ -9,11 +13,10 @@
 #'@keywords scatterplot
 #'@export
 #'@examples
-#' DTComplete <- DTComplete
-#' UV <- UV
-#' QWcodes <- QWcodes
-#' siteINFO <- siteINFO
-#' response <- QWcodes$colName[1]
+#' DTComplete <- StLouisDT
+#' UV <- StLouisUV
+#' response <- "Ammonia.N"
+#' siteINFO <- StLouisInfo
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' kitchenSink <- createFullFormula(DT,response)
@@ -35,6 +38,7 @@ resultResidPlots <- function(localDT,finalModel,siteINFO){
   formulaForBestFit <- "pred ~ obs"
   logIndividual <- ""
   
+
   
   if ("lognormal" == distribution) {
     logPlot <- "xy"
@@ -96,6 +100,12 @@ resultResidPlots <- function(localDT,finalModel,siteINFO){
        ylim=c(yMin,max(df$obs)),xlim=c(xMin,max(df$obs)),log=logPlot)
   abline(lineFit, col="red")
   addLabel("A")
+  if (sum(finalModel$CENSFLAG) > 0){
+    cenValsX <- finalModel$YPRED[finalModel$CENSFLAG]
+    cenValsY <- responseValue[finalModel$CENSFLAG]
+    
+    segments(x0=cenValsX, y0=cenValsY, x1=cenValsX, y1=yMin*.001)
+  }
   
   #2:
   plot(df$pred, resid, ylab="Residuals",xlab=paste("Predicted ", responseVariable,sep=""),
