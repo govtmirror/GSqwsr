@@ -49,6 +49,7 @@ whatQW <- function(site, minCount=50, endDate="2013-01-01", startDate = "",
   
   if (nchar(endDate) > 0) QWcodes <- QWcodes[QWcodes$endDate > as.Date(endDate),]
   if (nchar(startDate) > 0) QWcodes <- QWcodes[QWcodes$startDate < as.Date(startDate),]
+  row.names(QWcodes) <- NULL
   
   return(QWcodes)
 }
