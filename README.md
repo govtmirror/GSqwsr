@@ -10,6 +10,10 @@ This software is provided "AS IS".
 Installation
 ------------
 
-	install.packages(c("latticeExtra","MASS"))
-	install.packages(c("dataRetrieval","USGSwsBase","USGSwsData","USGSwsGraphs","USGSwsStats","USGSwsQW"), repo="http://usgs-r.github.com")
+	install.packages(c("XML", "lubridate", "akima", "KernSmooth",
+		"leaps", "car", "mvtnorm", "digest","relimp", "BSDA", "RODBC",
+		"memoise","boot","survival","splines","RColorBrewer","lattice",
+		"MASS"),dependencies=TRUE)
+	install.packages(c("dataRetrieval","USGSwsBase","USGSwsData",
+		"USGSwsGraphs","USGSwsStats","USGSwsQW"), repo="http://usgs-r.github.com")
 	install.packages("USGSwsQWSR", repo="http://usgs-r.github.com")
