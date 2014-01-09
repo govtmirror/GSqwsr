@@ -15,7 +15,7 @@ mergeDatasets(localQW, localUV, QWcodes, max.diff = "2 hours")
   \item{QWcodes}{dataframe}
 
   \item{max.diff}{string default is "2 hours". See
-  \code{?mergeNearest} for more options.}
+  \link{mergeNearest} for more options.}
 }
 \value{
 retList list including the DT list and updated QWcodes
