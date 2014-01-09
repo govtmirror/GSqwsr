@@ -1,0 +1,29 @@
+\name{makeQWObjects}
+\alias{makeQWObjects}
+\title{Create QW dataframe from dataRetrieval output}
+\usage{
+makeQWObjects(df)
+}
+\arguments{
+  \item{df}{dataframe output from
+  \code{retrieveNWISqwData}}
+}
+\value{
+newdf dataframe
+}
+\description{
+Takes output from expanded \code{retrieveNWISqwData}, and
+turns the water quality data into qw object columns.
+}
+\examples{
+site <- "04193490"
+startDate <- "2010-01-01"
+endDate <- ""
+pCodes <- c("00940","00608","00613","00631","62855","00671","00665","80154","00618")
+rawQWData <- retrieveNWISqwData(site,pCodes,startDate,endDate,expanded=TRUE)
+QW <- makeQWObjects(rawQWData)
+}
+\keyword{NWIS}
+\keyword{data}
+\keyword{retrieval}
+
