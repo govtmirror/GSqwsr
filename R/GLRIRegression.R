@@ -22,6 +22,15 @@
 #' @keywords data, retrieval, regressions
 NULL
 
+#' Site List
+#'
+#' Site list as of May 8, 2013
+#'
+#' @name siteTable
+#' @docType data
+#' @keywords sites
+NULL
+
 #' StLouisUV example data
 #'
 #' Example UV data from St. Louis
