@@ -1,8 +1,7 @@
 %\VignetteIndexEntry{Introduction to the USGSwsQWSR package}
 %\VignetteEngine{knitr::knitr}
-%\VignetteDepends{USGSwsQW,latticeExtra,MASS}
+%\VignetteDepends{}
 %\VignetteSuggests{xtable}
-%\VignetteImports{quantreg}
 %\VignettePackage{USGSwsQWSR}
 
 \documentclass[a4paper,11pt]{article}
@@ -70,6 +69,7 @@ opts_chunk$set(highlight=TRUE, tidy=TRUE, keep.space=TRUE, keep.blank.space=FALS
 knit_hooks$set(inline = function(x) {
    if (is.numeric(x)) round(x, 3)})
 knit_hooks$set(crop = hook_pdfcrop)
+
 @
 
 
@@ -140,10 +140,89 @@ predictionPlot(UV,DT,modelReturn,siteINFO=siteINFO)
 \section{Workflow Details}
 \label{sec:details}
 %------------------------------------------------------------
+In this section, we will step through the basic workflow.
 
 %------------------------------------------------------------
 \subsection{Data Retrieval}
 %------------------------------------------------------------
+Data retrieval is currently supported by web service calls to the National Water Information Service (NWIS). The first step is to get the discrete sample data that the regressions are modeling. In this example, we will look at the St Louis River at Scanlon (USGS site ID 04024000). If we don't know the sample data that is available, we can use the whatQW function to discover that information. 
+
+<<openUSGSwsQWSR,echo=TRUE,eval=FALSE>>=
+library(USGSwsQWSR)
+@
+
+<<openUSGSwsQWSRHidden,echo=FALSE,eval=TRUE, message=FALSE>>=
+library(USGSwsQWSR)
+@
+
+
+<<whatQW,echo=TRUE,eval=TRUE>>=
+
+site <- "04024000"  
+QWcodes <- whatQW(site, minCount=20)
+head(QWcodes)
+@
+
+Most likely, there will be a known set of parameters that are to be modeled. If the parameter codes for these analytes are known, the data from NWIS can be accessed directly with the function importNWISqw. The following example shows the process, and then lists the column names returned in the QW dataframe.
+
+
+<<importNWISqw,echo=TRUE,eval=FALSE>>=
+pCodeQW <- c("00608","00613","00618","00631","00665",
+             "00671","00940","62855","80154")
+startDate <- "2011-03-17"
+endDate <- ""
+QW <- importNWISqw(site, params=pCodeQW, 
+                   begin.date=startDate, end.date=endDate)
+@
+
+<<importNWISqwHidden,echo=FALSE,eval=TRUE>>=
+pCodeQW <- c("00608","00613","00618","00631","00665",
+             "00671","00940","62855","80154")
+startDate <- "2011-04-22"
+endDate <- ""
+QW <- StLouisQW
+@
+
+<<qwColNames,echo=TRUE,eval=TRUE>>=
+names(QW)
+@
+
+
+This brings the data in automatically as a 'qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
+
+<<makeQWObjects,echo=TRUE,eval=FALSE>>=
+
+QWRaw <- retrieveNWISqwData(site,pCodeQW,startDate,
+                            endDate,expanded=TRUE)
+QW <- makeQWObjects(QWRaw)
+@
+
+Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the "uv" (unit value) data:
+
+<<getDataAvailability,echo=TRUE,eval=TRUE>>=
+UVcodes <- getDataAvailability(site)
+UVcodes <- UVcodes[UVcodes$service == "uv",]
+names(UVcodes)
+UVcodes$parameter_cd
+@
+
+Finally, the unit value data can be retrieved with the getMultipleUV function. Because of the potentially large amount of data being returned, the web service call is automatically split into individual parameter codes.
+
+<<getMultipleUV,echo=TRUE,eval=FALSE>>=
+UVpCodes <- c("00010","00060","00095","00300","00400","63680")
+UV <- getMultipleUV(site, startDate, endDate, UVpCodes)
+
+@
+
+<<getMultipleUVHidden,echo=FALSE,eval=TRUE>>=
+UVpCodes <- c("00010","00060","00095","00300","00400","63680")
+UV <- StLouisUV
+@
+
+<<uvColNames,echo=TRUE,eval=TRUE>>=
+names(UV)
+@
+
 
 %------------------------------------------------------------
 \subsection{Data Merging}
@@ -195,11 +274,13 @@ plotSteps
 Before installing USGSwsQWSR, the dependent packages must be first be installed:
 
 <<installFromCran,eval = FALSE>>=
-install.packages(c("XML", "lubridate", "akima", 
-                   "leaps", "car", "mvtnorm", 
-                   "relimp", "BSDA", "RODBC"), 
+install.packages(c("XML", "lubridate", "akima", "KernSmooth",
+                   "leaps", "car", "mvtnorm", "digest",
+                   "relimp", "BSDA", "RODBC","memoise",
+                   "boot","survival","splines","RColorBrewer",
+                   "lattice","MASS"), 
                  dependencies=TRUE)
-install.packages(c("USGSwsBase","USGSwsData",
+install.packages(c("USGSwsBase","USGSwsData","dataRetrieval",
                    "USGSwsGraphs","USGSwsStats",
                    "USGSwsQW","USGSwsQWSR"), repos="http://usgs-r.github.com")
 @

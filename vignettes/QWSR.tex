@@ -1,8 +1,7 @@
 %\VignetteIndexEntry{Introduction to the USGSwsQWSR package}
 %\VignetteEngine{knitr::knitr}
-%\VignetteDepends{USGSwsQW,latticeExtra,MASS}
+%\VignetteDepends{}
 %\VignetteSuggests{xtable}
-%\VignetteImports{quantreg}
 %\VignettePackage{USGSwsQWSR}
 
 \documentclass[a4paper,11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
@@ -185,10 +184,157 @@ The USGSwsQWSR package was designed to simplify the process of gathering water q
 \section{Workflow Details}
 \label{sec:details}
 %------------------------------------------------------------
+In this section, we will step through the basic workflow.
 
 %------------------------------------------------------------
 \subsection{Data Retrieval}
 %------------------------------------------------------------
+Data retrieval is currently supported by web service calls to the National Water Information Service (NWIS). The first step is to get the discrete sample data that the regressions are modeling. In this example, we will look at the St Louis River at Scanlon (USGS site ID 04024000). If we don't know the sample data that is available, we can use the whatQW function to discover that information. 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(USGSwsQWSR)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{site} \hlkwb{<-} \hlstr{"04024000"}
+\hlstd{QWcodes} \hlkwb{<-} \hlkwd{whatQW}\hlstd{(site,} \hlkwc{minCount}\hlstd{=}\hlnum{20}\hlstd{)}
+\hlkwd{head}\hlstd{(QWcodes)}
+\end{alltt}
+\begin{verbatim}
+   parameter_cd  startDate    endDate count service
+25        00010 1964-10-28 2013-12-30   265      qw
+26        00020 1974-10-30 2013-12-30   154      qw
+28        00025 1981-10-20 2013-12-30   135      qw
+32        00041 2010-10-07 2013-06-11    55      qw
+34        00055 2010-10-07 2013-04-27    35      qw
+37        00061 1960-07-28 2013-07-17   310      qw
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+Most likely, there will be a known set of parameters that are to be modeled. If the parameter codes for these analytes are known, the data from NWIS can be accessed directly with the function importNWISqw. The following example shows the process, and then lists the column names returned in the QW dataframe.
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{pCodeQW} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"00608"}\hlstd{,}\hlstr{"00613"}\hlstd{,}\hlstr{"00618"}\hlstd{,}\hlstr{"00631"}\hlstd{,}\hlstr{"00665"}\hlstd{,}
+             \hlstr{"00671"}\hlstd{,}\hlstr{"00940"}\hlstd{,}\hlstr{"62855"}\hlstd{,}\hlstr{"80154"}\hlstd{)}
+\hlstd{startDate} \hlkwb{<-} \hlstr{"2011-03-17"}
+\hlstd{endDate} \hlkwb{<-} \hlstr{""}
+\hlstd{QW} \hlkwb{<-} \hlkwd{importNWISqw}\hlstd{(site,} \hlkwc{params}\hlstd{=pCodeQW,}
+                   \hlkwc{begin.date}\hlstd{=startDate,} \hlkwc{end.date}\hlstd{=endDate)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{names}\hlstd{(QW)}
+\end{alltt}
+\begin{verbatim}
+ [1] "site_no"              "sample_dt"           
+ [3] "sample_tm"            "tzone_cd"            
+ [5] "medium_cd"            "Ammonia.N"           
+ [7] "Nitrite.N"            "Nitrate.N"           
+ [9] "NO2PlusNO3.N"         "Phosphorus_WW.P"     
+[11] "OrthoPhosphate.P"     "Chloride"            
+[13] "NitrogenTotal_WW.sum" "SuspSed"             
+[15] "datetime"            
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+
+This brings the data in automatically as a 'qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{QWRaw} \hlkwb{<-} \hlkwd{retrieveNWISqwData}\hlstd{(site,pCodeQW,startDate,}
+                            \hlstd{endDate,}\hlkwc{expanded}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\hlstd{QW} \hlkwb{<-} \hlkwd{makeQWObjects}\hlstd{(QWRaw)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the "uv" (unit value) data:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{UVcodes} \hlkwb{<-} \hlkwd{getDataAvailability}\hlstd{(site)}
+\hlstd{UVcodes} \hlkwb{<-} \hlstd{UVcodes[UVcodes}\hlopt{$}\hlstd{service} \hlopt{==} \hlstr{"uv"}\hlstd{,]}
+\hlkwd{names}\hlstd{(UVcodes)}
+\end{alltt}
+\begin{verbatim}
+ [1] "parameter_cd"       "statCd"            
+ [3] "startDate"          "endDate"           
+ [5] "count"              "service"           
+ [7] "parameter_group_nm" "parameter_nm"      
+ [9] "casrn"              "srsname"           
+[11] "parameter_units"   
+\end{verbatim}
+\begin{alltt}
+\hlstd{UVcodes}\hlopt{$}\hlstd{parameter_cd}
+\end{alltt}
+\begin{verbatim}
+[1] "00010" "00021" "00060" "00065" "00095" "00300" "00301"
+[8] "00400" "63680"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+Finally, the unit value data can be retrieved with the getMultipleUV function. Because of the potentially large amount of data being returned, the web service call is automatically split into individual parameter codes.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{UVpCodes} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"00010"}\hlstd{,}\hlstr{"00060"}\hlstd{,}\hlstr{"00095"}\hlstd{,}\hlstr{"00300"}\hlstd{,}\hlstr{"00400"}\hlstd{,}\hlstr{"63680"}\hlstd{)}
+\hlstd{UV} \hlkwb{<-} \hlkwd{getMultipleUV}\hlstd{(site, startDate, endDate, UVpCodes)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{names}\hlstd{(UV)}
+\end{alltt}
+\begin{verbatim}
+ [1] "agency_cd"   "site_no"     "datetime"    "tz_cd"      
+ [5] "Wtemp"       "Wtemp_cd"    "Flow"        "Flow_cd"    
+ [9] "SpecCond"    "SpecCond_cd" "DO"          "DO_cd"      
+[13] "pH"          "pH_cd"       "Turb"        "Turb_cd"    
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
 
 %------------------------------------------------------------
 \subsection{Data Merging}
@@ -252,11 +398,13 @@ Before installing USGSwsQWSR, the dependent packages must be first be installed:
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"XML"}\hlstd{,} \hlstr{"lubridate"}\hlstd{,} \hlstr{"akima"}\hlstd{,}
-                   \hlstr{"leaps"}\hlstd{,} \hlstr{"car"}\hlstd{,} \hlstr{"mvtnorm"}\hlstd{,}
-                   \hlstr{"relimp"}\hlstd{,} \hlstr{"BSDA"}\hlstd{,} \hlstr{"RODBC"}\hlstd{),}
+\hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"XML"}\hlstd{,} \hlstr{"lubridate"}\hlstd{,} \hlstr{"akima"}\hlstd{,} \hlstr{"KernSmooth"}\hlstd{,}
+                   \hlstr{"leaps"}\hlstd{,} \hlstr{"car"}\hlstd{,} \hlstr{"mvtnorm"}\hlstd{,} \hlstr{"digest"}\hlstd{,}
+                   \hlstr{"relimp"}\hlstd{,} \hlstr{"BSDA"}\hlstd{,} \hlstr{"RODBC"}\hlstd{,}\hlstr{"memoise"}\hlstd{,}
+                   \hlstr{"boot"}\hlstd{,}\hlstr{"survival"}\hlstd{,}\hlstr{"splines"}\hlstd{,}\hlstr{"RColorBrewer"}\hlstd{,}
+                   \hlstr{"lattice"}\hlstd{,}\hlstr{"MASS"}\hlstd{),}
                  \hlkwc{dependencies}\hlstd{=}\hlnum{TRUE}\hlstd{)}
-\hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"USGSwsBase"}\hlstd{,}\hlstr{"USGSwsData"}\hlstd{,}
+\hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"USGSwsBase"}\hlstd{,}\hlstr{"USGSwsData"}\hlstd{,}\hlstr{"dataRetrieval"}\hlstd{,}
                    \hlstr{"USGSwsGraphs"}\hlstd{,}\hlstr{"USGSwsStats"}\hlstd{,}
                    \hlstr{"USGSwsQW"}\hlstd{,}\hlstr{"USGSwsQWSR"}\hlstd{),} \hlkwc{repos}\hlstd{=}\hlstr{"http://usgs-r.github.com"}\hlstd{)}
 \end{alltt}
