@@ -1,12 +1,14 @@
 \select@language {american}
-\contentsline {section}{\numberline {1}Introduction to USGSwsQWSR package}{1}{section.1}
+\contentsline {section}{\numberline {1}Introduction to USGSwsQWSR package}{2}{section.1}
 \contentsline {section}{\numberline {2}General Workflow}{2}{section.2}
 \contentsline {section}{\numberline {3}Workflow Details}{3}{section.3}
 \contentsline {subsection}{\numberline {3.1}Data Retrieval}{3}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Data Merging}{5}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}Data Investigation}{5}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}Stepwise Regression}{5}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Model Analysis}{5}{subsection.3.5}
-\contentsline {section}{\numberline {A}Getting Started in R}{6}{appendix.A}
-\contentsline {subsection}{\numberline {A.1}New to R?}{6}{subsection.A.1}
-\contentsline {subsection}{\numberline {A.2}R User: Installing QWSR}{6}{subsection.A.2}
+\contentsline {subsubsection}{\numberline {3.3.1}Narrow down investigation}{5}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}Plot variables}{6}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}Stepwise Regression}{11}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Model Analysis}{11}{subsection.3.5}
+\contentsline {section}{\numberline {A}Getting Started in R}{12}{appendix.A}
+\contentsline {subsection}{\numberline {A.1}New to R?}{12}{subsection.A.1}
+\contentsline {subsection}{\numberline {A.2}R User: Installing QWSR}{12}{subsection.A.2}

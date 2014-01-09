@@ -264,7 +264,7 @@ Most likely, there will be a known set of parameters that are to be modeled. If 
 
 
 
-This brings the data in automatically as a 'qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
+This brings the data in automatically as a `qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -277,7 +277,7 @@ This brings the data in automatically as a 'qw' object. This means that censorin
 \end{knitrout}
 
 
-Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the "uv" (unit value) data:
+Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the `uv' (unit value) data:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -339,11 +339,111 @@ Finally, the unit value data can be retrieved with the getMultipleUV function. B
 %------------------------------------------------------------
 \subsection{Data Merging}
 %------------------------------------------------------------
+We now need to merge the sample and continuous data into one dataframe. This is accomplished using the mergeDatasets function.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{mergeReturn} \hlkwb{<-} \hlkwd{mergeDatasets}\hlstd{(QW, UV, QWcodes)}
+\hlstd{DTComplete} \hlkwb{<-} \hlstd{mergeReturn}\hlopt{$}\hlstd{DTComplete}
+\hlstd{QWcodes} \hlkwb{<-} \hlstd{mergeReturn}\hlopt{$}\hlstd{QWcodes}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+The dataframe DTComplete contains a column of each of the discrete samples, and a column of the nearest (temporaly) unit value data. The function mergeDatasets has an argument called `max.diff'. The default is set to `2 hours', meaning that if the sample and continious data timestamps do not match, the merge will take the closest continious data within 2 hours. This value can be changed, see ?mergeNearest for more options.
 
 %------------------------------------------------------------
 \subsection{Data Investigation}
 %------------------------------------------------------------
 
+%------------------------------------------------------------
+\subsubsection{Narrow down investigation}
+%------------------------------------------------------------
+
+
+We now want to narrow our investigation down to one analyte. Let us look at Chloride. First we will want a dataframe DT with just chloride and the unit values. We will call these the `prediciton values' because they will eventually be used to predict chloride.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{investigateResponse} \hlkwb{<-} \hlstr{"Chloride"}
+\hlstd{predictionVariables} \hlkwb{<-} \hlkwd{getPredictVariables}\hlstd{(}\hlkwd{names}\hlstd{(UV))}
+
+\hlstd{DT} \hlkwb{<-} \hlstd{DTComplete[}\hlkwd{c}\hlstd{(investigateResponse,}
+                   \hlstd{predictionVariables,}
+                   \hlstr{"decYear"}\hlstd{,}\hlstr{"sinDY"}\hlstd{,}\hlstr{"cosDY"}\hlstd{,}\hlstr{"datetime"}\hlstd{)]}
+
+\hlkwd{names}\hlstd{(DT)}
+\end{alltt}
+\begin{verbatim}
+ [1] "Chloride" "Wtemp"    "Flow"     "SpecCond" "DO"      
+ [6] "pH"       "Turb"     "decYear"  "sinDY"    "cosDY"   
+[11] "datetime"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+For the regression, there can be no NA values in any of the columns. There are many ways in R to deal with this requirement. The easiest way to do it is remove any row that has any NA. This can be done as follows:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{DT} \hlkwb{<-} \hlkwd{na.omit}\hlstd{(DT)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+There may be other situations where you want to remove a column that contains the majority of the missing data.
+
+%------------------------------------------------------------
+\subsubsection{Plot variables}
+%------------------------------------------------------------
+There are a few tools included in this package to explore the data before performing the regression.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plotQQTransforms}\hlstd{(DT,investigateResponse)}
+\end{alltt}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plotQQTransforms1} \caption[plotQQTransforms]{plotQQTransforms\label{fig:plotQQTransforms1}}
+\end{figure}
+
+\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plotQQTransforms2} \caption[plotQQTransforms]{plotQQTransforms\label{fig:plotQQTransforms2}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{predictVariableScatterPlots}\hlstd{(DT,investigateResponse)}
+\end{alltt}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/predictVariableScatterPlots1} \caption[predictVariableScatterPlots]{predictVariableScatterPlots\label{fig:predictVariableScatterPlots1}}
+\end{figure}
+
+\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/predictVariableScatterPlots2} \caption[predictVariableScatterPlots]{predictVariableScatterPlots\label{fig:predictVariableScatterPlots2}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\FloatBarrier
 %------------------------------------------------------------
 \subsection{Stepwise Regression}
 %------------------------------------------------------------

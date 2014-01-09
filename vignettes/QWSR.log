@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.6)  9 JAN 2014 14:05
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.6)  9 JAN 2014 14:48
 entering extended mode
 **QWSR.tex
 (D:\LADData\RCode\GLRIRegression\vignettes\QWSR.tex
@@ -496,7 +496,6 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 2.
 )
 \tf@toc=\write4
-Package color Info: Redefining color shadecolor on input line 130.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
@@ -504,6 +503,7 @@ Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 [1
 
 {C:/Users/ldecicco/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Package color Info: Redefining color shadecolor on input line 130.
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 131.
 
 
@@ -532,64 +532,142 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 Package color Info: Redefining color shadecolor on input line 195.
 Package color Info: Redefining color shadecolor on input line 208.
 Package color Info: Redefining color shadecolor on input line 231.
-Package color Info: Redefining color shadecolor on input line 248.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [3]
+Package color Info: Redefining color shadecolor on input line 248.
 Package color Info: Redefining color shadecolor on input line 270.
 Package color Info: Redefining color shadecolor on input line 283.
-Package color Info: Redefining color shadecolor on input line 311.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [4]
+Package color Info: Redefining color shadecolor on input line 311.
 Package color Info: Redefining color shadecolor on input line 324.
+Package color Info: Redefining color shadecolor on input line 345.
+Package color Info: Redefining color shadecolor on input line 369.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [5]
-Package color Info: Redefining color shadecolor on input line 374.
-Package color Info: Redefining color shadecolor on input line 385.
-Package color Info: Redefining color shadecolor on input line 399.
+Package color Info: Redefining color shadecolor on input line 392.
+Package color Info: Redefining color shadecolor on input line 408.
 
-Overfull \hbox (64.3856pt too wide) in paragraph at lines 409--409
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 412.
+
+<figure/plotQQTransforms1.pdf, id=98, 505.89pt x 505.89pt>
+File: figure/plotQQTransforms1.pdf Graphic file (type pdf)
+
+<use figure/plotQQTransforms1.pdf>
+Package pdftex.def Info: figure/plotQQTransforms1.pdf used on input line 414.
+(pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 417.
+
+<figure/plotQQTransforms2.pdf, id=99, 505.89pt x 505.89pt>
+File: figure/plotQQTransforms2.pdf Graphic file (type pdf)
+
+<use figure/plotQQTransforms2.pdf>
+Package pdftex.def Info: figure/plotQQTransforms2.pdf used on input line 419.
+(pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
+Package color Info: Redefining color shadecolor on input line 428.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 432.
+
+<figure/predictVariableScatterPlots1.pdf, id=100, 505.89pt x 505.89pt>
+File: figure/predictVariableScatterPlots1.pdf Graphic file (type pdf)
+
+<use figure/predictVariableScatterPlots1.pdf>
+Package pdftex.def Info: figure/predictVariableScatterPlots1.pdf used on input 
+line 434.
+(pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 437.
+
+<figure/predictVariableScatterPlots2.pdf, id=101, 505.89pt x 505.89pt>
+File: figure/predictVariableScatterPlots2.pdf Graphic file (type pdf)
+
+<use figure/predictVariableScatterPlots2.pdf>
+Package pdftex.def Info: figure/predictVariableScatterPlots2.pdf used on input 
+line 439.
+(pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
+
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[6]
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[7 <D:/LADData/RCode/GLRIRegression/vignettes/figure/plotQQTransforms1.pdf>]
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[8 <D:/LADData/RCode/GLRIRegression/vignettes/figure/plotQQTransforms2.pdf>]
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[9 <D:/LADData/RCode/GLRIRegression/vignettes/figure/predictVariableScatterPlot
+s1.pdf>]
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[10 <D:/LADData/RCode/GLRIRegression/vignettes/figure/predictVariableScatterPlo
+ts2.pdf>]
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[11]
+Package color Info: Redefining color shadecolor on input line 474.
+Package color Info: Redefining color shadecolor on input line 485.
+Package color Info: Redefining color shadecolor on input line 499.
+
+Overfull \hbox (64.3856pt too wide) in paragraph at lines 509--509
 []                   []\OT1/pcr/m/n/10.95 "USGSwsQW"[][],[][]"USGSwsQWSR"[][]),
 [] []repos[][]=[][]"http://usgs-r.github.com"[][])[][] 
  []
 
-Package color Info: Redefining color shadecolor on input line 418.
+Package color Info: Redefining color shadecolor on input line 518.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
-[6
+[12
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 429.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 529.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
-[7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 429.
+[13]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 529.
  (D:\LADData\RCode\GLRIRegression\vignettes\QWSR.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 429.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 429.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 529.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 529.
 Package rerunfilecheck Info: File `QWSR.out' has not changed.
-(rerunfilecheck)             Checksum: A19D8D2D3A682D5A6CEF035378988F48;694.
+(rerunfilecheck)             Checksum: 03D74B2EC31D25CABE13E39CB35F1D6F;855.
  ) 
 Here is how much of TeX's memory you used:
- 8085 strings out of 494045
- 120587 string characters out of 3145961
- 209196 words of memory out of 3000000
- 11239 multiletter control sequences out of 15000+200000
+ 8129 strings out of 494045
+ 121688 string characters out of 3145961
+ 211408 words of memory out of 3000000
+ 11265 multiletter control sequences out of 15000+200000
  26693 words of font info for 60 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 44i,5n,42p,422b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,6n,42p,438b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files (
 x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x86)/MiKT
@@ -597,9 +675,9 @@ eX 2.9/fonts/type1/urw/courier/ucrro8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
 onts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/
 urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on QWSR.pdf (7 pages, 105436 bytes).
+Output written on QWSR.pdf (13 pages, 241159 bytes).
 PDF statistics:
- 127 PDF objects out of 1000 (max. 8388607)
- 20 named destinations out of 1000 (max. 500000)
- 89 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 194 PDF objects out of 1000 (max. 8388607)
+ 32 named destinations out of 1000 (max. 500000)
+ 125 words of extra memory for PDF output out of 10000 (max. 10000000)
 

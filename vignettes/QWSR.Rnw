@@ -188,7 +188,7 @@ names(QW)
 @
 
 
-This brings the data in automatically as a 'qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
+This brings the data in automatically as a `qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
 
 <<makeQWObjects,echo=TRUE,eval=FALSE>>=
 
@@ -197,7 +197,7 @@ QWRaw <- retrieveNWISqwData(site,pCodeQW,startDate,
 QW <- makeQWObjects(QWRaw)
 @
 
-Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the "uv" (unit value) data:
+Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the `uv' (unit value) data:
 
 <<getDataAvailability,echo=TRUE,eval=TRUE>>=
 UVcodes <- getDataAvailability(site)
@@ -227,11 +227,61 @@ names(UV)
 %------------------------------------------------------------
 \subsection{Data Merging}
 %------------------------------------------------------------
+We now need to merge the sample and continuous data into one dataframe. This is accomplished using the mergeDatasets function.
+
+<<mergeDatasets,echo=TRUE,eval=TRUE>>=
+mergeReturn <- mergeDatasets(QW, UV, QWcodes)
+DTComplete <- mergeReturn$DTComplete
+QWcodes <- mergeReturn$QWcodes
+@
+
+The dataframe DTComplete contains a column of each of the discrete samples, and a column of the nearest (temporaly) unit value data. The function mergeDatasets has an argument called `max.diff'. The default is set to `2 hours', meaning that if the sample and continious data timestamps do not match, the merge will take the closest continious data within 2 hours. This value can be changed, see ?mergeNearest for more options.
 
 %------------------------------------------------------------
 \subsection{Data Investigation}
 %------------------------------------------------------------
 
+%------------------------------------------------------------
+\subsubsection{Narrow down investigation}
+%------------------------------------------------------------
+
+
+We now want to narrow our investigation down to one analyte. Let us look at Chloride. First we will want a dataframe DT with just chloride and the unit values. We will call these the `prediciton values' because they will eventually be used to predict chloride.
+
+<<getDT,echo=TRUE,eval=TRUE>>=
+investigateResponse <- "Chloride"
+predictionVariables <- getPredictVariables(names(UV))
+
+DT <- DTComplete[c(investigateResponse,
+                   predictionVariables, 
+                   "decYear","sinDY","cosDY","datetime")]
+
+names(DT)
+@
+
+For the regression, there can be no NA values in any of the columns. There are many ways in R to deal with this requirement. The easiest way to do it is remove any row that has any NA. This can be done as follows:
+
+<<rmNADT,echo=TRUE,eval=TRUE>>=
+DT <- na.omit(DT)
+@
+
+There may be other situations where you want to remove a column that contains the majority of the missing data.
+
+%------------------------------------------------------------
+\subsubsection{Plot variables}
+%------------------------------------------------------------
+There are a few tools included in this package to explore the data before performing the regression.
+
+<<plotQQTransforms,echo=TRUE,eval=TRUE,fig.cap="plotQQTransforms">>=
+plotQQTransforms(DT,investigateResponse)
+@
+
+
+<<predictVariableScatterPlots,echo=TRUE,eval=TRUE,fig.cap="predictVariableScatterPlots", message=FALSE>>=
+predictVariableScatterPlots(DT,investigateResponse)
+@
+
+\FloatBarrier
 %------------------------------------------------------------
 \subsection{Stepwise Regression}
 %------------------------------------------------------------
