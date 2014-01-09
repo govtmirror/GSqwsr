@@ -27,7 +27,7 @@ plotQQTransforms(localDT, responseVariable, printLinear = TRUE,
   exponential plots (defaults to FALSE)}
 }
 \description{
-Plots Q-Q of predict variables.See \code{?qqmath} for more
+Plots Q-Q of predict variables.See \link{qqmath} for more
 information on q-q (quantile-quantile) plots.
 }
 \examples{
