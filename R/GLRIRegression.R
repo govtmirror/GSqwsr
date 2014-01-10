@@ -1,7 +1,7 @@
 #' Surrogate regression package
 #'
 #' \tabular{ll}{
-#' Package: \tab USGSwsQWSR\cr
+#' Package: \tab GSqwsr\cr
 #' Type: \tab Package\cr
 #' Version: \tab 1.1.1\cr
 #' Date: \tab 2014-01-07\cr
@@ -16,7 +16,7 @@
 #'
 #' Collection of functions to simplify data retrieval, model creation, and model analysis.
 #'
-#' @name USGSwsQWSR-package
+#' @name GSqwsr-package
 #' @docType package
 #' @author Laura De Cicco \email{ldecicco@@usgs.gov}, Steve Corsi \email{srcorsi@@usgs.gov}
 #' @keywords data, retrieval, regressions

@@ -1,8 +1,8 @@
-%\VignetteIndexEntry{Introduction to the USGSwsQWSR package}
+%\VignetteIndexEntry{Introduction to the GSqwsr package}
 %\VignetteEngine{knitr::knitr}
 %\VignetteDepends{}
 %\VignetteSuggests{xtable}
-%\VignettePackage{USGSwsQWSR}
+%\VignettePackage{GSqwsr}
 
 \documentclass[a4paper,11pt]{article}
 
@@ -56,7 +56,7 @@ library(knitr)
 
 
 %------------------------------------------------------------
-\title{The USGSwsQWSR R package}
+\title{The GSqwsr R package}
 %------------------------------------------------------------
 \author[1]{Laura De Cicco}
 \author[1]{Steve Corsi}
@@ -77,9 +77,9 @@ knit_hooks$set(crop = hook_pdfcrop)
 \tableofcontents
 
 %------------------------------------------------------------
-\section{Introduction to USGSwsQWSR package}
+\section{Introduction to GSqwsr package}
 %------------------------------------------------------------ 
-The USGSwsQWSR package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
+The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
 
 %------------------------------------------------------------
 \section{General Workflow}
@@ -87,7 +87,7 @@ The USGSwsQWSR package was designed to simplify the process of gathering water q
 %------------------------------------------------------------ 
 
 <<start,eval = FALSE>>=
-library("USGSwsQWSR")
+library("GSqwsr")
 
 #Sample data included with package:
 DTComplete <- StLouisDT
@@ -147,12 +147,12 @@ In this section, we will step through the basic workflow.
 %------------------------------------------------------------
 Data retrieval is currently supported by web service calls to the National Water Information Service (NWIS). The first step is to get the discrete sample data that the regressions are modeling. In this example, we will look at the St Louis River at Scanlon (USGS site ID 04024000). If we don't know the sample data that is available, we can use the whatQW function to discover that information. 
 
-<<openUSGSwsQWSR,echo=TRUE,eval=FALSE>>=
-library(USGSwsQWSR)
+<<openGSqwsr,echo=TRUE,eval=FALSE>>=
+library(GSqwsr)
 @
 
-<<openUSGSwsQWSRHidden,echo=FALSE,eval=TRUE, message=FALSE>>=
-library(USGSwsQWSR)
+<<openGSqwsrHidden,echo=FALSE,eval=TRUE, message=FALSE>>=
+library(GSqwsr)
 @
 
 
@@ -309,7 +309,7 @@ There are many options for running and editing R code, one nice environment to l
 At any time, you can get information about any function in R by typing a question mark before the functions name.  This will open a file (in RStudio, in the Help window) that describes the function, the required arguments, and provides working examples.
 
 <<helpFunc,eval = FALSE>>=
-library(USGSwsQWSR)
+library(GSqwsr)
 ?plotSteps
 @
 
@@ -321,7 +321,7 @@ plotSteps
 %------------------------------------------------------------
 \subsection{R User: Installing QWSR}
 %------------------------------------------------------------ 
-Before installing USGSwsQWSR, the dependent packages must be first be installed:
+Before installing GSqwsr, the dependent packages must be first be installed:
 
 <<installFromCran,eval = FALSE>>=
 install.packages(c("XML", "lubridate", "akima", "KernSmooth",
@@ -332,13 +332,13 @@ install.packages(c("XML", "lubridate", "akima", "KernSmooth",
                  dependencies=TRUE)
 install.packages(c("USGSwsBase","USGSwsData","dataRetrieval",
                    "USGSwsGraphs","USGSwsStats",
-                   "USGSwsQW","USGSwsQWSR"), repos="http://usgs-r.github.com")
+                   "USGSwsQW","GSqwsr"), repos="http://usgs-r.github.com")
 @
 
 
 After installing the package, you need to open the library each time you re-start R.  This is done with the simple command:
 <<openLibraryTest, eval=FALSE>>=
-library(USGSwsQWSR)
+library(GSqwsr)
 @
 
 
