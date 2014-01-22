@@ -1,5 +1,5 @@
-surrogateRegression: USGSwsQWSR
-===============================
+surrogateRegression: GSqwsr
+===========================
 
 Disclaimer
 ----------
@@ -16,4 +16,4 @@ Installation
 		"MASS"),dependencies=TRUE)
 	install.packages(c("dataRetrieval","USGSwsBase","USGSwsData",
 		"USGSwsGraphs","USGSwsStats","USGSwsQW"), repo="http://usgs-r.github.com")
-	install.packages("USGSwsQWSR", repo="http://usgs-r.github.com")
+	install.packages("GSqwsr", repo="http://usgs-r.github.com")
