@@ -1,8 +1,8 @@
-%\VignetteIndexEntry{Introduction to the USGSwsQWSR package}
+%\VignetteIndexEntry{Introduction to the GSqwsr package}
 %\VignetteEngine{knitr::knitr}
 %\VignetteDepends{}
 %\VignetteSuggests{xtable}
-%\VignettePackage{USGSwsQWSR}
+%\VignettePackage{GSqwsr}
 
 \documentclass[a4paper,11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
@@ -101,7 +101,7 @@
 
 
 %------------------------------------------------------------
-\title{The USGSwsQWSR R package}
+\title{The GSqwsr R package}
 %------------------------------------------------------------
 \author[1]{Laura De Cicco}
 \author[1]{Steve Corsi}
@@ -117,9 +117,9 @@
 \tableofcontents
 
 %------------------------------------------------------------
-\section{Introduction to USGSwsQWSR package}
+\section{Introduction to GSqwsr package}
 %------------------------------------------------------------ 
-The USGSwsQWSR package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
+The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
 
 %------------------------------------------------------------
 \section{General Workflow}
@@ -129,7 +129,7 @@ The USGSwsQWSR package was designed to simplify the process of gathering water q
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{library}\hlstd{(}\hlstr{"USGSwsQWSR"}\hlstd{)}
+\hlkwd{library}\hlstd{(}\hlstr{"GSqwsr"}\hlstd{)}
 
 \hlcom{#Sample data included with package:}
 \hlstd{DTComplete} \hlkwb{<-} \hlstd{StLouisDT}
@@ -161,7 +161,7 @@ The USGSwsQWSR package was designed to simplify the process of gathering water q
                                \hlstd{transformResponse)}
 
 \hlstd{steps} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{steps}
-\hlstd{modelResult} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{modelStuff}
+\hlstd{modelResult} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{modelInformation}
 \hlstd{modelReturn} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{DT.mod}
 
 \hlcom{# Analyze steps found:}
@@ -194,7 +194,7 @@ Data retrieval is currently supported by web service calls to the National Water
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{library}\hlstd{(USGSwsQWSR)}
+\hlkwd{library}\hlstd{(GSqwsr)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -212,13 +212,13 @@ Data retrieval is currently supported by web service calls to the National Water
 \hlkwd{head}\hlstd{(QWcodes)}
 \end{alltt}
 \begin{verbatim}
-   parameter_cd  startDate    endDate count service
-25        00010 1964-10-28 2013-12-30   265      qw
-26        00020 1974-10-30 2013-12-30   154      qw
-28        00025 1981-10-20 2013-12-30   135      qw
-32        00041 2010-10-07 2013-06-11    55      qw
-34        00055 2010-10-07 2013-04-27    35      qw
-37        00061 1960-07-28 2013-07-17   310      qw
+  parameter_cd  startDate    endDate count service
+1        00010 1964-10-28 2014-01-21   266      qw
+2        00020 1974-10-30 2014-01-21   155      qw
+3        00025 1981-10-20 2014-01-21   136      qw
+4        00041 2010-10-07 2013-06-11    55      qw
+5        00055 2010-10-07 2013-04-27    35      qw
+6        00061 1960-07-28 2013-07-17   310      qw
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -447,10 +447,312 @@ There are a few tools included in this package to explore the data before perfor
 %------------------------------------------------------------
 \subsection{Stepwise Regression}
 %------------------------------------------------------------
+We are ready to perform a stepwise regression of the data to find the most significant variables to use in the model. This is accomlished with the prelimModelDev function. There are several inputs to this function. DT is the dataframe with all the predictor variables as well as the response we are investigating. We also need to define an upper bound for the stepwise regression to test. This is an equation with the most predictor variables, along with their transforms. If we want to use all possible variables, and all available transforms, we can use the equation createFullFormula (continuing with our Chloride example):
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{upperBoundFormula} \hlkwb{<-} \hlkwd{createFullFormula}\hlstd{(DT,investigateResponse)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+[1] "Wtemp + Flow + SpecCond + DO + pH + Turb + sinDY + cosDY + "
+[1] "log(Flow) + log(SpecCond) + log(DO) + log(Turb)"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+The function will check if any data in DT has less than or equal to zero values. If so, a log transform is not included.
+
+Now to use the stepwise regression within the prelimModelDev function:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{transformResponse} \hlkwb{<-} \hlstr{"lognormal"}
+
+\hlstd{returnPrelim} \hlkwb{<-} \hlkwd{prelimModelDev}\hlstd{(DT,}
+                 \hlstd{investigateResponse,}
+                 \hlstd{upperBoundFormula,}
+                 \hlstr{"BIC"}\hlstd{,} \hlcom{#Other option is "AIC"}
+                 \hlstd{transformResponse)}
+\end{alltt}
+\begin{verbatim}
+Start:  AIC=56.2
+Chloride ~ 1
+
+                Df   AIC
++ log(SpecCond)  1 -11.6
++ Flow           1   1.6
++ SpecCond       1   4.7
++ Turb           1   4.8
++ pH             1   7.0
++ log(Turb)      1  15.6
++ log(Flow)      1  22.5
++ cosDY          1  38.6
++ Wtemp          1  43.8
++ DO             1  53.5
++ log(DO)        1  55.2
+<none>              56.2
++ sinDY          1  60.5
+
+Step:  AIC=-11.56
+Chloride ~ log(SpecCond)
+
+                Df   AIC
++ sinDY          1 -60.6
++ DO             1 -30.5
++ Wtemp          1 -29.4
++ log(DO)        1 -29.4
++ Turb           1 -21.2
++ SpecCond       1 -18.8
++ Flow           1 -16.4
++ pH             1 -15.3
+<none>             -11.6
++ log(Flow)      1  -9.6
++ log(Turb)      1  -9.2
++ cosDY          1  -8.6
+- log(SpecCond)  1  56.2
+
+Step:  AIC=-60.59
+Chloride ~ log(SpecCond) + sinDY
+
+                Df   AIC
++ log(Turb)      1 -62.7
++ pH             1 -61.5
++ SpecCond       1 -60.9
++ log(Flow)      1 -60.6
+<none>             -60.6
++ cosDY          1 -60.4
++ Turb           1 -59.7
++ Flow           1 -59.0
++ DO             1 -57.0
++ log(DO)        1 -56.7
++ Wtemp          1 -56.3
+- sinDY          1 -11.6
+- log(SpecCond)  1  60.5
+
+Step:  AIC=-62.74
+Chloride ~ log(SpecCond) + sinDY + log(Turb)
+
+                Df   AIC
++ Turb           1 -89.0
++ Flow           1 -73.8
++ SpecCond       1 -67.6
++ cosDY          1 -64.2
++ pH             1 -63.2
+<none>             -62.7
+- log(Turb)      1 -60.6
++ Wtemp          1 -59.3
++ log(Flow)      1 -58.6
++ log(DO)        1 -58.6
++ DO             1 -58.5
+- sinDY          1  -9.2
+- log(SpecCond)  1  19.1
+
+Step:  AIC=-89.02
+Chloride ~ log(SpecCond) + sinDY + log(Turb) + Turb
+
+                Df   AIC
+<none>             -89.0
++ pH             1 -86.2
++ cosDY          1 -85.7
++ Flow           1 -84.8
++ SpecCond       1 -84.8
++ log(Flow)      1 -84.8
++ Wtemp          1 -84.8
++ DO             1 -84.7
++ log(DO)        1 -84.7
+- Turb           1 -62.7
+- log(Turb)      1 -59.7
+- sinDY          1 -20.9
+- log(SpecCond)  1  11.5
+Analyzing steps (total= 5 ): 2 
+3 
+4 
+5 
+\end{verbatim}
+\begin{alltt}
+\hlstd{steps} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{steps}
+\hlstd{modelResult} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{modelInformation}
+\hlstd{modelReturn} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{DT.mod}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+The output during the function shows the steps that the stepwise regression determined were ideal. 
+\FloatBarrier
+
+%------------------------------------------------------------
+\subsection{Stepwise Regression Analysis}
+%------------------------------------------------------------
+It might be a good idea here to verify that the results from the stepwise regression are indeed what you want. The process can be observed using two functions: plotSteps and analyzeSteps.
+
+\FloatBarrier
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{siteINFO} \hlkwb{<-} \hlkwd{getSiteFileData}\hlstd{(site,} \hlkwc{interactive}\hlstd{=}\hlnum{FALSE}\hlstd{)}
+\hlkwd{analyzeSteps}\hlstd{(steps, investigateResponse,siteINFO)}
+\end{alltt}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/analyzeSteps} \caption[analyzeSteps]{analyzeSteps\label{fig:analyzeSteps}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\FloatBarrier
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plotSteps}\hlstd{(steps,DT,transformResponse)}
+\end{alltt}
+\begin{verbatim}
+Chloride ~  log(SpecCond) 
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plotSteps1} \caption[plotSteps]{plotSteps\label{fig:plotSteps1}}
+\end{figure}
+
+\begin{kframe}\begin{verbatim}
+Chloride ~  log(SpecCond) + sinDY 
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plotSteps2} \caption[plotSteps]{plotSteps\label{fig:plotSteps2}}
+\end{figure}
+
+\begin{kframe}\begin{verbatim}
+Chloride ~  log(SpecCond) + sinDY + log(Turb) 
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plotSteps3} \caption[plotSteps]{plotSteps\label{fig:plotSteps3}}
+\end{figure}
+
+\begin{kframe}\begin{verbatim}
+Chloride ~  log(SpecCond) + sinDY + log(Turb) + Turb 
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plotSteps4} \caption[plotSteps]{plotSteps\label{fig:plotSteps4}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\FloatBarrier
 %------------------------------------------------------------
 \subsection{Model Analysis}
 %------------------------------------------------------------
+Finally, the package offers several ways to analyze the model results.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{resultPlots}\hlstd{(DT,modelReturn,siteINFO)}
+\end{alltt}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/resultPlots} \caption[resultPlots]{resultPlots\label{fig:resultPlots}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\FloatBarrier
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{resultResidPlots}\hlstd{(DT,modelReturn,siteINFO)}
+\end{alltt}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/resultResidPlots} \caption[resultResidPlots]{resultResidPlots\label{fig:resultResidPlots}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\FloatBarrier
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{predictionPlot}\hlstd{(UV,DT,modelReturn,}\hlkwc{siteINFO}\hlstd{=siteINFO)}
+\end{alltt}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/predictionPlot} \caption[predictionPlot]{predictionPlot\label{fig:predictionPlot}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\FloatBarrier
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{summaryPrintout}\hlstd{(modelReturn, siteINFO,} \hlkwc{saveOutput}\hlstd{=}\hlnum{FALSE}\hlstd{,fileName)}
+\end{alltt}
+\begin{verbatim}
+Chloride  at  St. Louis River At Scanlon, Mn  ( 04024000 )
+Number of observations:  76 
+Distribution:  lognormal 
+Method:  AMLE 
+Degrees of freedom:  12 
+RMSE:  0.1175 
+RSQ:  88.22 
+Number of censored values:  0 
+Chloride ~ (Intercept) + log(SpecCond) + sinDY + log(Turb) + Turb 
+
+           Term Coefficient StdError pValue  StCoef
+1   (Intercept)      -5.328    0.507      0 -10.507
+2 log(SpecCond)       1.327    0.091      0  14.532
+3         sinDY       0.286    0.027      0  10.642
+4     log(Turb)       0.210    0.033      0   6.287
+5          Turb      -0.011    0.002      0  -5.934
+6      logSigma       0.014    0.002      0   6.245
+
+Correlation matrix of coefficients: 
+              (Intercept) log(SpecCond)   sinDY log(Turb)
+(Intercept)        1.0000       -0.9973 -0.6424   -0.6119
+log(SpecCond)     -0.9973        1.0000  0.6432    0.5596
+sinDY             -0.6424        0.6432  1.0000    0.3089
+log(Turb)         -0.6119        0.5596  0.3089    1.0000
+Turb              -0.0203        0.0672  0.0584   -0.6791
+logSigma           0.0000        0.0000  0.0000    0.0000
+                 Turb logSigma
+(Intercept)   -0.0203        0
+log(SpecCond)  0.0672        0
+sinDY          0.0584        0
+log(Turb)     -0.6791        0
+Turb           1.0000        0
+logSigma       0.0000        1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
 
 \clearpage
 \appendix
@@ -473,7 +775,7 @@ At any time, you can get information about any function in R by typing a questio
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{library}\hlstd{(USGSwsQWSR)}
+\hlkwd{library}\hlstd{(GSqwsr)}
 \hlopt{?}\hlstd{plotSteps}
 \end{alltt}
 \end{kframe}
@@ -493,7 +795,7 @@ To see the raw code for a particular code, type the name of the function:
 %------------------------------------------------------------
 \subsection{R User: Installing QWSR}
 %------------------------------------------------------------ 
-Before installing USGSwsQWSR, the dependent packages must be first be installed:
+Before installing GSqwsr, the dependent packages must be first be installed:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -502,11 +804,11 @@ Before installing USGSwsQWSR, the dependent packages must be first be installed:
                    \hlstr{"leaps"}\hlstd{,} \hlstr{"car"}\hlstd{,} \hlstr{"mvtnorm"}\hlstd{,} \hlstr{"digest"}\hlstd{,}
                    \hlstr{"relimp"}\hlstd{,} \hlstr{"BSDA"}\hlstd{,} \hlstr{"RODBC"}\hlstd{,}\hlstr{"memoise"}\hlstd{,}
                    \hlstr{"boot"}\hlstd{,}\hlstr{"survival"}\hlstd{,}\hlstr{"splines"}\hlstd{,}\hlstr{"RColorBrewer"}\hlstd{,}
-                   \hlstr{"lattice"}\hlstd{,}\hlstr{"MASS"}\hlstd{),}
-                 \hlkwc{dependencies}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+                   \hlstr{"lattice"}\hlstd{,}\hlstr{"MASS"}\hlstd{),} \hlkwc{dependencies}\hlstd{=}\hlnum{TRUE}\hlstd{)}
 \hlkwd{install.packages}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"USGSwsBase"}\hlstd{,}\hlstr{"USGSwsData"}\hlstd{,}\hlstr{"dataRetrieval"}\hlstd{,}
                    \hlstr{"USGSwsGraphs"}\hlstd{,}\hlstr{"USGSwsStats"}\hlstd{,}
-                   \hlstr{"USGSwsQW"}\hlstd{,}\hlstr{"USGSwsQWSR"}\hlstd{),} \hlkwc{repos}\hlstd{=}\hlstr{"http://usgs-r.github.com"}\hlstd{)}
+                   \hlstr{"USGSwsQW"}\hlstd{,}\hlstr{"GSqwsr"}\hlstd{),}
+                 \hlkwc{repos}\hlstd{=}\hlstr{"http://usgs-r.github.com"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -517,7 +819,7 @@ After installing the package, you need to open the library each time you re-star
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{library}\hlstd{(USGSwsQWSR)}
+\hlkwd{library}\hlstd{(GSqwsr)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}

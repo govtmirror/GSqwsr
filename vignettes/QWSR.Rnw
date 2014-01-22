@@ -119,7 +119,7 @@ returnPrelim <- prelimModelDev(DT,investigateResponse,kitchenSink,
                                transformResponse)
 
 steps <- returnPrelim$steps
-modelResult <- returnPrelim$modelStuff
+modelResult <- returnPrelim$modelInformation
 modelReturn <- returnPrelim$DT.mod
 
 # Analyze steps found:
@@ -285,10 +285,84 @@ predictVariableScatterPlots(DT,investigateResponse)
 %------------------------------------------------------------
 \subsection{Stepwise Regression}
 %------------------------------------------------------------
+We are ready to perform a stepwise regression of the data to find the most significant variables to use in the model. This is accomlished with the prelimModelDev function. There are several inputs to this function. DT is the dataframe with all the predictor variables as well as the response we are investigating. We also need to define an upper bound for the stepwise regression to test. This is an equation with the most predictor variables, along with their transforms. If we want to use all possible variables, and all available transforms, we can use the equation createFullFormula (continuing with our Chloride example):
 
+<<createFullFormula,echo=TRUE,eval=TRUE,echo=TRUE>>=
+upperBoundFormula <- createFullFormula(DT,investigateResponse)
+@
+
+<<createFullFormula2,echo=TRUE,eval=TRUE,echo=FALSE,results='markup'>>=
+substring(upperBoundFormula, first=0,last=59)
+substring(upperBoundFormula, first=60,last=119)
+@
+
+The function will check if any data in DT has less than or equal to zero values. If so, a log transform is not included.
+
+Now to use the stepwise regression within the prelimModelDev function:
+
+<<prelimModelDev,echo=TRUE,eval=TRUE,echo=TRUE>>=
+transformResponse <- "lognormal"
+
+returnPrelim <- prelimModelDev(DT,
+                 investigateResponse,
+                 upperBoundFormula,
+                 "BIC", #Other option is "AIC"
+                 transformResponse)
+
+steps <- returnPrelim$steps
+modelResult <- returnPrelim$modelInformation
+modelReturn <- returnPrelim$DT.mod
+@
+
+The output during the function shows the steps that the stepwise regression determined were ideal. 
+\FloatBarrier
+
+%------------------------------------------------------------
+\subsection{Stepwise Regression Analysis}
+%------------------------------------------------------------
+It might be a good idea here to verify that the results from the stepwise regression are indeed what you want. The process can be observed using two functions: plotSteps and analyzeSteps.
+
+\FloatBarrier
+
+<<analyzeSteps,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="analyzeSteps">>=
+siteINFO <- getSiteFileData(site, interactive=FALSE)
+analyzeSteps(steps, investigateResponse,siteINFO)
+@
+
+\FloatBarrier
+
+
+<<plotSteps,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="plotSteps">>=
+plotSteps(steps,DT,transformResponse)
+@
+
+\FloatBarrier
 %------------------------------------------------------------
 \subsection{Model Analysis}
 %------------------------------------------------------------
+Finally, the package offers several ways to analyze the model results.
+
+<<resultPlots,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="resultPlots">>=
+resultPlots(DT,modelReturn,siteINFO)
+@
+
+\FloatBarrier
+
+<<resultResidPlots,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="resultResidPlots">>=
+resultResidPlots(DT,modelReturn,siteINFO)
+@
+
+\FloatBarrier
+
+<<predictionPlot,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="predictionPlot">>=
+predictionPlot(UV,DT,modelReturn,siteINFO=siteINFO)
+@
+
+\FloatBarrier
+
+<<summaryPrintout,echo=TRUE,eval=TRUE,echo=TRUE>>=
+summaryPrintout(modelReturn, siteINFO, saveOutput=FALSE,fileName)
+@
 
 \clearpage
 \appendix
@@ -328,11 +402,11 @@ install.packages(c("XML", "lubridate", "akima", "KernSmooth",
                    "leaps", "car", "mvtnorm", "digest",
                    "relimp", "BSDA", "RODBC","memoise",
                    "boot","survival","splines","RColorBrewer",
-                   "lattice","MASS"), 
-                 dependencies=TRUE)
+                   "lattice","MASS"), dependencies=TRUE)
 install.packages(c("USGSwsBase","USGSwsData","dataRetrieval",
                    "USGSwsGraphs","USGSwsStats",
-                   "USGSwsQW","GSqwsr"), repos="http://usgs-r.github.com")
+                   "USGSwsQW","GSqwsr"), 
+                 repos="http://usgs-r.github.com")
 @
 
 
