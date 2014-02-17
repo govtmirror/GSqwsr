@@ -25,8 +25,11 @@ prelimModelDev(localDT, responseVariable, upperBoundFormula, k = "BIC",
 
   \item{autoSinCos}{logical, turns off the feature to
   automatically include sinDY and cosDY if either is picked
-  in the stepwise regression. The default is TRUE, which
-  includes the feature.}
+  in the stepwise regression. If true (default), the code
+  will automatically require both sine and cosine if one
+  was originally picked. If false, the output of the raw
+  stepwise regression is returned. The default is TRUE,
+  which includes the feature.}
 }
 \value{
 The output is a named list that can be split into 3
