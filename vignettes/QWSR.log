@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.6)  22 JAN 2014 15:33
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2012.1.6)  17 FEB 2014 15:42
 entering extended mode
 **QWSR.tex
 (D:\LADData\RCode\GLRIRegression\vignettes\QWSR.tex
@@ -531,77 +531,85 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 190.
 Package color Info: Redefining color shadecolor on input line 195.
 Package color Info: Redefining color shadecolor on input line 208.
-Package color Info: Redefining color shadecolor on input line 231.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [3]
-Package color Info: Redefining color shadecolor on input line 248.
-Package color Info: Redefining color shadecolor on input line 270.
-Package color Info: Redefining color shadecolor on input line 283.
+Package color Info: Redefining color shadecolor on input line 231.
+Package color Info: Redefining color shadecolor on input line 247.
+Package color Info: Redefining color shadecolor on input line 269.
+Package color Info: Redefining color shadecolor on input line 282.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [4]
-Package color Info: Redefining color shadecolor on input line 311.
-Package color Info: Redefining color shadecolor on input line 324.
+Package color Info: Redefining color shadecolor on input line 310.
+Package color Info: Redefining color shadecolor on input line 323.
 Package color Info: Redefining color shadecolor on input line 345.
-Package color Info: Redefining color shadecolor on input line 369.
+
+Overfull \hbox (57.81561pt too wide) in paragraph at lines 347--347
+[][]\OT1/pcr/m/n/10.95 QW[][]$[][]datetime[] []<-[] []\OT1/pcr/b/n/10.95 as.POS
+IXct[][]\OT1/pcr/m/n/10.95 ([][]\OT1/pcr/b/n/10.95 paste[][]\OT1/pcr/m/n/10.95 
+(QW[][]$[][]sample_dt,[][]" "[][],QW[][]$[][]sample_tm,[] []":00"[][],[][]sep[]
+[]=[][]""[][]))[][] 
+ []
+
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [5]
-Package color Info: Redefining color shadecolor on input line 392.
-Package color Info: Redefining color shadecolor on input line 408.
+Package color Info: Redefining color shadecolor on input line 375.
+Package color Info: Redefining color shadecolor on input line 398.
+Package color Info: Redefining color shadecolor on input line 414.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 412.
+               Default added (so using `tbp') on input line 418.
 
-<figure/plotQQTransforms1.pdf, id=103, 505.89pt x 505.89pt>
+<figure/plotQQTransforms1.pdf, id=108, 505.89pt x 505.89pt>
 File: figure/plotQQTransforms1.pdf Graphic file (type pdf)
 
 <use figure/plotQQTransforms1.pdf>
-Package pdftex.def Info: figure/plotQQTransforms1.pdf used on input line 414.
+Package pdftex.def Info: figure/plotQQTransforms1.pdf used on input line 420.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 417.
+               Default added (so using `tbp') on input line 423.
 
-<figure/plotQQTransforms2.pdf, id=104, 505.89pt x 505.89pt>
+<figure/plotQQTransforms2.pdf, id=109, 505.89pt x 505.89pt>
 File: figure/plotQQTransforms2.pdf Graphic file (type pdf)
 
 <use figure/plotQQTransforms2.pdf>
-Package pdftex.def Info: figure/plotQQTransforms2.pdf used on input line 419.
+Package pdftex.def Info: figure/plotQQTransforms2.pdf used on input line 425.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
-Package color Info: Redefining color shadecolor on input line 428.
+Package color Info: Redefining color shadecolor on input line 434.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 432.
+               Default added (so using `tbp') on input line 438.
 
-<figure/predictVariableScatterPlots1.pdf, id=105, 505.89pt x 505.89pt>
+<figure/predictVariableScatterPlots1.pdf, id=110, 505.89pt x 505.89pt>
 File: figure/predictVariableScatterPlots1.pdf Graphic file (type pdf)
 
 <use figure/predictVariableScatterPlots1.pdf>
 Package pdftex.def Info: figure/predictVariableScatterPlots1.pdf used on input 
-line 434.
+line 440.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 437.
+               Default added (so using `tbp') on input line 443.
 
-<figure/predictVariableScatterPlots2.pdf, id=106, 505.89pt x 505.89pt>
+<figure/predictVariableScatterPlots2.pdf, id=111, 505.89pt x 505.89pt>
 File: figure/predictVariableScatterPlots2.pdf Graphic file (type pdf)
 
 <use figure/predictVariableScatterPlots2.pdf>
 Package pdftex.def Info: figure/predictVariableScatterPlots2.pdf used on input 
-line 439.
+line 445.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
@@ -626,19 +634,19 @@ Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 [10 <D:/LADData/RCode/GLRIRegression/vignettes/figure/predictVariableScatterPlo
 ts2.pdf>]
-Package color Info: Redefining color shadecolor on input line 453.
-Package color Info: Redefining color shadecolor on input line 462.
-Package color Info: Redefining color shadecolor on input line 476.
+Package color Info: Redefining color shadecolor on input line 459.
+Package color Info: Redefining color shadecolor on input line 468.
+Package color Info: Redefining color shadecolor on input line 485.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [11]
-Underfull \vbox (badness 10000) detected at line 586
+Underfull \vbox (badness 10000) detected at line 622
  []
 
 
-Underfull \vbox (badness 10000) detected at line 586
+Underfull \vbox (badness 10000) detected at line 622
  []
 
 
@@ -646,141 +654,139 @@ Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [12]
-Package color Info: Redefining color shadecolor on input line 601.
+Underfull \vbox (badness 10000) detected at line 622
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 622
+ []
+
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [13]
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[14]
+Package color Info: Redefining color shadecolor on input line 640.
+
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 606.
+               Default added (so using `tbp') on input line 646.
 
-<figure/analyzeSteps.pdf, id=167, 505.89pt x 505.89pt>
+<figure/analyzeSteps.pdf, id=176, 505.89pt x 505.89pt>
 File: figure/analyzeSteps.pdf Graphic file (type pdf)
 
 <use figure/analyzeSteps.pdf>
-Package pdftex.def Info: figure/analyzeSteps.pdf used on input line 608.
-(pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
-Package color Info: Redefining color shadecolor on input line 619.
-
-Overfull \vbox (21.68121pt too high) has occurred while \output is active []
-
-
-[14 <D:/LADData/RCode/GLRIRegression/vignettes/figure/analyzeSteps.pdf>]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 626.
-
-<figure/plotSteps1.pdf, id=179, 505.89pt x 505.89pt>
-File: figure/plotSteps1.pdf Graphic file (type pdf)
-
-<use figure/plotSteps1.pdf>
-Package pdftex.def Info: figure/plotSteps1.pdf used on input line 628.
-(pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
-
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 634.
-
-<figure/plotSteps2.pdf, id=180, 505.89pt x 505.89pt>
-File: figure/plotSteps2.pdf Graphic file (type pdf)
-
-<use figure/plotSteps2.pdf>
-Package pdftex.def Info: figure/plotSteps2.pdf used on input line 636.
+Package pdftex.def Info: figure/analyzeSteps.pdf used on input line 648.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
-[15 <D:/LADData/RCode/GLRIRegression/vignettes/figure/plotSteps1.pdf>]
+[15]
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
-[16 <D:/LADData/RCode/GLRIRegression/vignettes/figure/plotSteps2.pdf>]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 642.
-
-<figure/plotSteps3.pdf, id=203, 505.89pt x 505.89pt>
-File: figure/plotSteps3.pdf Graphic file (type pdf)
-
-<use figure/plotSteps3.pdf>
-Package pdftex.def Info: figure/plotSteps3.pdf used on input line 644.
-(pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
+[16 <D:/LADData/RCode/GLRIRegression/vignettes/figure/analyzeSteps.pdf>]
+Package color Info: Redefining color shadecolor on input line 663.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 650.
+               Default added (so using `tbp') on input line 678.
 
-<figure/plotSteps4.pdf, id=204, 505.89pt x 505.89pt>
-File: figure/plotSteps4.pdf Graphic file (type pdf)
-
-<use figure/plotSteps4.pdf>
-Package pdftex.def Info: figure/plotSteps4.pdf used on input line 652.
+<figure/plotSteps.pdf, id=192, 505.89pt x 505.89pt>
+File: figure/plotSteps.pdf Graphic file (type pdf)
+ <use figure/plotSteps.pdf>
+Package pdftex.def Info: figure/plotSteps.pdf used on input line 680.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
-[17 <D:/LADData/RCode/GLRIRegression/vignettes/figure/plotSteps3.pdf>]
+[17]
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
-[18 <D:/LADData/RCode/GLRIRegression/vignettes/figure/plotSteps4.pdf>]
-Package color Info: Redefining color shadecolor on input line 666.
+[18 <D:/LADData/RCode/GLRIRegression/vignettes/figure/plotSteps.pdf>]
+Package color Info: Redefining color shadecolor on input line 695.
 
+<Excel.png, id=208, 524.71031pt x 182.18062pt>
+File: Excel.png Graphic file (type png)
+ <use Excel.png>
+Package pdftex.def Info: Excel.png used on input line 713.
+(pdftex.def)             Requested size: 524.70901pt x 182.18016pt.
+Package color Info: Redefining color shadecolor on input line 723.
+Package color Info: Redefining color shadecolor on input line 736.
+
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[19 <D:/LADData/RCode/GLRIRegression/vignettes/Excel.png>]
+Package color Info: Redefining color shadecolor on input line 750.
+
+Overfull \hbox (18.39566pt too wide) in paragraph at lines 752--752
+[][]\OT1/pcr/m/n/10.95 newUpperFormula[] []<-[] []\OT1/pcr/b/n/10.95 paste[][]\
+OT1/pcr/m/n/10.95 (investigateResponse,[][]" ~ "[][], newFormula,[] []sep[][]=[
+][]""[][])[][] 
+ []
+
+
+Overfull \hbox (18.39566pt too wide) in paragraph at lines 780--780
+[]\OT1/pcr/m/n/10.95 censReg(formula = newUpperFormula, data = DT, dist = trans
+formResponse)[] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 793.
+
+Overfull \vbox (21.68121pt too high) has occurred while \output is active []
+
+
+[20]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 670.
+               Default added (so using `tbp') on input line 797.
 
-<figure/resultPlots.pdf, id=227, 505.89pt x 505.89pt>
+<figure/resultPlots.pdf, id=221, 505.89pt x 505.89pt>
 File: figure/resultPlots.pdf Graphic file (type pdf)
 
 <use figure/resultPlots.pdf>
-Package pdftex.def Info: figure/resultPlots.pdf used on input line 672.
+Package pdftex.def Info: figure/resultPlots.pdf used on input line 799.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
-
-Overfull \vbox (21.68121pt too high) has occurred while \output is active []
-
-
-[19]
-Overfull \vbox (21.68121pt too high) has occurred while \output is active []
-
-
-[20 <D:/LADData/RCode/GLRIRegression/vignettes/figure/resultPlots.pdf>]
-Package color Info: Redefining color shadecolor on input line 682.
+Package color Info: Redefining color shadecolor on input line 812.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 686.
+               Default added (so using `tbp') on input line 816.
 
-<figure/resultResidPlots.pdf, id=244, 505.89pt x 505.89pt>
+<figure/resultResidPlots.pdf, id=222, 505.89pt x 505.89pt>
 File: figure/resultResidPlots.pdf Graphic file (type pdf)
 
 <use figure/resultResidPlots.pdf>
-Package pdftex.def Info: figure/resultResidPlots.pdf used on input line 688.
+Package pdftex.def Info: figure/resultResidPlots.pdf used on input line 818.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
-[21]
+[21 <D:/LADData/RCode/GLRIRegression/vignettes/figure/resultPlots.pdf>]
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [22 <D:/LADData/RCode/GLRIRegression/vignettes/figure/resultResidPlots.pdf>]
-Package color Info: Redefining color shadecolor on input line 698.
+Package color Info: Redefining color shadecolor on input line 831.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 702.
+               Default added (so using `tbp') on input line 835.
 
-<figure/predictionPlot.pdf, id=260, 505.89pt x 505.89pt>
+<figure/predictionPlot.pdf, id=245, 505.89pt x 505.89pt>
 File: figure/predictionPlot.pdf Graphic file (type pdf)
 
 <use figure/predictionPlot.pdf>
-Package pdftex.def Info: figure/predictionPlot.pdf used on input line 704.
+Package pdftex.def Info: figure/predictionPlot.pdf used on input line 837.
 (pdftex.def)             Requested size: 448.07378pt x 448.07928pt.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
@@ -791,16 +797,22 @@ Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [24 <D:/LADData/RCode/GLRIRegression/vignettes/figure/predictionPlot.pdf>]
-Package color Info: Redefining color shadecolor on input line 714.
+Package color Info: Redefining color shadecolor on input line 848.
+
+Overfull \hbox (77.52559pt too wide) in paragraph at lines 892--892
+[]\OT1/pcr/m/n/10.95 Nitrate.N ~ (Intercept) + sinDY + cosDY + pH + log(SpecCon
+d) + Wtemp + log(Turb)[] 
+ []
+
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [25]
-Package color Info: Redefining color shadecolor on input line 776.
-Package color Info: Redefining color shadecolor on input line 787.
-Package color Info: Redefining color shadecolor on input line 801.
-Package color Info: Redefining color shadecolor on input line 820.
+Package color Info: Redefining color shadecolor on input line 916.
+Package color Info: Redefining color shadecolor on input line 927.
+Package color Info: Redefining color shadecolor on input line 941.
+Package color Info: Redefining color shadecolor on input line 960.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
@@ -808,27 +820,27 @@ Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 [26
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 831.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 971.
 
 Overfull \vbox (21.68121pt too high) has occurred while \output is active []
 
 
 [27]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 831.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 971.
  (D:\LADData\RCode\GLRIRegression\vignettes\QWSR.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 831.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 831.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 971.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 971.
 Package rerunfilecheck Info: File `QWSR.out' has not changed.
-(rerunfilecheck)             Checksum: BC305DF3FAC53328200441FC16FA2529;930.
+(rerunfilecheck)             Checksum: CBC7E448E7EB6C63F6636B200BC79956;998.
  ) 
 Here is how much of TeX's memory you used:
- 8201 strings out of 494045
- 123090 string characters out of 3145961
- 221760 words of memory out of 3000000
- 11306 multiletter control sequences out of 15000+200000
+ 8189 strings out of 494045
+ 122755 string characters out of 3145961
+ 224711 words of memory out of 3000000
+ 11297 multiletter control sequences out of 15000+200000
  26693 words of font info for 60 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
- 44i,6n,42p,638b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,7n,42p,814b,382s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files (
 x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x86)/MiKT
@@ -836,9 +848,9 @@ eX 2.9/fonts/type1/urw/courier/ucrro8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
 onts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/
 urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on QWSR.pdf (27 pages, 479082 bytes).
+Output written on QWSR.pdf (27 pages, 539990 bytes).
 PDF statistics:
- 327 PDF objects out of 1000 (max. 8388607)
- 55 named destinations out of 1000 (max. 500000)
- 173 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 311 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
+ 171 words of extra memory for PDF output out of 10000 (max. 10000000)
 

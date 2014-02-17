@@ -305,6 +305,8 @@ The function will check if any data in DT has less than or equal to zero values.
 
 Now to use the stepwise regression within the prelimModelDev function. In this function, the DT dataframe is required, the column name of the response variable (in this example, investigateResponse), and the upper bound formula. The user can then choose a value for k which can be `AIC' (akaike information criterion), `BIC' (Bayesian information criterion), or a value of the multiple of the number of degrees of freedom used for the penalty. BIC has a harsher penalty for overfitting the model, which is typically seen as a benefit. The default is BIC. Finally, transformResponse can either be `lognormal' or `normal', which will define the transformation of the response variable. 
 
+Additionally, this function has an argument 'autoSinCos' which is a logical input. The default is set to TRUE, in this case - if the sine of decimal year (sinDY) is picked during the stepwise regression, the next step is forced to be cosDY. Likewise, if cosDY is picked, sinDY is forced on the next step. This feature can be turned off by setting autoSinCos to FALSE.
+
 
 <<prelimModelDev,echo=TRUE,eval=TRUE,echo=TRUE>>=
 transformResponse <- "lognormal"
@@ -339,9 +341,12 @@ analyzeSteps(steps, investigateResponse,siteINFO,
              xCorner=0.01,yCorner=0.3)
 @
 
+In this case, it may seem strange that the AIC value goes up then down. This is because the first parameter that was picked was sinDY (sine of decimal year). As mentioned earlier, if sinDY is picked, we automatically force cosine to be the next parameter. 
+
 \FloatBarrier
 
-plotSteps shows the observed versus predicted for each step along the way of the stepwise regression.There are two lines included, the blue line is a one-to-one line, the red line is the slope of the observed versus predicted values as calculated with a linear regression (lm). In this simple regression, censored values are taken as their detection limits. Red points indicate potential outliers as calculated based on external studentized residuals greater than 3 or less than -3.
+plotSteps shows the observed versus predicted for each step along the way of the stepwise regression.There are two lines included, the blue line is a one-to-one line, the red line is the slope of the observed versus predicted values as calculated with a linear regression (lm). In this simple regression, censored values are taken as their detection limits. Red points indicate potential outliers as calculated based on external studentized residuals greater than 3 or less than -3. Censored values are represented with a line segment from the detection limit to zero (for left-censored data).
+
 
 <<plotSteps,echo=TRUE,eval=TRUE,fig.cap="plotSteps">>=
 
@@ -362,7 +367,8 @@ There may be situations in which the user wants to explore alternative models co
 <<generateParamChoices,echo=TRUE,eval=FALSE>>=
 #Change this to a relavent path:
 pathToSave <- "C:/RData/"
-choices <- generateParamChoices(predictionVariables,modelReturn,pathToSave,save=TRUE)
+choices <- generateParamChoices(predictionVariables,
+                                modelReturn,pathToSave,save=TRUE)
 
 @
 
@@ -411,9 +417,9 @@ modelReturnCustom
 %------------------------------------------------------------
 \subsection{Model Analysis}
 %------------------------------------------------------------
-Finally, the package offers several ways to analyze the model results. We will look at the results of the original model returned from the stepwise regression (not the custom model we created in the last section).
+Finally, the package offers several ways to analyze and report on the model results. We will look at the results of the original model returned from the stepwise regression (not the custom model we created in the last section). Censored values are plotted as points with segments (from the detection limit towards zero for left-censored data). Also, left-censored residuals are calculated using the detection limit.
 
-The function resultPlots plots
+The function resultPlots plots a set of plots. All model results include observed vs. predicted (A), residuals vs. predicted (B), residuals vs. time (C), and residual quantiles vs. theoretical quantiles (D). After that, there is a plot for observed vs. each parameter in the model (E...).
 
 <<resultPlots,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="resultPlots">>=
 resultPlots(DT,modelReturn,siteINFO)
@@ -421,17 +427,24 @@ resultPlots(DT,modelReturn,siteINFO)
 
 \FloatBarrier
 
+The function resultResidPlots plots a set of plots. All model results include observed vs. predicted (A), residuals vs. predicted (B), residuals vs. time (C), and residual quantiles vs. theoretical quantiles (D). After that, there is a plot for residuals vs. each parameter in the model (E...).
+
+
 <<resultResidPlots,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="resultResidPlots">>=
 resultResidPlots(DT,modelReturn,siteINFO)
 @
 
 \FloatBarrier
 
+The predictionPlot function plots the predicted values based on all of the unit value data available (from the UV dataframe) in blue. Red dots representing the actual measured data are also included. Left-censored points are shown at their detetction limit, with a segment going towards zero.
+
+
 <<predictionPlot,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="predictionPlot">>=
 predictionPlot(UV,DT,modelReturn,siteINFO=siteINFO)
 @
 
 \FloatBarrier
+Finally, a summary printout can be obtained with the function summaryPrintout in either the R console or saved to a file.
 
 <<summaryPrintout,echo=TRUE,eval=TRUE,echo=TRUE>>=
 summaryPrintout(modelReturn, siteINFO)

@@ -119,7 +119,7 @@
 %------------------------------------------------------------
 \section{Introduction to GSqwsr package}
 %------------------------------------------------------------ 
-The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
+The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg regression function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
 
 %------------------------------------------------------------
 \section{General Workflow}
@@ -137,7 +137,7 @@ The GSqwsr (USGS water quality surrogate regressions) package was designed to si
 \hlstd{QWcodes} \hlkwb{<-} \hlstd{StLouisQWcodes}
 \hlstd{siteINFO} \hlkwb{<-} \hlstd{StLouisInfo}
 
-\hlstd{investigateResponse} \hlkwb{<-} \hlstr{"SuspSed"}
+\hlstd{investigateResponse} \hlkwb{<-} \hlstr{"Ammonia.N"}
 \hlstd{transformResponse} \hlkwb{<-} \hlstr{"lognormal"}
 
 \hlstd{DT} \hlkwb{<-} \hlstd{DTComplete[}\hlkwd{c}\hlstd{(investigateResponse,}
@@ -213,9 +213,9 @@ Data retrieval is currently supported by web service calls to the National Water
 \end{alltt}
 \begin{verbatim}
   parameter_cd  startDate    endDate count service
-1        00010 1964-10-28 2014-01-21   266      qw
-2        00020 1974-10-30 2014-01-21   155      qw
-3        00025 1981-10-20 2014-01-21   136      qw
+1        00010 1964-10-28 2014-02-12   267      qw
+2        00020 1974-10-30 2014-02-12   156      qw
+3        00025 1981-10-20 2014-02-12   137      qw
 4        00041 2010-10-07 2013-06-11    55      qw
 5        00055 2010-10-07 2013-04-27    35      qw
 6        00061 1960-07-28 2013-07-17   310      qw
@@ -230,9 +230,8 @@ Most likely, there will be a known set of parameters that are to be modeled. If 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{pCodeQW} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"00608"}\hlstd{,}\hlstr{"00613"}\hlstd{,}\hlstr{"00618"}\hlstd{,}\hlstr{"00631"}\hlstd{,}\hlstr{"00665"}\hlstd{,}
-             \hlstr{"00671"}\hlstd{,}\hlstr{"00940"}\hlstd{,}\hlstr{"62855"}\hlstd{,}\hlstr{"80154"}\hlstd{)}
-\hlstd{startDate} \hlkwb{<-} \hlstr{"2011-03-17"}
+\hlstd{pCodeQW} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"00608"}\hlstd{,}\hlstr{"00613"}\hlstd{,}\hlstr{"00618"}\hlstd{)}
+\hlstd{startDate} \hlkwb{<-} \hlstr{"2011-04-22"}
 \hlstd{endDate} \hlkwb{<-} \hlstr{""}
 \hlstd{QW} \hlkwb{<-} \hlkwd{importNWISqw}\hlstd{(site,} \hlkwc{params}\hlstd{=pCodeQW,}
                    \hlkwc{begin.date}\hlstd{=startDate,} \hlkwc{end.date}\hlstd{=endDate)}
@@ -264,7 +263,7 @@ Most likely, there will be a known set of parameters that are to be modeled. If 
 
 
 
-This brings the data in automatically as a `qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
+This brings the data in automatically as a `qw' object. This means that censoring information is embedded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -339,11 +338,18 @@ Finally, the unit value data can be retrieved with the getMultipleUV function. B
 %------------------------------------------------------------
 \subsection{Data Merging}
 %------------------------------------------------------------
-We now need to merge the sample and continuous data into one dataframe. This is accomplished using the mergeDatasets function.
+We now need to merge the sample and continuous data into one dataframe. This is accomplished using the mergeDatasets function. Both QW and UV dataframes need a column called `datetime' that has the date and time in an POSIXct object. This may need to be done as shown below.
+
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlstd{QW}\hlopt{$}\hlstd{datetime} \hlkwb{<-} \hlkwd{as.POSIXct}\hlstd{(}\hlkwd{paste}\hlstd{(QW}\hlopt{$}\hlstd{sample_dt,}\hlstr{" "}\hlstd{,QW}\hlopt{$}\hlstd{sample_tm,} \hlstr{":00"}\hlstd{,}\hlkwc{sep}\hlstd{=}\hlstr{""}\hlstd{))}
+
+\hlcom{# Make sure they are in consistant time zones:}
+\hlstd{QW}\hlopt{$}\hlstd{datetime} \hlkwb{<-} \hlkwd{setTZ}\hlstd{(QW}\hlopt{$}\hlstd{datetime, QW}\hlopt{$}\hlstd{tzone_cd)}
+\hlstd{UV}\hlopt{$}\hlstd{datetime} \hlkwb{<-} \hlkwd{setTZ}\hlstd{(UV}\hlopt{$}\hlstd{datetime, UV}\hlopt{$}\hlstd{tz_cd)}
+
 \hlstd{mergeReturn} \hlkwb{<-} \hlkwd{mergeDatasets}\hlstd{(QW, UV, QWcodes)}
 \hlstd{DTComplete} \hlkwb{<-} \hlstd{mergeReturn}\hlopt{$}\hlstd{DTComplete}
 \hlstd{QWcodes} \hlkwb{<-} \hlstd{mergeReturn}\hlopt{$}\hlstd{QWcodes}
@@ -352,7 +358,7 @@ We now need to merge the sample and continuous data into one dataframe. This is 
 \end{knitrout}
 
 
-The dataframe DTComplete contains a column of each of the discrete samples, and a column of the nearest (temporaly) unit value data. The function mergeDatasets has an argument called `max.diff'. The default is set to `2 hours', meaning that if the sample and continious data timestamps do not match, the merge will take the closest continious data within 2 hours. This value can be changed, see ?mergeNearest for more options.
+The dataframe DTComplete contains a column of each of the discrete samples, and a column of the nearest (temporally) unit value data. The function mergeDatasets has an argument called `max.diff'. The default is set to `2 hours', meaning that if the sample and continuous data timestamps do not match, the merge will take the closest continuous data within 2 hours. This value can be changed, see ?mergeNearest for more options.
 
 %------------------------------------------------------------
 \subsection{Data Investigation}
@@ -363,12 +369,12 @@ The dataframe DTComplete contains a column of each of the discrete samples, and 
 %------------------------------------------------------------
 
 
-We now want to narrow our investigation down to one analyte. Let us look at Chloride. First we will want a dataframe DT with just chloride and the unit values. We will call these the `prediciton values' because they will eventually be used to predict chloride.
+We now want to narrow our investigation down to one analyte. Let us look at nitrate. First we will want a dataframe DT with just nitrate and the unit values. We will call these the `prediction values' because they will eventually be used to predict nitrate.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{investigateResponse} \hlkwb{<-} \hlstr{"Chloride"}
+\hlstd{investigateResponse} \hlkwb{<-} \hlstr{"Nitrate.N"}
 \hlstd{predictionVariables} \hlkwb{<-} \hlkwd{getPredictVariables}\hlstd{(}\hlkwd{names}\hlstd{(UV))}
 
 \hlstd{DT} \hlkwb{<-} \hlstd{DTComplete[}\hlkwd{c}\hlstd{(investigateResponse,}
@@ -378,9 +384,9 @@ We now want to narrow our investigation down to one analyte. Let us look at Chlo
 \hlkwd{names}\hlstd{(DT)}
 \end{alltt}
 \begin{verbatim}
- [1] "Chloride" "Wtemp"    "Flow"     "SpecCond" "DO"      
- [6] "pH"       "Turb"     "decYear"  "sinDY"    "cosDY"   
-[11] "datetime"
+ [1] "Nitrate.N" "Wtemp"     "Flow"      "SpecCond" 
+ [5] "DO"        "pH"        "Turb"      "decYear"  
+ [9] "sinDY"     "cosDY"     "datetime" 
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -447,7 +453,7 @@ There are a few tools included in this package to explore the data before perfor
 %------------------------------------------------------------
 \subsection{Stepwise Regression}
 %------------------------------------------------------------
-We are ready to perform a stepwise regression of the data to find the most significant variables to use in the model. This is accomlished with the prelimModelDev function. There are several inputs to this function. DT is the dataframe with all the predictor variables as well as the response we are investigating. We also need to define an upper bound for the stepwise regression to test. This is an equation with the most predictor variables, along with their transforms. If we want to use all possible variables, and all available transforms, we can use the equation createFullFormula (continuing with our Chloride example):
+We are ready to perform a stepwise regression of the data to find the most significant variables to use in the model. This is accomplished with the prelimModelDev function. There are several inputs to this function. DT is the dataframe with all the predictor variables as well as the response we are investigating. We also need to define an upper bound for the stepwise regression to test. This is an equation with all the possible predictor variables, along with their transforms that we are interested in testing. If we want to use all possible variables, and all available transforms, we can use the equation createFullFormula (continuing with our Chloride example):
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -470,7 +476,10 @@ We are ready to perform a stepwise regression of the data to find the most signi
 
 The function will check if any data in DT has less than or equal to zero values. If so, a log transform is not included.
 
-Now to use the stepwise regression within the prelimModelDev function:
+Now to use the stepwise regression within the prelimModelDev function. In this function, the DT dataframe is required, the column name of the response variable (in this example, investigateResponse), and the upper bound formula. The user can then choose a value for k which can be `AIC' (akaike information criterion), `BIC' (Bayesian information criterion), or a value of the multiple of the number of degrees of freedom used for the penalty. BIC has a harsher penalty for overfitting the model, which is typically seen as a benefit. The default is BIC. Finally, transformResponse can either be `lognormal' or `normal', which will define the transformation of the response variable. 
+
+Additionally, this function has an argument 'autoSinCos' which is a logical input. The default is set to TRUE, in this case - if the sine of decimal year (sinDY) is picked during the stepwise regression, the next step is forced to be cosDY. Likewise, if cosDY is picked, sinDY is forced on the next step. This feature can be turned off by setting autoSinCos to FALSE.
+
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -484,99 +493,126 @@ Now to use the stepwise regression within the prelimModelDev function:
                  \hlstd{transformResponse)}
 \end{alltt}
 \begin{verbatim}
-Start:  AIC=56.2
-Chloride ~ 1
+Start:  AIC=182.3
+Nitrate.N ~ 1
 
-                Df   AIC
-+ log(SpecCond)  1 -11.6
-+ Flow           1   1.6
-+ SpecCond       1   4.7
-+ Turb           1   4.8
-+ pH             1   7.0
-+ log(Turb)      1  15.6
-+ log(Flow)      1  22.5
-+ cosDY          1  38.6
-+ Wtemp          1  43.8
-+ DO             1  53.5
-+ log(DO)        1  55.2
-<none>              56.2
-+ sinDY          1  60.5
+                Df AIC
++ sinDY          1 155
++ DO             1 174
++ Wtemp          1 175
++ log(DO)        1 177
++ pH             1 177
+<none>             182
++ log(Flow)      1 184
++ SpecCond       1 184
++ cosDY          1 184
++ log(SpecCond)  1 185
++ log(Turb)      1 186
++ Turb           1 186
++ Flow           1 187
 
-Step:  AIC=-11.56
-Chloride ~ log(SpecCond)
+Step:  AIC=154.6
+Nitrate.N ~ sinDY
 
-                Df   AIC
-+ sinDY          1 -60.6
-+ DO             1 -30.5
-+ Wtemp          1 -29.4
-+ log(DO)        1 -29.4
-+ Turb           1 -21.2
-+ SpecCond       1 -18.8
-+ Flow           1 -16.4
-+ pH             1 -15.3
-<none>             -11.6
-+ log(Flow)      1  -9.6
-+ log(Turb)      1  -9.2
-+ cosDY          1  -8.6
-- log(SpecCond)  1  56.2
+                Df AIC
+<none>             155
++ cosDY          1 156
++ pH             1 156
++ log(SpecCond)  1 156
++ SpecCond       1 157
++ Flow           1 158
++ log(Flow)      1 158
++ log(Turb)      1 159
++ log(DO)        1 159
++ Wtemp          1 159
++ Turb           1 159
++ DO             1 159
+- sinDY          1 182
+Start:  AIC=155.9
+Nitrate.N ~ sinDY + cosDY
 
-Step:  AIC=-60.59
-Chloride ~ log(SpecCond) + sinDY
+                Df AIC
++ pH             1 154
++ Wtemp          1 155
++ log(DO)        1 156
+<none>             156
++ DO             1 159
++ log(SpecCond)  1 160
++ Flow           1 160
++ log(Turb)      1 160
++ SpecCond       1 160
++ Turb           1 160
++ log(Flow)      1 160
 
-                Df   AIC
-+ log(Turb)      1 -62.7
-+ pH             1 -61.5
-+ SpecCond       1 -60.9
-+ log(Flow)      1 -60.6
-<none>             -60.6
-+ cosDY          1 -60.4
-+ Turb           1 -59.7
-+ Flow           1 -59.0
-+ DO             1 -57.0
-+ log(DO)        1 -56.7
-+ Wtemp          1 -56.3
-- sinDY          1 -11.6
-- log(SpecCond)  1  60.5
+Step:  AIC=154.4
+Nitrate.N ~ sinDY + cosDY + pH
 
-Step:  AIC=-62.74
-Chloride ~ log(SpecCond) + sinDY + log(Turb)
+                Df AIC
++ log(SpecCond)  1 143
++ SpecCond       1 151
++ Flow           1 152
++ Wtemp          1 154
++ log(DO)        1 154
+<none>             154
+- pH             1 156
++ log(Flow)      1 156
++ DO             1 157
++ Turb           1 157
++ log(Turb)      1 157
 
-                Df   AIC
-+ Turb           1 -89.0
-+ Flow           1 -73.8
-+ SpecCond       1 -67.6
-+ cosDY          1 -64.2
-+ pH             1 -63.2
-<none>             -62.7
-- log(Turb)      1 -60.6
-+ Wtemp          1 -59.3
-+ log(Flow)      1 -58.6
-+ log(DO)        1 -58.6
-+ DO             1 -58.5
-- sinDY          1  -9.2
-- log(SpecCond)  1  19.1
+Step:  AIC=143.4
+Nitrate.N ~ sinDY + cosDY + pH + log(SpecCond)
 
-Step:  AIC=-89.02
-Chloride ~ log(SpecCond) + sinDY + log(Turb) + Turb
+                Df AIC
++ Wtemp          1 139
++ SpecCond       1 141
+<none>             143
++ log(DO)        1 145
++ DO             1 146
++ log(Turb)      1 147
++ log(Flow)      1 148
++ Turb           1 148
++ Flow           1 148
+- log(SpecCond)  1 154
+- pH             1 160
 
-                Df   AIC
-<none>             -89.0
-+ pH             1 -86.2
-+ cosDY          1 -85.7
-+ Flow           1 -84.8
-+ SpecCond       1 -84.8
-+ log(Flow)      1 -84.8
-+ Wtemp          1 -84.8
-+ DO             1 -84.7
-+ log(DO)        1 -84.7
-- Turb           1 -62.7
-- log(Turb)      1 -59.7
-- sinDY          1 -20.9
-- log(SpecCond)  1  11.5
-Analyzing steps (total= 5 ): 2 
+Step:  AIC=138.8
+Nitrate.N ~ sinDY + cosDY + pH + log(SpecCond) + Wtemp
+
+                Df AIC
++ log(Turb)      1 129
++ log(Flow)      1 135
++ DO             1 135
+<none>             139
++ log(DO)        1 139
++ Turb           1 139
++ SpecCond       1 142
++ Flow           1 142
+- Wtemp          1 143
+- log(SpecCond)  1 154
+- pH             1 158
+
+Step:  AIC=128.9
+Nitrate.N ~ sinDY + cosDY + pH + log(SpecCond) + Wtemp + log(Turb)
+
+                Df AIC
+<none>             129
++ DO             1 130
++ SpecCond       1 132
++ log(DO)        1 132
++ Flow           1 133
++ Turb           1 133
++ log(Flow)      1 133
+- log(Turb)      1 139
+- Wtemp          1 147
+- pH             1 149
+- log(SpecCond)  1 158
+Analyzing steps (total= 7 ): 2 
 3 
 4 
 5 
+6 
+7 
 \end{verbatim}
 \begin{alltt}
 \hlstd{steps} \hlkwb{<-} \hlstd{returnPrelim}\hlopt{$}\hlstd{steps}
@@ -587,7 +623,8 @@ Analyzing steps (total= 5 ): 2
 \end{knitrout}
 
 
-The output during the function shows the steps that the stepwise regression determined were ideal. 
+The output during the function shows the steps that the stepwise regression determined were ideal, information from the final model (modelInformation) such as the terms, their coefficients, standard error, p value as calculated by the censReg function, and standard coefficient (PARAML/STDDEV), and the raw data returned from censReg (DT.mod). 
+
 \FloatBarrier
 
 %------------------------------------------------------------
@@ -596,12 +633,15 @@ The output during the function shows the steps that the stepwise regression dete
 It might be a good idea here to verify that the results from the stepwise regression are indeed what you want. The process can be observed using two functions: plotSteps and analyzeSteps.
 
 \FloatBarrier
+analyzeSteps creates a plot with correlation, slope, RMSE, PRESS, and AIC statistics. Correlation and slope are values that should trend towards 1. Correlation is the correlation between observed and predicted, slope is the slope of observed and predicted. RMSE should trend towards zero, RMSE is the root mean squared error of the observed vs. predicted data. PRESS (predicted residual sums of squares) is calculated from the external studentized residuals, and should trend downward (for a better model fit). Residuals are calculated for censored values using the detection limit. AIC (akaike information criterion) is returned from the ANOVA output of the stepwise regression. It is always called `AIC' whether or not `AIC' or `BIC' was specified. AIC will also trend downward for better model fits.
+
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{siteINFO} \hlkwb{<-} \hlkwd{getSiteFileData}\hlstd{(site,} \hlkwc{interactive}\hlstd{=}\hlnum{FALSE}\hlstd{)}
-\hlkwd{analyzeSteps}\hlstd{(steps, investigateResponse,siteINFO)}
+\hlkwd{analyzeSteps}\hlstd{(steps, investigateResponse,siteINFO,}
+             \hlkwc{xCorner}\hlstd{=}\hlnum{0.01}\hlstd{,}\hlkwc{yCorner}\hlstd{=}\hlnum{0.3}\hlstd{)}
 \end{alltt}
 \end{kframe}\begin{figure}[]
 
@@ -612,44 +652,32 @@ It might be a good idea here to verify that the results from the stepwise regres
 \end{knitrout}
 
 
+In this case, it may seem strange that the AIC value goes up then down. This is because the first parameter that was picked was sinDY (sine of decimal year). As mentioned earlier, if sinDY is picked, we automatically force cosine to be the next parameter. 
+
 \FloatBarrier
+
+plotSteps shows the observed versus predicted for each step along the way of the stepwise regression.There are two lines included, the blue line is a one-to-one line, the red line is the slope of the observed versus predicted values as calculated with a linear regression (lm). In this simple regression, censored values are taken as their detection limits. Red points indicate potential outliers as calculated based on external studentized residuals greater than 3 or less than -3. Censored values are represented with a line segment from the detection limit to zero (for left-censored data).
 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
+\hlstd{m} \hlkwb{<-} \hlkwd{t}\hlstd{(}\hlkwd{matrix}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlopt{:}\hlnum{6}\hlstd{),} \hlkwc{nrow} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{ncol} \hlstd{=} \hlnum{3}\hlstd{))}
+\hlkwd{layout}\hlstd{(m)}
+\hlkwd{par}\hlstd{(}\hlkwc{mar}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{,}\hlnum{2}\hlstd{))}
 \hlkwd{plotSteps}\hlstd{(steps,DT,transformResponse)}
 \end{alltt}
 \begin{verbatim}
-Chloride ~  log(SpecCond) 
+Nitrate.N ~  sinDY 
+Nitrate.N ~  sinDY + cosDY 
+Nitrate.N ~  sinDY + cosDY + pH 
+Nitrate.N ~  sinDY + cosDY + pH + log(SpecCond) 
+Nitrate.N ~  sinDY + cosDY + pH + log(SpecCond) + Wtemp 
+Nitrate.N ~  sinDY + cosDY + pH + log(SpecCond) + Wtemp + log(Turb) 
 \end{verbatim}
 \end{kframe}\begin{figure}[]
 
-\includegraphics[width=\maxwidth]{figure/plotSteps1} \caption[plotSteps]{plotSteps\label{fig:plotSteps1}}
-\end{figure}
-
-\begin{kframe}\begin{verbatim}
-Chloride ~  log(SpecCond) + sinDY 
-\end{verbatim}
-\end{kframe}\begin{figure}[]
-
-\includegraphics[width=\maxwidth]{figure/plotSteps2} \caption[plotSteps]{plotSteps\label{fig:plotSteps2}}
-\end{figure}
-
-\begin{kframe}\begin{verbatim}
-Chloride ~  log(SpecCond) + sinDY + log(Turb) 
-\end{verbatim}
-\end{kframe}\begin{figure}[]
-
-\includegraphics[width=\maxwidth]{figure/plotSteps3} \caption[plotSteps]{plotSteps\label{fig:plotSteps3}}
-\end{figure}
-
-\begin{kframe}\begin{verbatim}
-Chloride ~  log(SpecCond) + sinDY + log(Turb) + Turb 
-\end{verbatim}
-\end{kframe}\begin{figure}[]
-
-\includegraphics[width=\maxwidth]{figure/plotSteps4} \caption[plotSteps]{plotSteps\label{fig:plotSteps4}}
+\includegraphics[width=\maxwidth]{figure/plotSteps} \caption[plotSteps]{plotSteps\label{fig:plotSteps}}
 \end{figure}
 
 
@@ -657,10 +685,109 @@ Chloride ~  log(SpecCond) + sinDY + log(Turb) + Turb
 
 
 \FloatBarrier
+
+%------------------------------------------------------------
+\subsection{Model Adjustments}
+%------------------------------------------------------------
+There may be situations in which the user wants to explore alternative models compared to the results of the stepwise regression. The first tool offered in the package for this type of work is the function generateParamChoices. This function will create a dataframe, and optionally save it to a csv file with all of the parameter choices.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#Change this to a relavent path:}
+\hlstd{pathToSave} \hlkwb{<-} \hlstr{"C:/RData/"}
+\hlstd{choices} \hlkwb{<-} \hlkwd{generateParamChoices}\hlstd{(predictionVariables,}
+                                \hlstd{modelReturn,pathToSave,}\hlkwc{save}\hlstd{=}\hlnum{TRUE}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+This produces a file that can be opened in Microsoft Excel, or any text editor:
+
+\begin{figure}[ht!]
+\centering
+ \resizebox{0.9\textwidth}{!}{\includegraphics{Excel.png}} 
+\caption{Output of generateParamChoices shown in Excel}
+\label{overflow}
+\end{figure}
+
+The first column, `Scalar', is pre-populated with zeros and ones, where ones represent the variables picked in the stepwise regression. Changing the 1's and 0's in this column will allow the user to easily set which parameters should be modeled. So, adding a 1 to the Flow row in the Scalar column will tell the program to include Flow in the model (as well as any other parameters with 1's). The next set of columns are used to allow users to include interaction terms. For example, if the interaction between log(Flow) and Turbidity was thought to be useful, a 1 in row 8, column H (log(Flow):Turb) would be required.
+
+Once the parameter choice file is adjusted, it can be read in using read.csv, and a new formula can be created using the createFormulaFromDF function.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{choicesNew} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(pathToSave)}
+\hlstd{newFormula} \hlkwb{<-}\hlkwd{createFormulaFromDF}\hlstd{(choicesNew)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{newFormula}
+\end{alltt}
+\begin{verbatim}
+[1] "Wtemp + Flow + pH + log(SpecCond) + log(Turb) + Turb:log(Flow)"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+From this formula, the stepwise regression routine can be re-run (if certain parameters were deleted for example), or the model can be created:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{newUpperFormula} \hlkwb{<-} \hlkwd{paste}\hlstd{(investigateResponse,}\hlstr{" ~ "}\hlstd{, newFormula,} \hlkwc{sep}\hlstd{=}\hlstr{""}\hlstd{)}
+\hlstd{modelReturnCustom} \hlkwb{<-} \hlkwd{censReg}\hlstd{(newUpperFormula,}
+                       \hlkwc{dist}\hlstd{=transformResponse,} \hlkwc{data}\hlstd{=DT)}
+\hlstd{modelReturnCustom}
+\end{alltt}
+\begin{verbatim}
+Call:
+censReg(formula = newUpperFormula, data = DT, dist = transformResponse)
+
+Coefficients:
+                 Estimate Std. Error  z-score p-value
+(Intercept)     7.879e+00  2.538e+00  3.10485  0.0017
+Wtemp          -3.029e-02  7.959e-03 -3.80579  0.0002
+Flow           -4.829e-05  3.452e-05 -1.39901  0.1440
+pH             -1.131e+00  3.494e-01 -3.23676  0.0011
+log(SpecCond)  -1.023e-01  4.238e-01 -0.24147  0.7980
+log(Turb)      -1.343e-02  1.416e-01 -0.09488  0.9235
+Turb:log(Flow)  7.178e-04  1.385e-03  0.51844  0.5872
+
+Estimated residual standard error (Unbiased) = 0.574
+
+Distribution: lognormal
+Number of observations = 85, number censored = 5 (5.9 percent)
+
+Loglik(model) = -72.23 Loglik(intercept only) = -86.72
+  Chi-square = 28.98, degrees of freedom = 6, p-value = <0.0001
+
+Computation method: AMLE
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
 %------------------------------------------------------------
 \subsection{Model Analysis}
 %------------------------------------------------------------
-Finally, the package offers several ways to analyze the model results.
+Finally, the package offers several ways to analyze and report on the model results. We will look at the results of the original model returned from the stepwise regression (not the custom model we created in the last section). Censored values are plotted as points with segments (from the detection limit towards zero for left-censored data). Also, left-censored residuals are calculated using the detection limit.
+
+The function resultPlots plots a set of plots. All model results include observed vs. predicted (A), residuals vs. predicted (B), residuals vs. time (C), and residual quantiles vs. theoretical quantiles (D). After that, there is a plot for observed vs. each parameter in the model (E...).
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -678,6 +805,9 @@ Finally, the package offers several ways to analyze the model results.
 
 \FloatBarrier
 
+The function resultResidPlots plots a set of plots. All model results include observed vs. predicted (A), residuals vs. predicted (B), residuals vs. time (C), and residual quantiles vs. theoretical quantiles (D). After that, there is a plot for residuals vs. each parameter in the model (E...).
+
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -694,6 +824,9 @@ Finally, the package offers several ways to analyze the model results.
 
 \FloatBarrier
 
+The predictionPlot function plots the predicted values based on all of the unit value data available (from the UV dataframe) in blue. Red dots representing the actual measured data are also included. Left-censored points are shown at their detetction limit, with a segment going towards zero.
+
+
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
@@ -709,46 +842,53 @@ Finally, the package offers several ways to analyze the model results.
 
 
 \FloatBarrier
+Finally, a summary printout can be obtained with the function summaryPrintout in either the R console or saved to a file.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlkwd{summaryPrintout}\hlstd{(modelReturn, siteINFO,} \hlkwc{saveOutput}\hlstd{=}\hlnum{FALSE}\hlstd{,fileName)}
+\hlkwd{summaryPrintout}\hlstd{(modelReturn, siteINFO)}
 \end{alltt}
 \begin{verbatim}
-Chloride  at  St. Louis River At Scanlon, Mn  ( 04024000 )
-Number of observations:  76 
+Nitrate.N  at  St. Louis River At Scanlon, Mn  ( 04024000 )
+Number of observations:  85 
 Distribution:  lognormal 
 Method:  AMLE 
-Degrees of freedom:  12 
-RMSE:  0.1175 
-RSQ:  88.22 
-Number of censored values:  0 
-Chloride ~ (Intercept) + log(SpecCond) + sinDY + log(Turb) + Turb 
+Degrees of freedom:  14 
+RMSE:  0.4291 
+RSQ:  61.53 
+Number of censored values:  5 
+Nitrate.N ~ (Intercept) + sinDY + cosDY + pH + log(SpecCond) + Wtemp + log(Turb) 
 
-           Term Coefficient StdError pValue  StCoef
-1   (Intercept)      -5.328    0.507      0 -10.507
-2 log(SpecCond)       1.327    0.091      0  14.532
-3         sinDY       0.286    0.027      0  10.642
-4     log(Turb)       0.210    0.033      0   6.287
-5          Turb      -0.011    0.002      0  -5.934
-6      logSigma       0.014    0.002      0   6.245
+           Term Coefficient StdError pValue StCoef
+1   (Intercept)      -5.844    2.336   0.01 -2.502
+2         sinDY       1.423    0.178   0.00  8.002
+3         cosDY       0.842    0.211   0.00  3.996
+4            pH      -1.345    0.264   0.00 -5.099
+5 log(SpecCond)       2.461    0.405   0.00  6.074
+6         Wtemp       0.084    0.018   0.00  4.768
+7     log(Turb)       0.360    0.095   0.00  3.774
+8      logSigma       0.184    0.028   0.00  6.481
 
 Correlation matrix of coefficients: 
-              (Intercept) log(SpecCond)   sinDY log(Turb)
-(Intercept)        1.0000       -0.9973 -0.6424   -0.6119
-log(SpecCond)     -0.9973        1.0000  0.6432    0.5596
-sinDY             -0.6424        0.6432  1.0000    0.3089
-log(Turb)         -0.6119        0.5596  0.3089    1.0000
-Turb              -0.0203        0.0672  0.0584   -0.6791
-logSigma           0.0000        0.0000  0.0000    0.0000
-                 Turb logSigma
-(Intercept)   -0.0203        0
-log(SpecCond)  0.0672        0
-sinDY          0.0584        0
-log(Turb)     -0.6791        0
-Turb           1.0000        0
-logSigma       0.0000        1
+              (Intercept)   sinDY   cosDY      pH
+(Intercept)        1.0000 -0.6214 -0.3342 -0.4422
+sinDY             -0.6214  1.0000  0.6207 -0.0938
+cosDY             -0.3342  0.6207  1.0000  0.1125
+pH                -0.4422 -0.0938  0.1125  1.0000
+log(SpecCond)     -0.5749  0.6560  0.1692 -0.4760
+Wtemp             -0.5114  0.8580  0.8391 -0.0300
+log(Turb)         -0.7868  0.6155  0.4931  0.0740
+logSigma          -0.0059  0.0376  0.0142 -0.0228
+              log(SpecCond)   Wtemp log(Turb) logSigma
+(Intercept)         -0.5749 -0.5114   -0.7868  -0.0059
+sinDY                0.6560  0.8580    0.6155   0.0376
+cosDY                0.1692  0.8391    0.4931   0.0142
+pH                  -0.4760 -0.0300    0.0740  -0.0228
+log(SpecCond)        1.0000  0.4712    0.6765   0.0242
+Wtemp                0.4712  1.0000    0.5820   0.0283
+log(Turb)            0.6765  0.5820    1.0000   0.0144
+logSigma             0.0242  0.0283    0.0144   1.0000
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
@@ -761,7 +901,7 @@ logSigma       0.0000        1
 \section{Getting Started in R}
 \label{sec:appendix1}
 %------------------------------------------------------------ 
-This section describes the options for downloading and installing the dataRetrieval package.
+This section describes the options for downloading and installing the GSqwsr package.
 
 %------------------------------------------------------------
 \subsection{New to R?}
