@@ -14,7 +14,8 @@
 #'@param upperBoundFormula string of upper bound for model generation
 #'@param k string either "AIC", "BIC", or value of the multiple of the number of degrees of freedom used for the penalty.
 #'@param transformResponse string can be "normal" or "lognormal", perhaps try to generalize this more in future
-#'@param autoSinCos logical, turns off the feature to automatically include sinDY and cosDY if either is picked in the stepwise regression.
+#'@param autoSinCos logical, turns off the feature to automatically include sinDY and cosDY if either is picked in the stepwise regression. If true (default), 
+#'the code will automatically require both sine and cosine if one was originally picked. If false, the output of the raw stepwise regression is returned.
 #'The default is TRUE, which includes the feature.
 #'@return The output is a named list that can be split into 3 dataframes: modelInformation, steps, and DT.mod.
 #'DT.mod is generated from the output of the censReg function. steps is a dataframe that shows information
@@ -60,7 +61,7 @@ prelimModelDev <- function(localDT,responseVariable,
   steps <- with(pathToModel, data.frame(step=Step, AIC=AIC,
              Deviance=Deviance, Resid.Dev=get('Resid. Dev'), Resid.Df=get('Resid. Df')))
   
-  if(!autoSinCos){
+  if(autoSinCos){
     if(any(grepl("sinDY",as.character(steps$step)) | grepl("cosDY",as.character(steps$step)))){
       
       if (!(any(grepl("sinDY",as.character(steps$step))) & any(grepl("cosDY",as.character(steps$step))))){
