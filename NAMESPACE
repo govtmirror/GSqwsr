@@ -1,3 +1,4 @@
+export(View)
 export(analyzeSteps)
 export(createFormulaFromDF)
 export(createFullDT)
