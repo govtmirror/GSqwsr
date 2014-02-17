@@ -95,8 +95,8 @@ resultResidPlots <- function(localDT,finalModel,siteINFO){
   lineFit <- do.call("lm", list(formulaForBestFit, data=df))
   
   #1: 
-  plot(df$pred,df$obs,ylab=paste("Measured ", responseVariable,sep=""),
-       xlab=paste("Predicted ", responseVariable,sep=""),
+  plot(df$pred,df$obs,ylab="Observed",#paste("Measured ", responseVariable,sep=""),
+       xlab="Predicted" ,#paste("Predicted ", responseVariable,sep=""),
        ylim=c(yMin,max(df$obs)),xlim=c(xMin,max(df$obs)),log=logPlot)
   abline(lineFit, col="red")
   addLabel("A")
@@ -108,7 +108,7 @@ resultResidPlots <- function(localDT,finalModel,siteINFO){
   }
   
   #2:
-  plot(df$pred, resid, ylab="Residuals",xlab=paste("Predicted ", responseVariable,sep=""),
+  plot(df$pred, resid, ylab="Residuals",xlab="Predicted",#paste("Predicted ", responseVariable,sep=""),
        xlim=c(xMin,max(df$obs)),log=residLog)
   addLabel("B")
   
