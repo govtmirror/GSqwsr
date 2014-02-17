@@ -79,7 +79,7 @@ knit_hooks$set(crop = hook_pdfcrop)
 %------------------------------------------------------------
 \section{Introduction to GSqwsr package}
 %------------------------------------------------------------ 
-The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
+The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg regression function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
 
 %------------------------------------------------------------
 \section{General Workflow}
@@ -95,7 +95,7 @@ UV <- StLouisUV
 QWcodes <- StLouisQWcodes
 siteINFO <- StLouisInfo
 
-investigateResponse <- "SuspSed"
+investigateResponse <- "Ammonia.N"
 transformResponse <- "lognormal"
 
 DT <- DTComplete[c(investigateResponse,
@@ -167,17 +167,15 @@ Most likely, there will be a known set of parameters that are to be modeled. If 
 
 
 <<importNWISqw,echo=TRUE,eval=FALSE>>=
-pCodeQW <- c("00608","00613","00618","00631","00665",
-             "00671","00940","62855","80154")
-startDate <- "2011-03-17"
+pCodeQW <- c("00608","00613","00618")
+startDate <- "2011-04-22"
 endDate <- ""
 QW <- importNWISqw(site, params=pCodeQW, 
                    begin.date=startDate, end.date=endDate)
 @
 
 <<importNWISqwHidden,echo=FALSE,eval=TRUE>>=
-pCodeQW <- c("00608","00613","00618","00631","00665",
-             "00671","00940","62855","80154")
+pCodeQW <- c("00608","00613","00618")
 startDate <- "2011-04-22"
 endDate <- ""
 QW <- StLouisQW
@@ -188,7 +186,7 @@ names(QW)
 @
 
 
-This brings the data in automatically as a `qw' object. This means that censoring information is embeded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
+This brings the data in automatically as a `qw' object. This means that censoring information is embedded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
 
 <<makeQWObjects,echo=TRUE,eval=FALSE>>=
 
@@ -227,15 +225,22 @@ names(UV)
 %------------------------------------------------------------
 \subsection{Data Merging}
 %------------------------------------------------------------
-We now need to merge the sample and continuous data into one dataframe. This is accomplished using the mergeDatasets function.
+We now need to merge the sample and continuous data into one dataframe. This is accomplished using the mergeDatasets function. Both QW and UV dataframes need a column called `datetime' that has the date and time in an POSIXct object. This may need to be done as shown below.
+
 
 <<mergeDatasets,echo=TRUE,eval=TRUE>>=
+QW$datetime <- as.POSIXct(paste(QW$sample_dt," ",QW$sample_tm, ":00",sep=""))
+
+# Make sure they are in consistant time zones:
+QW$datetime <- setTZ(QW$datetime, QW$tzone_cd)
+UV$datetime <- setTZ(UV$datetime, UV$tz_cd)
+
 mergeReturn <- mergeDatasets(QW, UV, QWcodes)
 DTComplete <- mergeReturn$DTComplete
 QWcodes <- mergeReturn$QWcodes
 @
 
-The dataframe DTComplete contains a column of each of the discrete samples, and a column of the nearest (temporaly) unit value data. The function mergeDatasets has an argument called `max.diff'. The default is set to `2 hours', meaning that if the sample and continious data timestamps do not match, the merge will take the closest continious data within 2 hours. This value can be changed, see ?mergeNearest for more options.
+The dataframe DTComplete contains a column of each of the discrete samples, and a column of the nearest (temporally) unit value data. The function mergeDatasets has an argument called `max.diff'. The default is set to `2 hours', meaning that if the sample and continuous data timestamps do not match, the merge will take the closest continuous data within 2 hours. This value can be changed, see ?mergeNearest for more options.
 
 %------------------------------------------------------------
 \subsection{Data Investigation}
@@ -246,10 +251,10 @@ The dataframe DTComplete contains a column of each of the discrete samples, and 
 %------------------------------------------------------------
 
 
-We now want to narrow our investigation down to one analyte. Let us look at Chloride. First we will want a dataframe DT with just chloride and the unit values. We will call these the `prediciton values' because they will eventually be used to predict chloride.
+We now want to narrow our investigation down to one analyte. Let us look at nitrate. First we will want a dataframe DT with just nitrate and the unit values. We will call these the `prediction values' because they will eventually be used to predict nitrate.
 
 <<getDT,echo=TRUE,eval=TRUE>>=
-investigateResponse <- "Chloride"
+investigateResponse <- "Nitrate.N"
 predictionVariables <- getPredictVariables(names(UV))
 
 DT <- DTComplete[c(investigateResponse,
@@ -285,7 +290,7 @@ predictVariableScatterPlots(DT,investigateResponse)
 %------------------------------------------------------------
 \subsection{Stepwise Regression}
 %------------------------------------------------------------
-We are ready to perform a stepwise regression of the data to find the most significant variables to use in the model. This is accomlished with the prelimModelDev function. There are several inputs to this function. DT is the dataframe with all the predictor variables as well as the response we are investigating. We also need to define an upper bound for the stepwise regression to test. This is an equation with the most predictor variables, along with their transforms. If we want to use all possible variables, and all available transforms, we can use the equation createFullFormula (continuing with our Chloride example):
+We are ready to perform a stepwise regression of the data to find the most significant variables to use in the model. This is accomplished with the prelimModelDev function. There are several inputs to this function. DT is the dataframe with all the predictor variables as well as the response we are investigating. We also need to define an upper bound for the stepwise regression to test. This is an equation with all the possible predictor variables, along with their transforms that we are interested in testing. If we want to use all possible variables, and all available transforms, we can use the equation createFullFormula (continuing with our Chloride example):
 
 <<createFullFormula,echo=TRUE,eval=TRUE,echo=TRUE>>=
 upperBoundFormula <- createFullFormula(DT,investigateResponse)
@@ -298,7 +303,8 @@ substring(upperBoundFormula, first=60,last=119)
 
 The function will check if any data in DT has less than or equal to zero values. If so, a log transform is not included.
 
-Now to use the stepwise regression within the prelimModelDev function:
+Now to use the stepwise regression within the prelimModelDev function. In this function, the DT dataframe is required, the column name of the response variable (in this example, investigateResponse), and the upper bound formula. The user can then choose a value for k which can be `AIC' (akaike information criterion), `BIC' (Bayesian information criterion), or a value of the multiple of the number of degrees of freedom used for the penalty. BIC has a harsher penalty for overfitting the model, which is typically seen as a benefit. The default is BIC. Finally, transformResponse can either be `lognormal' or `normal', which will define the transformation of the response variable. 
+
 
 <<prelimModelDev,echo=TRUE,eval=TRUE,echo=TRUE>>=
 transformResponse <- "lognormal"
@@ -314,7 +320,8 @@ modelResult <- returnPrelim$modelInformation
 modelReturn <- returnPrelim$DT.mod
 @
 
-The output during the function shows the steps that the stepwise regression determined were ideal. 
+The output during the function shows the steps that the stepwise regression determined were ideal, information from the final model (modelInformation) such as the terms, their coefficients, standard error, p value as calculated by the censReg function, and standard coefficient (PARAML/STDDEV), and the raw data returned from censReg (DT.mod). 
+
 \FloatBarrier
 
 %------------------------------------------------------------
@@ -323,24 +330,90 @@ The output during the function shows the steps that the stepwise regression dete
 It might be a good idea here to verify that the results from the stepwise regression are indeed what you want. The process can be observed using two functions: plotSteps and analyzeSteps.
 
 \FloatBarrier
+analyzeSteps creates a plot with correlation, slope, RMSE, PRESS, and AIC statistics. Correlation and slope are values that should trend towards 1. Correlation is the correlation between observed and predicted, slope is the slope of observed and predicted. RMSE should trend towards zero, RMSE is the root mean squared error of the observed vs. predicted data. PRESS (predicted residual sums of squares) is calculated from the external studentized residuals, and should trend downward (for a better model fit). Residuals are calculated for censored values using the detection limit. AIC (akaike information criterion) is returned from the ANOVA output of the stepwise regression. It is always called `AIC' whether or not `AIC' or `BIC' was specified. AIC will also trend downward for better model fits.
+
 
 <<analyzeSteps,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="analyzeSteps">>=
 siteINFO <- getSiteFileData(site, interactive=FALSE)
-analyzeSteps(steps, investigateResponse,siteINFO)
+analyzeSteps(steps, investigateResponse,siteINFO,
+             xCorner=0.01,yCorner=0.3)
 @
 
 \FloatBarrier
 
+plotSteps shows the observed versus predicted for each step along the way of the stepwise regression.There are two lines included, the blue line is a one-to-one line, the red line is the slope of the observed versus predicted values as calculated with a linear regression (lm). In this simple regression, censored values are taken as their detection limits. Red points indicate potential outliers as calculated based on external studentized residuals greater than 3 or less than -3.
 
-<<plotSteps,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="plotSteps">>=
+<<plotSteps,echo=TRUE,eval=TRUE,fig.cap="plotSteps">>=
+
+m <- t(matrix(c(1:6), nrow = 2, ncol = 3))
+layout(m)
+par(mar=c(2,2,2,2))
 plotSteps(steps,DT,transformResponse)
+
 @
 
 \FloatBarrier
+
+%------------------------------------------------------------
+\subsection{Model Adjustments}
+%------------------------------------------------------------
+There may be situations in which the user wants to explore alternative models compared to the results of the stepwise regression. The first tool offered in the package for this type of work is the function generateParamChoices. This function will create a dataframe, and optionally save it to a csv file with all of the parameter choices.
+
+<<generateParamChoices,echo=TRUE,eval=FALSE>>=
+#Change this to a relavent path:
+pathToSave <- "C:/RData/"
+choices <- generateParamChoices(predictionVariables,modelReturn,pathToSave,save=TRUE)
+
+@
+
+<<generateParamChoices2,echo=FALSE,eval=TRUE>>=
+choices <- generateParamChoices(predictionVariables,modelReturn)
+@
+
+This produces a file that can be opened in Microsoft Excel, or any text editor:
+
+\begin{figure}[ht!]
+\centering
+ \resizebox{0.9\textwidth}{!}{\includegraphics{Excel.png}} 
+\caption{Output of generateParamChoices shown in Excel}
+\label{overflow}
+\end{figure}
+
+The first column, `Scalar', is pre-populated with zeros and ones, where ones represent the variables picked in the stepwise regression. Changing the 1's and 0's in this column will allow the user to easily set which parameters should be modeled. So, adding a 1 to the Flow row in the Scalar column will tell the program to include Flow in the model (as well as any other parameters with 1's). The next set of columns are used to allow users to include interaction terms. For example, if the interaction between log(Flow) and Turbidity was thought to be useful, a 1 in row 8, column H (log(Flow):Turb) would be required.
+
+Once the parameter choice file is adjusted, it can be read in using read.csv, and a new formula can be created using the createFormulaFromDF function.
+
+<<createFormulaFromDF,echo=TRUE,eval=FALSE>>=
+choicesNew <- read.csv(pathToSave)
+newFormula <-createFormulaFromDF(choicesNew)
+@
+
+<<createFormulaFromDF2,echo=FALSE,eval=TRUE>>=
+choicesNew <- choices
+choicesNew[7,8] <- 1
+choicesNew[2,2] <- 1
+newFormula <-createFormulaFromDF(choicesNew)
+@
+
+<<createFormulaFromDF3,echo=TRUE,eval=TRUE>>=
+newFormula
+@
+
+From this formula, the stepwise regression routine can be re-run (if certain parameters were deleted for example), or the model can be created:
+
+<<censReg, echo=TRUE,eval=TRUE>>=
+newUpperFormula <- paste(investigateResponse," ~ ", newFormula, sep="")
+modelReturnCustom <- censReg(newUpperFormula, 
+                       dist=transformResponse, data=DT)
+modelReturnCustom
+@
+
 %------------------------------------------------------------
 \subsection{Model Analysis}
 %------------------------------------------------------------
-Finally, the package offers several ways to analyze the model results.
+Finally, the package offers several ways to analyze the model results. We will look at the results of the original model returned from the stepwise regression (not the custom model we created in the last section).
+
+The function resultPlots plots
 
 <<resultPlots,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="resultPlots">>=
 resultPlots(DT,modelReturn,siteINFO)
@@ -361,7 +434,7 @@ predictionPlot(UV,DT,modelReturn,siteINFO=siteINFO)
 \FloatBarrier
 
 <<summaryPrintout,echo=TRUE,eval=TRUE,echo=TRUE>>=
-summaryPrintout(modelReturn, siteINFO, saveOutput=FALSE,fileName)
+summaryPrintout(modelReturn, siteINFO)
 @
 
 \clearpage
@@ -371,7 +444,7 @@ summaryPrintout(modelReturn, siteINFO, saveOutput=FALSE,fileName)
 \section{Getting Started in R}
 \label{sec:appendix1}
 %------------------------------------------------------------ 
-This section describes the options for downloading and installing the dataRetrieval package.
+This section describes the options for downloading and installing the GSqwsr package.
 
 %------------------------------------------------------------
 \subsection{New to R?}
