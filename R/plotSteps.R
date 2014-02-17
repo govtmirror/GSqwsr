@@ -85,7 +85,7 @@ plotSteps <- function(steps,localDT,transformResponse="lognormal"){
     goodness <- paste("slope: ",formatC(lineFit$coefficients[2],digits=4), 
                       ", cor: ", formatC(corStep,digits=4), 
                       ", rsme: ", formatC(rmse(modelReturn),digits=4),sep="")
-    mtext(goodness,side=3,line=0.5,cex=0.7)
+    mtext(goodness,side=1,line=-1.5,cex=0.7)
     
    
   }
