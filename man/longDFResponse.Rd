@@ -2,7 +2,7 @@
 \alias{longDFResponse}
 \title{Custom reshape function for plotQQTransforms and predictVariablesScatterPlots.}
 \usage{
-longDFResponse(x, predictVariables, responseVariable)
+  longDFResponse(x, predictVariables, responseVariable)
 }
 \arguments{
   \item{x}{dataframe in wide format}
@@ -12,10 +12,10 @@ longDFResponse(x, predictVariables, responseVariable)
   \item{responseVariable}{character}
 }
 \value{
-Long dataframe with value, variable, and response columns
+  Long dataframe with value, variable, and response columns
 }
 \description{
-Reshapes a wide dataframe to long.
+  Reshapes a wide dataframe to long.
 }
 \keyword{long}
 \keyword{reshape}

@@ -3,7 +3,8 @@
 \alias{StLouisUV}
 \title{StLouisUV example data}
 \description{
-Example UV data from St. Louis
+  Example UV data from St. Louis
 }
+\keyword{datasets}
 \keyword{sites}
 

@@ -2,7 +2,8 @@
 \alias{saveModelResults}
 \title{Saves critical objects for model analysis}
 \usage{
-saveModelResults(pathToSave, DT, UV, modelReturn, siteINFO)
+  saveModelResults(pathToSave, DT, UV, modelReturn,
+    siteINFO)
 }
 \arguments{
   \item{pathToSave}{full path for saving results}
@@ -18,7 +19,7 @@ saveModelResults(pathToSave, DT, UV, modelReturn, siteINFO)
   site.no}
 }
 \description{
-Saves critical objects for model analysis
+  Saves critical objects for model analysis
 }
 \examples{
 \dontrun{}

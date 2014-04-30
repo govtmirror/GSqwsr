@@ -2,7 +2,8 @@
 \alias{plotSteps}
 \title{Plots showing obs. vs pred. of each step in stepwise regression}
 \usage{
-plotSteps(steps, localDT, transformResponse = "lognormal")
+  plotSteps(steps, localDT,
+    transformResponse = "lognormal")
 }
 \arguments{
   \item{steps}{dataframe}
@@ -15,18 +16,18 @@ plotSteps(steps, localDT, transformResponse = "lognormal")
   future}
 }
 \value{
-retVal list of modelStuff, steps, DT.mod
+  retVal list of modelStuff, steps, DT.mod
 }
 \description{
-Plots showing observed versus predicted for each step
-calculated in the stepwise regression. A 1:1 blue line is
-plotted for reference. The results of a basic linear
-regression between all the points is shown in red. Censored
-values are signified with a segment from the detection
-level. Outliers are shown as solid red circles, as
-calculated by \code{findOutliers}. In this function,
-outliers are defined as points that have greater than 3
-external studentized residuals.
+  Plots showing observed versus predicted for each step
+  calculated in the stepwise regression. A 1:1 blue line is
+  plotted for reference. The results of a basic linear
+  regression between all the points is shown in red.
+  Censored values are signified with a segment from the
+  detection level. Outliers are shown as solid red circles,
+  as calculated by \code{findOutliers}. In this function,
+  outliers are defined as points that have greater than 3
+  external studentized residuals.
 }
 \examples{
 DTComplete <- StLouisDT

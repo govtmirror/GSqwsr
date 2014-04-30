@@ -2,8 +2,8 @@
 \alias{generateParamChoices}
 \title{Generate a dataframe with parameter options for model creation.}
 \usage{
-generateParamChoices(predictVariables, modelReturn, pathToSave = "",
-  save = FALSE)
+  generateParamChoices(predictVariables, modelReturn,
+    pathToSave = "", save = FALSE)
 }
 \arguments{
   \item{predictVariables}{string vector of prediction
@@ -16,14 +16,15 @@ generateParamChoices(predictVariables, modelReturn, pathToSave = "",
   \item{save}{logical}
 }
 \description{
-Generate a dataframe and optional csv file to be used to
-narrow down allowed parameters in model creation. Creates a
-dataframe in which one column is named 'Scalar', one is
-named 'variableNames', and the rest are the available
-parameters. Each row in the dataframe contains one of the
-available parameters. Using ones and zeros, formulas can
-easily be created including log transforms and interaction
-terms with the \link{createFormulaFromDF} function.
+  Generate a dataframe and optional csv file to be used to
+  narrow down allowed parameters in model creation. Creates
+  a dataframe in which one column is named 'Scalar', one is
+  named 'variableNames', and the rest are the available
+  parameters. Each row in the dataframe contains one of the
+  available parameters. Using ones and zeros, formulas can
+  easily be created including log transforms and
+  interaction terms with the \link{createFormulaFromDF}
+  function.
 }
 \examples{
 DTComplete <- StLouisDT

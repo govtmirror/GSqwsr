@@ -2,7 +2,8 @@
 \alias{externalStudentRes}
 \title{Compute internally Studentized residuals}
 \usage{
-externalStudentRes(localDT, modelCoefList, transformResponse = "lognormal")
+  externalStudentRes(localDT, modelCoefList,
+    transformResponse = "lognormal")
 }
 \arguments{
   \item{localDT}{dataframe that includes all response and
@@ -15,16 +16,16 @@ externalStudentRes(localDT, modelCoefList, transformResponse = "lognormal")
   future}
 }
 \value{
-StRes.all
+  StRes.all
 }
 \description{
-Compute internally Studentized residuals. The function can
-calculate multiple models, therefore the model coefficients
-most be input as a named list (where the name is the
-response variable for that model result). Residuals of
-censored values are calculated simply by the prediction
-minus detection limit. Predictions are calculated with the
-\link{censReg} function.
+  Compute internally Studentized residuals. The function
+  can calculate multiple models, therefore the model
+  coefficients most be input as a named list (where the
+  name is the response variable for that model result).
+  Residuals of censored values are calculated simply by the
+  prediction minus detection limit. Predictions are
+  calculated with the \link{censReg} function.
 }
 \examples{
 DTComplete <- StLouisDT

@@ -2,16 +2,16 @@
 \alias{simpleCap}
 \title{Return string with initial capital letters}
 \usage{
-simpleCap(x)
+  simpleCap(x)
 }
 \arguments{
   \item{x}{string}
 }
 \value{
-retVal corrected string
+  retVal corrected string
 }
 \description{
-Return string with initial capital letters
+  Return string with initial capital letters
 }
 \examples{
 exString <- "BAD RIVER"

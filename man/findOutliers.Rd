@@ -2,7 +2,8 @@
 \alias{findOutliers}
 \title{Calculates potential outliers based on external studentized residuals}
 \usage{
-findOutliers(modelReturn, localDT, transformResponse = "lognormal")
+  findOutliers(modelReturn, localDT,
+    transformResponse = "lognormal")
 }
 \arguments{
   \item{localDT}{DTframe that includes all response and
@@ -15,13 +16,13 @@ findOutliers(modelReturn, localDT, transformResponse = "lognormal")
   future}
 }
 \value{
-outlier vector of index numbers
+  outlier vector of index numbers
 }
 \description{
-Find index of outliers using external studentized
-residuals. Outliers are values that have external
-studentized residuals greater than 3 or less than negative
-3.
+  Find index of outliers using external studentized
+  residuals. Outliers are values that have external
+  studentized residuals greater than 3 or less than
+  negative 3.
 }
 \examples{
 DTComplete <- StLouisDT

@@ -2,8 +2,8 @@
 \alias{runPred}
 \title{Run the model prediction}
 \usage{
-runPred(localUV, localDT, finalModel, transformResponse = "lognormal",
-  dfReady = TRUE)
+  runPred(localUV, localDT, finalModel,
+    transformResponse = "lognormal", dfReady = TRUE)
 }
 \arguments{
   \item{localUV}{dataframe of unit values}
@@ -20,13 +20,13 @@ runPred(localUV, localDT, finalModel, transformResponse = "lognormal",
   includes time/log columns}
 }
 \value{
-predictedReturn list
+  predictedReturn list
 }
 \description{
-Run the model prediction. Takes unit value data (UV) and
-model results to calculate the predicted values. If
-transformResponse is set to "lognormal", a bias correction
-is included.
+  Run the model prediction. Takes unit value data (UV) and
+  model results to calculate the predicted values. If
+  transformResponse is set to "lognormal", a bias
+  correction is included.
 }
 \examples{
 DTComplete <- StLouisDT

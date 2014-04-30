@@ -2,20 +2,21 @@
 \alias{getPredictVariables}
 \title{Returns a character vector of prediction variables.}
 \usage{
-getPredictVariables(DTnames)
+  getPredictVariables(DTnames)
 }
 \arguments{
   \item{DTnames}{column names of DT dataframe}
 }
 \value{
-predictVariables string predict variables based on column
-headers
+  predictVariables string predict variables based on column
+  headers
 }
 \description{
-Returns a character vector of prediction variables. Accepts
-column names as an input, this function filters out '_cd'
-columns as well as "agency", "site", "tz". These are
-typical column names retrieved from NWIS web services.
+  Returns a character vector of prediction variables.
+  Accepts column names as an input, this function filters
+  out '_cd' columns as well as "agency", "site", "tz".
+  These are typical column names retrieved from NWIS web
+  services.
 }
 \examples{
 UV <- StLouisUV

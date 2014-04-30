@@ -2,13 +2,13 @@
 \alias{View}
 \title{View QW objects}
 \usage{
-View(x)
+  View(x)
 }
 \arguments{
   \item{x}{dataframe to view.}
 }
 \description{
-View QW objects, specifically a fix for RStudio.
+  View QW objects, specifically a fix for RStudio.
 }
 \keyword{custom}
 \keyword{view}

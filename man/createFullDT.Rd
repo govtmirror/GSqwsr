@@ -2,7 +2,7 @@
 \alias{createFullDT}
 \title{Create log and interaction columns}
 \usage{
-createFullDT(formulaToUse, localDT)
+  createFullDT(formulaToUse, localDT)
 }
 \arguments{
   \item{formulaToUse}{formula}
@@ -11,15 +11,16 @@ createFullDT(formulaToUse, localDT)
   model}
 }
 \value{
-fullDTList list of DT (data frame with new log and
-interaction columns), modelFormula (text of formula to use
-with new column names), and colNames (all column names)
+  fullDTList list of DT (data frame with new log and
+  interaction columns), modelFormula (text of formula to
+  use with new column names), and colNames (all column
+  names)
 }
 \description{
-Create log and interaction columns. Using a formula and raw
-data, log and interaction columns will be computed. If
-negative values are found in the raw data column that need
-to be log transformed, the values are changed to 1.
+  Create log and interaction columns. Using a formula and
+  raw data, log and interaction columns will be computed.
+  If negative values are found in the raw data column that
+  need to be log transformed, the values are changed to 1.
 }
 \examples{
 DTComplete <- StLouisDT

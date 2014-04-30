@@ -2,18 +2,18 @@
 \alias{makeQWObjects}
 \title{Create QW dataframe from dataRetrieval output}
 \usage{
-makeQWObjects(df)
+  makeQWObjects(df)
 }
 \arguments{
   \item{df}{dataframe output from
   \code{retrieveNWISqwData}}
 }
 \value{
-newdf dataframe
+  newdf dataframe
 }
 \description{
-Takes output from expanded \code{retrieveNWISqwData}, and
-turns the water quality data into qw object columns.
+  Takes output from expanded \code{retrieveNWISqwData}, and
+  turns the water quality data into qw object columns.
 }
 \examples{
 site <- "04193490"

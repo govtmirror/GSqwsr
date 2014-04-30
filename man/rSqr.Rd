@@ -2,7 +2,7 @@
 \alias{rSqr}
 \title{Calculates R^2 and adjusted R^2 values}
 \usage{
-rSqr(observed, resid, p)
+  rSqr(observed, resid, p)
 }
 \arguments{
   \item{observed}{number vector of observed data}
@@ -12,10 +12,10 @@ rSqr(observed, resid, p)
   \item{p}{not sure}
 }
 \value{
-df list with rSquare and adjusted rSquare
+  df list with rSquare and adjusted rSquare
 }
 \description{
-Calculates R^2 and adjusted R^2 values
+  Calculates R^2 and adjusted R^2 values
 }
 \examples{
 observed <- runif(10, 5.0, 7.5)

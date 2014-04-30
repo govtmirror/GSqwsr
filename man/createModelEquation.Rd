@@ -2,18 +2,18 @@
 \alias{createModelEquation}
 \title{Create the model equation including coefficients.}
 \usage{
-createModelEquation(modelReturn)
+  createModelEquation(modelReturn)
 }
 \arguments{
   \item{modelReturn}{censReg model results}
 }
 \value{
-combo string
+  combo string
 }
 \description{
-Create the model equation including coefficients. Accepts
-the results of a censReg regression model and turns it into
-an text equation suitable for plot captions.
+  Create the model equation including coefficients. Accepts
+  the results of a censReg regression model and turns it
+  into an text equation suitable for plot captions.
 }
 \examples{
 DTComplete <- StLouisDT

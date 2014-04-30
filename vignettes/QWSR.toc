@@ -6,11 +6,11 @@
 \contentsline {subsection}{\numberline {3.2}Data Merging}{5}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}Data Investigation}{6}{subsection.3.3}
 \contentsline {subsubsection}{\numberline {3.3.1}Narrow down investigation}{6}{subsubsection.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.2}Plot variables}{6}{subsubsection.3.3.2}
-\contentsline {subsection}{\numberline {3.4}Stepwise Regression}{11}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Stepwise Regression Analysis}{14}{subsection.3.5}
-\contentsline {subsection}{\numberline {3.6}Model Adjustments}{19}{subsection.3.6}
-\contentsline {subsection}{\numberline {3.7}Model Analysis}{20}{subsection.3.7}
-\contentsline {section}{\numberline {A}Getting Started in R}{26}{appendix.A}
-\contentsline {subsection}{\numberline {A.1}New to R?}{26}{subsection.A.1}
-\contentsline {subsection}{\numberline {A.2}R User: Installing QWSR}{26}{subsection.A.2}
+\contentsline {subsubsection}{\numberline {3.3.2}Plot variables}{7}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}Stepwise Regression}{7}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Stepwise Regression Analysis}{9}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Model Adjustments}{10}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}Model Analysis}{11}{subsection.3.7}
+\contentsline {section}{\numberline {A}Getting Started in R}{13}{appendix.A}
+\contentsline {subsection}{\numberline {A.1}New to R?}{13}{subsection.A.1}
+\contentsline {subsection}{\numberline {A.2}R User: Installing QWSR}{13}{subsection.A.2}

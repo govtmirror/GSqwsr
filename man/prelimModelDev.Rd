@@ -2,8 +2,9 @@
 \alias{prelimModelDev}
 \title{Stepwise regression using censReg function}
 \usage{
-prelimModelDev(localDT, responseVariable, upperBoundFormula, k = "BIC",
-  transformResponse = "lognormal", autoSinCos = TRUE)
+  prelimModelDev(localDT, responseVariable,
+    upperBoundFormula, k = "BIC",
+    transformResponse = "lognormal", autoSinCos = TRUE)
 }
 \arguments{
   \item{localDT}{dataframe of potential input variables to
@@ -32,35 +33,36 @@ prelimModelDev(localDT, responseVariable, upperBoundFormula, k = "BIC",
   which includes the feature.}
 }
 \value{
-The output is a named list that can be split into 3
-dataframes: modelInformation, steps, and DT.mod. DT.mod is
-generated from the output of the censReg function. steps is
-a dataframe that shows information for each of the steps
-taken during the stepwise regression. modelInformation is a
-dataframe that contains information for the final model,
-including the names of the chosen parameters, their
-coefficients, standard error, p-value, and standard
-coefficient. See \code{?censReg} for information on how
-these were calculated.
+  The output is a named list that can be split into 3
+  dataframes: modelInformation, steps, and DT.mod. DT.mod
+  is generated from the output of the censReg function.
+  steps is a dataframe that shows information for each of
+  the steps taken during the stepwise regression.
+  modelInformation is a dataframe that contains information
+  for the final model, including the names of the chosen
+  parameters, their coefficients, standard error, p-value,
+  and standard coefficient. See \code{?censReg} for
+  information on how these were calculated.
 }
 \description{
-Run stepwise regression and generate simplifed model
-output. See \code{?censReg} for information on the censored
-data regression function. For an "AIC" stepwise regression,
-set \code{k="AIC"}, this internally defines \code{k=2}. For
-a "BIC" stepwise regression, set \code{k="BIC"}, which
-internally defintes'\code{k=log(length(responseVariable))}.
-A number for k (the multiple of the number of degrees of
-freedom used for the penalty) can also be specified.
+  Run stepwise regression and generate simplifed model
+  output. See \code{?censReg} for information on the
+  censored data regression function. For an "AIC" stepwise
+  regression, set \code{k="AIC"}, this internally defines
+  \code{k=2}. For a "BIC" stepwise regression, set
+  \code{k="BIC"}, which internally
+  defintes'\code{k=log(length(responseVariable))}. A number
+  for k (the multiple of the number of degrees of freedom
+  used for the penalty) can also be specified.
 
-This function has a unique feature that can be turned off
-by setting autoSinCos to \code{FALSE}. If there are columns
-in the DT data that include sine and cosine of the decimal
-year (as indicated by column names sinDY and cosDY) then
-when one of those columns is selected in the stepwise
-regression, the other column automatically is included in
-the next step. To disable this feature, set autoSinCos to
-\code{FALSE}.
+  This function has a unique feature that can be turned off
+  by setting autoSinCos to \code{FALSE}. If there are
+  columns in the DT data that include sine and cosine of
+  the decimal year (as indicated by column names sinDY and
+  cosDY) then when one of those columns is selected in the
+  stepwise regression, the other column automatically is
+  included in the next step. To disable this feature, set
+  autoSinCos to \code{FALSE}.
 }
 \examples{
 DTComplete <- StLouisDT

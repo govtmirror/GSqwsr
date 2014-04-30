@@ -3,7 +3,8 @@
 \alias{StLouisInfo}
 \title{StLouisInfo example data}
 \description{
-Example siteINFO data from St. Louis
+  Example siteINFO data from St. Louis
 }
+\keyword{datasets}
 \keyword{sites}
 

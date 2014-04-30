@@ -2,7 +2,7 @@
 \alias{resultPlots}
 \title{Plots model summary plots}
 \usage{
-resultPlots(localDT, finalModel, siteINFO)
+  resultPlots(localDT, finalModel, siteINFO)
 }
 \arguments{
   \item{localDT}{dataframe in wide format}
@@ -14,17 +14,17 @@ resultPlots(localDT, finalModel, siteINFO)
   from dataRetrieval package)}
 }
 \value{
-plot
+  plot
 }
 \description{
-Plots a set of plots to summarize the model results and
-behavior. The first plot (A) is always observed versus
-predicted, the second (B) is residuals vs. predicted, the
-third (C) is residuals vs. time, and the fourth (D) is
-residual quantiles vs. theoretical quantiles. There are
-then individual plots for each prediction variable of
-observed vs. prediction value. Residuals for censored
-values are calculated using the detection limit.
+  Plots a set of plots to summarize the model results and
+  behavior. The first plot (A) is always observed versus
+  predicted, the second (B) is residuals vs. predicted, the
+  third (C) is residuals vs. time, and the fourth (D) is
+  residual quantiles vs. theoretical quantiles. There are
+  then individual plots for each prediction variable of
+  observed vs. prediction value. Residuals for censored
+  values are calculated using the detection limit.
 }
 \examples{
 DTComplete <- StLouisDT

@@ -2,8 +2,8 @@
 \alias{predictionPlot}
 \title{Prediction plot of model results over time.}
 \usage{
-predictionPlot(localUV, localDT, finalModel, transformResponse = "lognormal",
-  siteINFO)
+  predictionPlot(localUV, localDT, finalModel,
+    transformResponse = "lognormal", siteINFO)
 }
 \arguments{
   \item{localUV}{dataframe of unit values, which needs to
@@ -24,14 +24,14 @@ predictionPlot(localUV, localDT, finalModel, transformResponse = "lognormal",
   from dataRetrieval package)}
 }
 \description{
-Using unit value data, returns a plot of the model results.
-Predictions are bias corrected if transform response is set
-to "lognormal". Predictions are plotted as a blue line,
-actual sample measurements are plotted as solid red points.
-Censored values are distinguished with line segments, and
-the points are . The plot title is generated from the
-siteINFO dataframe, which needs columns station.nm and
-site.no.
+  Using unit value data, returns a plot of the model
+  results. Predictions are bias corrected if transform
+  response is set to "lognormal". Predictions are plotted
+  as a blue line, actual sample measurements are plotted as
+  solid red points. Censored values are distinguished with
+  line segments, and the points are . The plot title is
+  generated from the siteINFO dataframe, which needs
+  columns station.nm and site.no.
 }
 \examples{
 DTComplete <- StLouisDT

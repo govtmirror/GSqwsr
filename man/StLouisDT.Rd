@@ -3,7 +3,8 @@
 \alias{StLouisDT}
 \title{StLouisDT example data}
 \description{
-Example DTComplete data from St. Louis
+  Example DTComplete data from St. Louis
 }
+\keyword{datasets}
 \keyword{sites}
 

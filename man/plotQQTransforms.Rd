@@ -2,9 +2,10 @@
 \alias{plotQQTransforms}
 \title{Plots Q-Q of predict variables.}
 \usage{
-plotQQTransforms(localDT, responseVariable, printLinear = TRUE,
-  printLog = TRUE, printSquare = FALSE, printSQRT = FALSE,
-  printEXP = FALSE)
+  plotQQTransforms(localDT, responseVariable,
+    printLinear = TRUE, printLog = TRUE,
+    printSquare = FALSE, printSQRT = FALSE,
+    printEXP = FALSE)
 }
 \arguments{
   \item{localDT}{dataframe in wide format}
@@ -27,8 +28,8 @@ plotQQTransforms(localDT, responseVariable, printLinear = TRUE,
   exponential plots (defaults to FALSE)}
 }
 \description{
-Plots Q-Q of predict variables.See \link{qqmath} for more
-information on q-q (quantile-quantile) plots.
+  Plots Q-Q of predict variables.See \link{qqmath} for more
+  information on q-q (quantile-quantile) plots.
 }
 \examples{
 DTComplete <- StLouisDT

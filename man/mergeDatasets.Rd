@@ -2,7 +2,8 @@
 \alias{mergeDatasets}
 \title{Creates a dataframe of merged datasets.}
 \usage{
-mergeDatasets(localQW, localUV, QWcodes, max.diff = "2 hours")
+  mergeDatasets(localQW, localUV, QWcodes,
+    max.diff = "2 hours")
 }
 \arguments{
   \item{localQW}{dataframe water quality dataset. Should
@@ -18,17 +19,17 @@ mergeDatasets(localQW, localUV, QWcodes, max.diff = "2 hours")
   \code{?mergeNearest} for more options.}
 }
 \value{
-retList list including the DT list and updated QWcodes
+  retList list including the DT list and updated QWcodes
 }
 \description{
-Creates a list of merged datasets, along with updating the
-QWcodes dataframe. The function looks for qw objects in the
-QW dataframe, cross-references them with the QWcodes table,
-and merges those columns with the nearest UV (unit value)
-data. The function will merge the UV data that is nearest
-to the QW data, see \code{?mergeNearest} for more options
-on specifying the acceptable time gap between the two
-datasets.
+  Creates a list of merged datasets, along with updating
+  the QWcodes dataframe. The function looks for qw objects
+  in the QW dataframe, cross-references them with the
+  QWcodes table, and merges those columns with the nearest
+  UV (unit value) data. The function will merge the UV data
+  that is nearest to the QW data, see \code{?mergeNearest}
+  for more options on specifying the acceptable time gap
+  between the two datasets.
 }
 \examples{
 UV <- StLouisUV
