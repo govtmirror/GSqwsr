@@ -10,10 +10,7 @@ This software is provided "AS IS".
 Installation
 ------------
 
-	install.packages(c("XML", "lubridate", "akima", "KernSmooth",
-		"leaps", "car", "mvtnorm", "digest","relimp", "BSDA", "RODBC",
-		"memoise","boot","survival","splines","RColorBrewer","lattice",
-		"MASS"),dependencies=TRUE)
-	install.packages(c("dataRetrieval","USGSwsBase","USGSwsData",
-		"USGSwsGraphs","USGSwsStats","USGSwsQW"), repo="http://usgs-r.github.com")
-	install.packages("GSqwsr", repo="http://usgs-r.github.com")
+	install.packages("GSqwsr", 
+		repo=c("http://usgs-r.github.com",
+		"http://cran.us.r-project.org"),
+		dependencies=TRUE,type="both")
