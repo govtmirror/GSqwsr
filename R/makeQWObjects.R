@@ -5,26 +5,30 @@
 #'@param df dataframe output from \code{retrieveNWISqwData}
 #'@return newdf dataframe
 #'@keywords NWIS data retrieval
+#'@import USGSwsQW
+#'@import dataRetrieval
 #'@export
 #'@examples
 #'site <- "04193490"
 #'startDate <- "2010-01-01"
 #'endDate <- ""
 #'pCodes <- c("00940","00608","00613","00631","62855","00671","00665","80154","00618")
-#'rawQWData <- retrieveNWISqwData(site,pCodes,startDate,endDate,expanded=TRUE)
+#'library(dataRetrieval)
+#'rawQWData <- getNWISqwData(site,pCodes,startDate,endDate,expanded=TRUE)
 #'QW <- makeQWObjects(rawQWData) 
 makeQWObjects <- function(df){
   colNames <- names(df)
   pCodes <- unique(sapply(strsplit(colNames,"_"), function(x) x[length(x)]))
-  pCodes <- pCodes[!(pCodes %in% c("dateTime","site","dateTimeEnd"))]
-  newdf <- df[,(colNames %in% c("dateTime","site","dateTimeEnd"))]
-  names(newdf)["dateTime" == names(newdf)] <- "datetime"
+  pCodes <- pCodes[grep("\\d{5}",pCodes)]
+
+  newdf <- df[,(colNames %in% c("startDateTime","site_no","endDateTime"))]
+  names(newdf)["startDateTime" == names(newdf)] <- "datetime"
   for(i in pCodes){
     subDF <- df[,grep(i,colNames)]
     shortName <- pcodeColNames()
     shortName <- shortName$col_name[shortName$parm_cd == i]
     
-    paramINFO <- getParameterInfo(i)
+    paramINFO <- getNWISPcodeInfo(i)
     
     assign(shortName, as.qw(values=subDF[[grep("result_va_",names(subDF))]], 
                             remark.codes=subDF[[grep("remark_cd_",names(subDF))]],

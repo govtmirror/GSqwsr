@@ -2,7 +2,7 @@ Package: GSqwsr
 Type: Package
 Title: Surrogate Regressions for Water Quality
 Version: 1.1.1
-Date: 2014-01-0
+Date: 2014-10-06
 Author: Laura DeCicco, Steve Corsi
 Maintainer: Laura DeCicco <ldecicco@usgs.gov>
 Description: A collection of functions to simplify the process of surragate
@@ -15,12 +15,13 @@ Copyright: This software is in the public domain because it contains materials
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 Depends:
     R (>= 3.0),
+    USGSwsBase,
     USGSwsQW,
-    latticeExtra,
-    dataRetrieval,
-    MASS
+    latticeExtra
 Imports:
-    quantreg
+    quantreg,
+    MASS,
+    dataRetrieval
 Suggests:
     xtable,
     EGRET,
@@ -28,35 +29,3 @@ Suggests:
 LazyLoad: yes
 LazyData: yes
 VignetteBuilder: knitr
-Collate:
-    'GLRIRegression.R'
-    'analyzeSteps.R'
-    'createFormulaFromDF.R'
-    'createFullDT.R'
-    'createFullFormula.R'
-    'createModelEquation.R'
-    'externalStudentRes.R'
-    'findOutliers.R'
-    'generateParamChoices.R'
-    'getDecYear.R'
-    'getMultipleUV.R'
-    'getPredictionVariables.R'
-    'longDFResponse.R'
-    'makeQWObjects.R'
-    'mergeDatasets.R'
-    'plotQQTransforms.R'
-    'plotSteps.R'
-    'predictVariableScatterPlots.R'
-    'preditionPlot.R'
-    'prelimModelDev.R'
-    'rSqr.R'
-    'resultPlots.R'
-    'resultResidPlots.R'
-    'runFit.R'
-    'runPred.R'
-    'saveModelResults.R'
-    'simpleCap.R'
-    'summaryPrintout.R'
-    'view.R'
-    'whatQW.R'
-    'whatUVNew.R'
