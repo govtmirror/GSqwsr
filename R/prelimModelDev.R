@@ -24,6 +24,7 @@
 #'See \code{?censReg} for information on how these were calculated.
 #'@keywords studentized residuals
 #'@export
+#'@import MASS
 #'@examples
 #' DTComplete <- StLouisDT
 #' UV <- StLouisUV

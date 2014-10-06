@@ -5,7 +5,6 @@
 #'@param df dataframe output from \code{retrieveNWISqwData}
 #'@return newdf dataframe
 #'@keywords NWIS data retrieval
-#'@import USGSwsQW
 #'@import dataRetrieval
 #'@export
 #'@examples
