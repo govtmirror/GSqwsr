@@ -16,22 +16,24 @@
 \usepackage{placeins}
 \usepackage{footnote}
 \usepackage{tabularx}
-\renewcommand\Affilfont{\itshape\small}
+\usepackage{threeparttable}
+\usepackage{parskip}
+
+\usepackage{csquotes}
+\usepackage{setspace}
+
+% \doublespacing
 
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\textfraction}{0.1}
 \usepackage{graphicx}
 
-% ############################################
-% USGS stuff:
-\usepackage{csquotes}
-\usepackage{setspace}
 
-\doublespacing
 \usepackage{mathptmx}% Times Roman font
 \usepackage[scaled=.90]{helvet}% Helvetica, served as a model for arial
 
-\usepackage{indentfirst}
+% \usepackage{indentfirst}
+% \setlength\parindent{20pt}
 \setlength{\parskip}{0pt}
 
 \usepackage{courier}
@@ -50,7 +52,7 @@
   {\thesubsubsection}{0.5em}{}
   
 \titlecontents{section}
-[2.3em]                 % adjust left margin
+[2em]                 % adjust left margin
 {\sffamily}             % font formatting
 {\contentslabel{2.3em}} % section label and offset
 {\hspace*{-2.3em}}
@@ -71,16 +73,16 @@
 {\titlerule*[0.25pc]{.}\contentspage}
 
 \titlecontents{table}
-[-2.3em]                 % adjust left margin
+[0em]                 % adjust left margin
 {\sffamily}             % font formatting
-{\textbf{Table}\hspace*{2em} \contentslabel {2em}} % section label and offset
+{Table\hspace*{2em} \contentslabel {2em}} % section label and offset
 {\hspace*{4em}}
 {\titlerule*[0.25pc]{.}\contentspage}
 
 \titlecontents{figure}
-[-2.3em]                 % adjust left margin
+[0em]                 % adjust left margin
 {\sffamily}             % font formatting
-{\textbf{Figure}\hspace*{2em} \contentslabel {2em}} % section label and offset
+{Figure\hspace*{2em} \contentslabel {2em}} % section label and offset
 {\hspace*{4em}}
 {\titlerule*[0.25pc]{.}\contentspage}
 
@@ -97,9 +99,7 @@
   singlelinecheck=false
 }
 
-\setlength\parindent{20pt}
 
-% ######################################
 
 \textwidth=6.2in
 \textheight=8.5in
@@ -107,6 +107,7 @@
 \oddsidemargin=.1in
 \evensidemargin=.1in
 \headheight=-.3in
+
 
 %------------------------------------------------------------
 % newcommand
@@ -123,7 +124,6 @@
 
 \begin{document}
 
-
 <<openLibrary, echo=FALSE>>=
 library(xtable)
 options(continue=" ")
@@ -135,12 +135,14 @@ library(knitr)
 \renewenvironment{knitrout}{\begin{singlespace}}{\end{singlespace}}
 \renewcommand*\listfigurename{Figures}
 
+\renewcommand*\listtablename{Tables}
+
+
 %------------------------------------------------------------
-\title{The GSqwsr R package}
+\title{The dataRetrieval R package}
 %------------------------------------------------------------
 \author[1]{Laura De Cicco}
 \author[1]{Steve Corsi}
-\author[1]{Austin Baldwin}
 \affil[1]{United States Geological Survey}
 
 
@@ -150,15 +152,31 @@ knit_hooks$set(inline = function(x) {
    if (is.numeric(x)) round(x, 3)})
 knit_hooks$set(crop = hook_pdfcrop)
 
+bold.colHeaders <- function(x) {
+  x <- gsub("\\^(\\d)","$\\^\\1$",x)
+  x <- gsub("\\%","\\\\%",x)
+  x <- gsub("\\_"," ",x)
+  returnX <- paste("\\multicolumn{1}{c}{\\textbf{\\textsf{", x, "}}}", sep = "")
+}
+addSpace <- function(x) ifelse(x != "1", "[5pt]","")
 @
 
+\noindent{\huge\textsf{\textbf{The GSqwsr R package: Water Quality Surrogate Regressions}}}
 
-\maketitle
-\newpage 
+\noindent\textsf{By Laura De Cicco and Steve Corsi}
+
+\noindent\textsf{\today}
+
+% \maketitle
+% 
+% \newpage 
 
 \tableofcontents
 \listoffigures
+\listoftables
+
 \newpage
+
 
 %------------------------------------------------------------
 \section{Introduction to GSqwsr package}
@@ -270,7 +288,7 @@ names(QW)
 @
 
 
-This brings the data in automatically as a `qw' object. This means that censoring information is embedded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to 'qw' objects with the makeQWObjects function.
+This brings the data in automatically as a \texttt{"qw"} object. This means that censoring information is embedded within each data point. If any processing needs to be done to the data, it might be easier to import the raw data first, then convert to \texttt{"qw"} objects with the makeQWObjects function.
 
 <<makeQWObjects,echo=TRUE,eval=FALSE>>=
 
@@ -279,10 +297,11 @@ QWRaw <- retrieveNWISqwData(site,pCodeQW,startDate,
 QW <- makeQWObjects(QWRaw)
 @
 
-Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the `uv' (unit value) data:
+Next, the unit value data that will be used as surrogates for the analytes should be retrieved. If the parameters are not known, they can be discovered using the getDataAvailability function, filtering just the \enquote{uv} (unit value) data:
 
-<<getDataAvailability,echo=TRUE,eval=TRUE>>=
-UVcodes <- getDataAvailability(site)
+<<getDataAvailability,echo=TRUE,eval=TRUE, message=FALSE>>=
+library(dataRetrieval)
+UVcodes <- getNWISDataAvailability(site)
 UVcodes <- UVcodes[UVcodes$service == "uv",]
 names(UVcodes)
 UVcodes$parameter_cd
@@ -420,7 +439,7 @@ analyzeSteps creates a plot with correlation, slope, RMSE, PRESS, and AIC statis
 
 
 <<analyzeSteps,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="analyzeSteps">>=
-siteINFO <- getSiteFileData(site, interactive=FALSE)
+siteINFO <- getNWISSiteInfo(site)
 analyzeSteps(steps, investigateResponse,siteINFO,
              xCorner=0.01,yCorner=0.3)
 @
@@ -568,15 +587,12 @@ plotSteps
 Before installing GSqwsr, the dependent packages must be first be installed:
 
 <<installFromCran,eval = FALSE>>=
-install.packages(c("XML", "lubridate", "akima", "KernSmooth",
-                   "leaps", "car", "mvtnorm", "digest",
-                   "relimp", "BSDA", "RODBC","memoise",
-                   "boot","survival","splines","RColorBrewer",
-                   "lattice","MASS"), dependencies=TRUE)
-install.packages(c("USGSwsBase","USGSwsData","dataRetrieval",
-                   "USGSwsGraphs","USGSwsStats",
-                   "USGSwsQW","GSqwsr"), 
-                 repos="http://usgs-r.github.com")
+
+install.packages(c("USGSwsBase","USGSwsStats",
+                   "USGSwsData","USGSwsGraphs",
+                   "USGSwsQW","dataRetrieval","GSqwsr"), 
+      repos=c("http://usgs-r.github.com","http://cran.us.r-project.org"), 
+      dependencies=TRUE)
 @
 
 
