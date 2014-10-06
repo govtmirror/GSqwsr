@@ -4,7 +4,7 @@
 #'
 #'@param observed number vector of observed data
 #'@param resid number vector of residual data
-#'@param p not sure
+#'@param predicted number vector of predicted data
 #'@return df list with rSquare and adjusted rSquare
 #'@keywords rSquared
 #'@export
@@ -12,8 +12,8 @@
 #'observed <- runif(10, 5.0, 7.5)
 #'resid <- runif(10, 0.1, 0.2)
 #'p<-1
-#'rList <- rSqr(observed, resid, p)
-rSqr <- function(observed, resid, p){
+#'rList <- rSqr(observed, resid, predicted)
+rSqr <- function(observed, resid, predicted){
   if(length(resid)==0) resid <- predicted-observed
   n <- length(observed)
   yMean <- mean(observed)

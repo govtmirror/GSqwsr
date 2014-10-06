@@ -3,14 +3,14 @@
 \alias{rSqr}
 \title{Calculates R^2 and adjusted R^2 values}
 \usage{
-rSqr(observed, resid, p)
+rSqr(observed, resid, predicted)
 }
 \arguments{
 \item{observed}{number vector of observed data}
 
 \item{resid}{number vector of residual data}
 
-\item{p}{not sure}
+\item{predicted}{number vector of predicted data}
 }
 \value{
 df list with rSquare and adjusted rSquare
@@ -22,7 +22,7 @@ Calculates R^2 and adjusted R^2 values
 observed <- runif(10, 5.0, 7.5)
 resid <- runif(10, 0.1, 0.2)
 p<-1
-rList <- rSqr(observed, resid, p)
+rList <- rSqr(observed, resid, predicted)
 }
 \keyword{rSquared}
 
