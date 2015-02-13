@@ -11,7 +11,7 @@
 #'@examples
 #'observed <- runif(10, 5.0, 7.5)
 #'resid <- runif(10, 0.1, 0.2)
-#'p<-1
+#'predicted<-1
 #'rList <- rSqr(observed, resid, predicted)
 rSqr <- function(observed, resid, predicted){
   if(length(resid)==0) resid <- predicted-observed
