@@ -13,7 +13,7 @@
 #'endDate <- ""
 #'pCodes <- c("00940","00608","00613","00631","62855","00671","00665","80154","00618")
 #'library(dataRetrieval)
-#'rawQWData <- getNWISqwData(site,pCodes,startDate,endDate,expanded=TRUE)
+#'rawQWData <-readNWISqw(site,pCodes,startDate,endDate,expanded=TRUE)
 #'QW <- makeQWObjects(rawQWData) 
 makeQWObjects <- function(df){
   colNames <- names(df)
@@ -27,7 +27,7 @@ makeQWObjects <- function(df){
     shortName <- pcodeColNames()
     shortName <- shortName$col_name[shortName$parm_cd == i]
     
-    paramINFO <- getNWISPcodeInfo(i)
+    paramINFO <- readNWISpCode(i)
     
     assign(shortName, as.qw(values=subDF[[grep("result_va_",names(subDF))]], 
                             remark.codes=subDF[[grep("remark_cd_",names(subDF))]],

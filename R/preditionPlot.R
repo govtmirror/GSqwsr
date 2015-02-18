@@ -4,13 +4,13 @@
 #'transform response is set to "lognormal". Predictions are plotted as a blue line, actual sample
 #'measurements are plotted as solid red points. Censored values are distinguished with line segments,
 #'and the points are .
-#'The plot title is generated from the siteINFO dataframe, which needs columns station.nm and site.no. 
+#'The plot title is generated from the siteINFO dataframe, which needs columns station_nm and site.no. 
 #'
 #'@param localUV dataframe of unit values, which needs to includes one column called "datetime" that is in POSIXct.
 #'@param localDT dataframe in wide format, which needs to includes one column called "datetime" that is in POSIXct.
 #'@param finalModel censReg model results
 #'@param transformResponse string can be "lognormal" or "normal", perhaps try to generalize this more in future
-#'@param siteINFO dataframe including station name (station.nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
+#'@param siteINFO dataframe including station name (station_nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
 #'@keywords scatterplot
 #'@export
 #'@examples
@@ -79,7 +79,7 @@ predictionPlot <- function(localUV,localDT,finalModel,transformResponse="lognorm
     segments(x0=cenValsX, y0=cenValsY, x1=cenValsX, y1=0.0001,col="red")
   }
   
-  prettyName <- simpleCap(siteINFO$station.nm)
+  prettyName <- simpleCap(siteINFO$station_nm)
   prettyName <- gsub("Wi", "WI",prettyName) #Consider other states.
   
   title(paste(responseVariable, " at ", prettyName, " (", siteINFO$site.no, ")", sep=""))

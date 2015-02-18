@@ -292,7 +292,7 @@ This brings the data in automatically as a \texttt{"qw"} object. This means that
 
 <<makeQWObjects,echo=TRUE,eval=FALSE>>=
 
-QWRaw <- retrieveNWISqwData(site,pCodeQW,startDate,
+QWRaw <- readNWISqw(site,pCodeQW,startDate,
                             endDate,expanded=TRUE)
 QW <- makeQWObjects(QWRaw)
 @
@@ -301,10 +301,9 @@ Next, the unit value data that will be used as surrogates for the analytes shoul
 
 <<getDataAvailability,echo=TRUE,eval=TRUE, message=FALSE>>=
 library(dataRetrieval)
-UVcodes <- getNWISDataAvailability(site)
-UVcodes <- UVcodes[UVcodes$service == "uv",]
+UVcodes <- whatNWISdata(site, service = "uv")
 names(UVcodes)
-UVcodes$parameter_cd
+UVcodes$parm_cd
 @
 
 Finally, the unit value data can be retrieved with the getMultipleUV function. Because of the potentially large amount of data being returned, the web service call is automatically split into individual parameter codes.
@@ -439,7 +438,7 @@ analyzeSteps creates a plot with correlation, slope, RMSE, PRESS, and AIC statis
 
 
 <<analyzeSteps,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="analyzeSteps">>=
-siteINFO <- getNWISSiteInfo(site)
+siteINFO <- readNWISsite(site)
 analyzeSteps(steps, investigateResponse,siteINFO,
              xCorner=0.01,yCorner=0.3)
 @

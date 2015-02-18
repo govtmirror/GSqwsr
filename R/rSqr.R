@@ -23,7 +23,7 @@ rSqr <- function(observed, resid, predicted){
  
   rSquare <- 1-(SSerr/SStot)
   
-  VARerr <- SSerr/(n-1-p)
+  VARerr <- SSerr/(n-1-predicted)
   VARtot <- SStot/(n-1)
   adjRsquare <- 1-(VARerr/VARtot)
   

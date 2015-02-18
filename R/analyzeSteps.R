@@ -15,7 +15,7 @@
 #'@param responseVariable string column header of single response variable to model
 #'@param xCorner number represents the x-upper-left corner of legend in \% plot area
 #'@param yCorner number represents the y-upper-left corner of legend in \% plot area
-#'@param siteINFO dataframe including station name (station.nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
+#'@param siteINFO dataframe including station name (station_nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
 #'@return plot
 #'@keywords scatterplot
 #'@references Helsel, D.R. and Hirsch, R.M., 2002, Statistical methods in water resources: U.S. Geological Survey Techniques of Water-Resources Investigations, book 4, chap. A3, 522 p.
@@ -59,7 +59,7 @@ analyzeSteps <- function(steps, responseVariable, siteINFO, xCorner = 0.05, yCor
   legend(x1, y1, c("Correlation", "Slope", "RMSE", "PRESS","AIC"), 
          pch=c(20, 20, 20, 20,20),col=c("black", "red","blue","forestgreen","grey"),bg="white")
   
-  prettyName <- simpleCap(siteINFO$station.nm)
+  prettyName <- simpleCap(siteINFO$station_nm)
   prettyName <- gsub("Wi", "WI",prettyName) #Consider other states.
   
   title(paste(prettyName, " \n ", responseVariable, sep=""))

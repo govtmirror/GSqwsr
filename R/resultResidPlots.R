@@ -8,7 +8,7 @@
 #'
 #'@param localDT dataframe in wide format
 #'@param finalModel censReg model results
-#'@param siteINFO dataframe including station name (station.nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
+#'@param siteINFO dataframe including station name (station_nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
 #'@return plot
 #'@keywords scatterplot
 #'@export
@@ -159,7 +159,7 @@ resultResidPlots <- function(localDT,finalModel,siteINFO){
     
   }
   
-  prettyName <- simpleCap(siteINFO$station.nm)
+  prettyName <- simpleCap(siteINFO$station_nm)
   prettyName <- gsub("Wi", "WI",prettyName) #Consider other states.
   topLine <- paste(responseVariable, " at ", prettyName, " (", siteINFO$site.no, ")", sep="")
   modelText <- createModelEquation(finalModel)

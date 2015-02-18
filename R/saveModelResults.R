@@ -6,7 +6,7 @@
 #'@param DT dataframe of potential input variables to model
 #'@param UV dataframe of unit values
 #'@param modelReturn results from censReg
-#'@param siteINFO dataframe that includes station.nm and site.no
+#'@param siteINFO dataframe that includes station_nm and site.no
 #'@keywords save model results
 #'@export
 #'@examples

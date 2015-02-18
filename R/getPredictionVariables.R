@@ -15,8 +15,8 @@ getPredictVariables <- function(DTnames){
   splitNames <- sapply(strsplit(DTnames, "_"),function(x)x[length(x)])
   splitNamesAvoid <- sapply(strsplit(DTnames, "_"),function(x)x[1])
   
-  commentIndex <- which("cd" == splitNames & !(splitNamesAvoid %in% c("agency", "site", "tz")))
+  valueIndex <- which("cd" != splitNames & !(splitNamesAvoid %in% c("agency", "site", "tz","DATE","datetime")))
   
-  predictVariables <- DTnames[commentIndex-1]
+  predictVariables <- DTnames[valueIndex]
   return(predictVariables)
 }

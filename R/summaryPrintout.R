@@ -3,7 +3,7 @@
 #'Summarize the model results
 #'
 #'@param modelReturn censReg model results
-#'@param siteINFO dataframe including station name (station.nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
+#'@param siteINFO dataframe including station name (station_nm) and siteID (site.no) (easiestly retrieved from dataRetrieval package)
 #'@param saveOutput logical defaults to FALSE. Set to TRUE if an output file is desired
 #'@param fileName string full path and file name to save output
 #'@keywords summary text
@@ -39,7 +39,7 @@ summaryPrintout <- function(modelReturn, siteINFO, saveOutput=FALSE,fileName="ou
   printFormula <- paste(responseVariable, " ~ ", termNames, sep="")
   numCensored <- sum(modelReturn$CENSFLAG)
   
-  prettyName <- simpleCap(siteINFO$station.nm)
+  prettyName <- simpleCap(siteINFO$station_nm)
   prettyName <- gsub("Wi", "WI",prettyName) #Consider other states.
   cat(responseVariable, " at ", prettyName, " (", siteINFO$site.no, ")\n")
   cat("Number of observations: ", modelReturn$NOBSC, "\n")

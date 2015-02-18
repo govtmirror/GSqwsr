@@ -97,16 +97,15 @@ names(QW)
 
 ## ----makeQWObjects,echo=TRUE,eval=FALSE-------------------
 #  
-#  QWRaw <- retrieveNWISqwData(site,pCodeQW,startDate,
+#  QWRaw <- readNWISqw(site,pCodeQW,startDate,
 #                              endDate,expanded=TRUE)
 #  QW <- makeQWObjects(QWRaw)
 
 ## ----getDataAvailability,echo=TRUE,eval=TRUE, message=FALSE----
 library(dataRetrieval)
-UVcodes <- getNWISDataAvailability(site)
-UVcodes <- UVcodes[UVcodes$service == "uv",]
+UVcodes <- whatNWISdata(site, service = "uv")
 names(UVcodes)
-UVcodes$parameter_cd
+UVcodes$parm_cd
 
 ## ----getMultipleUV,echo=TRUE,eval=FALSE-------------------
 #  UVpCodes <- c("00010","00060","00095","00300","00400","63680")
@@ -171,7 +170,7 @@ modelResult <- returnPrelim$modelInformation
 modelReturn <- returnPrelim$DT.mod
 
 ## ----analyzeSteps,echo=TRUE,eval=TRUE,echo=TRUE,fig.cap="analyzeSteps"----
-siteINFO <- getNWISSiteInfo(site)
+siteINFO <- readNWISsite(site)
 analyzeSteps(steps, investigateResponse,siteINFO,
              xCorner=0.01,yCorner=0.3)
 

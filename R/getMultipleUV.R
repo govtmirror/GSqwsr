@@ -43,20 +43,20 @@ getMultipleUV <- function(Site, BeginDate, EndDate,UVP){
 #     }
 #   }  
   
-  UV <- readNWIS(Site, dtype="uv", begin.date=BeginDate, end.date=EndDate,param=UVP[1])
-  UV <- renCol(UV) 
+  UV <- readNWISuv(Site,UVP[1], BeginDate, EndDate)
+  UV <- renameNWISColumns(UV) 
   
   if (length(UVP) > 1){
     for (i in UVP[-1]){
       message("Getting data: ", i, "\n")
       possibleError <- tryCatch(
-        UVsingle <- readNWIS(Site, dtype="uv", begin.date=BeginDate, end.date=EndDate, param=i),
+        UVsingle <- readNWISuv(Site, i, BeginDate, EndDate),
         error=function(e) e
       )
       
       if(!inherits(possibleError, "error")){
         #REAL WORK
-        UVsingle <- renCol(UVsingle)
+        UVsingle <- renameNWISColumns(UVsingle)
         UV <- merge(UV,UVsingle, all=TRUE)
       } else {
         message("No data for", i)
