@@ -14,7 +14,7 @@ This software is provided "AS IS."
 Installation
 ------------
 
-	install.packages("GSqwsr", 
-		repo=c("http://usgs-r.github.com",
-		"http://cran.us.r-project.org"),
-		dependencies=TRUE,type="both")
+```r
+library(devtools)
+install_github("USGS-R/GSqwsr")
+```
