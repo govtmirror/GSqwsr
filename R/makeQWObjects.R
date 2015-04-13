@@ -6,14 +6,15 @@
 #'@return newdf dataframe
 #'@keywords NWIS data retrieval
 #'@import dataRetrieval
+#'@importFrom smwrQW as.qw
 #'@export
 #'@examples
-#'site <- "04193490"
+#'site <- "04024000"
 #'startDate <- "2010-01-01"
 #'endDate <- ""
 #'pCodes <- c("00940","00608","00613","00631","62855","00671","00665","80154","00618")
 #'library(dataRetrieval)
-#'rawQWData <-readNWISqw(site,pCodes,startDate,endDate,expanded=TRUE)
+#'rawQWData <-readNWISqw(site,pCodes,startDate,endDate,expanded=TRUE, reshape=TRUE)
 #'QW <- makeQWObjects(rawQWData) 
 makeQWObjects <- function(df){
   colNames <- names(df)

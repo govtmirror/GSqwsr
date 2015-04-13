@@ -13,6 +13,7 @@
 #'@param max.diff string default is "2 hours". See \code{?mergeNearest} for more options.
 #'@return retList list including the DT list and updated QWcodes
 #'@keywords merge datasets
+#'@importFrom smwrBase mergeNearest
 #'@export
 #'@examples
 #' UV <- StLouisUV
@@ -43,7 +44,7 @@ mergeDatasets <- function(localQW, localUV, QWcodes, max.diff="2 hours"){
   for (j in namesToCheck){
     subUV <- localUV[c("datetime", j)]
     subUV <- na.omit(subUV)
-    DT <- mergeNearest(localQW["datetime"], dates.left="datetime", all.left=TRUE,
+    DT <- smwrBase::mergeNearest(localQW["datetime"], dates.left="datetime", all.left=TRUE,
                               right=subUV, dates.right="datetime", max.diff=max.diff)
     DT$datetime.right <- NULL
     if (namesToCheck[1] == j){

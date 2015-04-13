@@ -9,6 +9,7 @@
 #'@param EndDate string
 #'@param UVP character vector of 5 digit USGS parameter codes
 #'@return UV dataframe
+#'@import dataRetrieval
 #'@keywords NWIS data retrieval
 #'@export
 #'@examples

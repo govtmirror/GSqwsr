@@ -25,6 +25,7 @@
 #'@keywords studentized residuals
 #'@export
 #'@import MASS
+#'@importFrom smwrQW censReg
 #'@examples
 #' DTComplete <- StLouisDT
 #' UV <- StLouisUV
