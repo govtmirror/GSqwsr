@@ -20,9 +20,6 @@ saveModelResults(pathToSave, DT, UV, modelReturn, siteINFO)
 \description{
 Saves critical objects for model analysis
 }
-\examples{
-\dontrun{}
-}
 \keyword{model}
 \keyword{results}
 \keyword{save}

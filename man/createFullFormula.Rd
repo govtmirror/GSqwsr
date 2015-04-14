@@ -22,7 +22,9 @@ of columns that have no values less than or equal to zero. Log transforms are al
 }
 \examples{
 DTComplete <- StLouisDT
+colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete))
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
 response <- "Ammonia.N"
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)

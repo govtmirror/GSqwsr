@@ -19,6 +19,7 @@ retrieved from NWIS web services.
 }
 \examples{
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
 predictVars <- getPredictVariables(names(UV))
 }
 \keyword{predict}

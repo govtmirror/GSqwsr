@@ -1,6 +1,6 @@
 %\VignetteIndexEntry{Introduction to the GSqwsr package}
 %\VignetteEngine{knitr::knitr}
-%\VignetteDepends{}
+%\VignetteDepends{MASS,dataRetrieval,smwrBase,smwrQW,smwrStats,lattice,    latticeExtra}
 %\VignetteSuggests{xtable}
 %\VignettePackage{GSqwsr}
 
@@ -181,7 +181,7 @@ addSpace <- function(x) ifelse(x != "1", "[5pt]","")
 %------------------------------------------------------------
 \section{Introduction to GSqwsr package}
 %------------------------------------------------------------ 
-The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the USGSwsQW censReg regression function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
+The GSqwsr (USGS water quality surrogate regressions) package was designed to simplify the process of gathering water quality sample data and unit surrogate data, running a stepwise regression using the smwrQW censReg regression function, and analyzing those results. This vignette will first show a general overview workflow  (\ref{sec:workflow}), then a more detailed description of the workflow with working examples (\ref{sec:details}).
 
 %------------------------------------------------------------
 \section{General Workflow}
@@ -265,15 +265,16 @@ QWcodes <- whatQW(site, minCount=20)
 head(QWcodes)
 @
 
-Most likely, there will be a known set of parameters that are to be modeled. If the parameter codes for these analytes are known, the data from NWIS can be accessed directly with the function importNWISqw. The following example shows the process, and then lists the column names returned in the QW dataframe.
+Most likely, there will be a known set of parameters that are to be modeled. If the parameter codes for these analytes are known, the data from NWIS can be accessed directly with the function readNWISqw. The following example shows the process, and then lists the column names returned in the QW dataframe.
 
 
 <<importNWISqw,echo=TRUE,eval=FALSE>>=
 pCodeQW <- c("00608","00613","00618")
 startDate <- "2011-04-22"
 endDate <- ""
-QW <- importNWISqw(site, params=pCodeQW, 
-                   begin.date=startDate, end.date=endDate)
+QW <- readNWISqw(site, pCodeQW, startDate, 
+                 endDate,expanded=TRUE, reshape=TRUE)
+QW <- makeQWObjects(QW) 
 @
 
 <<importNWISqwHidden,echo=FALSE,eval=TRUE>>=
@@ -293,7 +294,7 @@ This brings the data in automatically as a \texttt{"qw"} object. This means that
 <<makeQWObjects,echo=TRUE,eval=FALSE>>=
 
 QWRaw <- readNWISqw(site,pCodeQW,startDate,
-                            endDate,expanded=TRUE)
+                            endDate,expanded=TRUE, reshape=TRUE)
 QW <- makeQWObjects(QWRaw)
 @
 
@@ -311,12 +312,13 @@ Finally, the unit value data can be retrieved with the getMultipleUV function. B
 <<getMultipleUV,echo=TRUE,eval=FALSE>>=
 UVpCodes <- c("00010","00060","00095","00300","00400","63680")
 UV <- getMultipleUV(site, startDate, endDate, UVpCodes)
-
+colnames(UV) <- gsub("_Inst","",colnames(UV)) 
 @
 
 <<getMultipleUVHidden,echo=FALSE,eval=TRUE>>=
 UVpCodes <- c("00010","00060","00095","00300","00400","63680")
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV)) 
 @
 
 <<uvColNames,echo=TRUE,eval=TRUE>>=
@@ -331,12 +333,6 @@ We now need to merge the sample and continuous data into one dataframe. This is 
 
 
 <<mergeDatasets,echo=TRUE,eval=TRUE>>=
-QW$datetime <- as.POSIXct(paste(QW$sample_dt," ",QW$sample_tm, ":00",sep=""))
-
-# Make sure they are in consistant time zones:
-QW$datetime <- setTZ(QW$datetime, QW$tzone_cd)
-UV$datetime <- setTZ(UV$datetime, UV$tz_cd)
-
 mergeReturn <- mergeDatasets(QW, UV, QWcodes)
 DTComplete <- mergeReturn$DTComplete
 QWcodes <- mergeReturn$QWcodes
@@ -410,8 +406,11 @@ Now to use the stepwise regression within the prelimModelDev function. In this f
 Additionally, this function has an argument 'autoSinCos' which is a logical input. The default is set to TRUE, in this case - if the sine of decimal year (sinDY) is picked during the stepwise regression, the next step is forced to be cosDY. Likewise, if cosDY is picked, sinDY is forced on the next step. This feature can be turned off by setting autoSinCos to FALSE.
 
 
-<<prelimModelDev,echo=TRUE,eval=TRUE,echo=TRUE>>=
+<<prelimModelDev,echo=TRUE,eval=TRUE>>=
 transformResponse <- "lognormal"
+
+head(DT)
+tail(DT)
 
 returnPrelim <- prelimModelDev(DT,
                  investigateResponse,
@@ -511,7 +510,7 @@ From this formula, the stepwise regression routine can be re-run (if certain par
 
 <<censReg, echo=TRUE,eval=TRUE>>=
 newUpperFormula <- paste(investigateResponse," ~ ", newFormula, sep="")
-modelReturnCustom <- censReg(newUpperFormula, 
+modelReturnCustom <- smwrQW::censReg(newUpperFormula, 
                        dist=transformResponse, data=DT)
 modelReturnCustom
 @
@@ -587,10 +586,8 @@ Before installing GSqwsr, the dependent packages must be first be installed:
 
 <<installFromCran,eval = FALSE>>=
 
-install.packages(c("USGSwsBase","USGSwsStats",
-                   "USGSwsData","USGSwsGraphs",
-                   "USGSwsQW","dataRetrieval","GSqwsr"), 
-      repos=c("http://usgs-r.github.com","http://cran.us.r-project.org"), 
+install.packages(c("smwrQW","dataRetrieval","GSqwsr"), 
+      repos=c("http://owi.usgs.gov/R","http://cran.us.r-project.org"), 
       dependencies=TRUE)
 @
 

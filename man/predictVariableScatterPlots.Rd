@@ -19,8 +19,10 @@ Plots scatterplot of predict variables. One page of linear, and one page of log 
 }
 \examples{
 DTComplete <- StLouisDT
-response <- "Ammonia.N"
+colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete))
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
+response <- "Ammonia.N"
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 predictVariableScatterPlots(DT,response)

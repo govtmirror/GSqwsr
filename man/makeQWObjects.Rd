@@ -16,12 +16,12 @@ newdf dataframe
 Takes output from expanded \code{retrieveNWISqwData}, and turns the water quality data into qw object columns.
 }
 \examples{
-site <- "04193490"
+site <- "04024000"
 startDate <- "2010-01-01"
 endDate <- ""
 pCodes <- c("00940","00608","00613","00631","62855","00671","00665","80154","00618")
 library(dataRetrieval)
-rawQWData <-readNWISqw(site,pCodes,startDate,endDate,expanded=TRUE)
+rawQWData <-readNWISqw(site,pCodes,startDate,endDate,expanded=TRUE, reshape=TRUE)
 QW <- makeQWObjects(rawQWData)
 }
 \keyword{NWIS}

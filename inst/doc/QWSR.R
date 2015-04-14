@@ -83,8 +83,9 @@ head(QWcodes)
 #  pCodeQW <- c("00608","00613","00618")
 #  startDate <- "2011-04-22"
 #  endDate <- ""
-#  QW <- importNWISqw(site, params=pCodeQW,
-#                     begin.date=startDate, end.date=endDate)
+#  QW <- readNWISqw(site, pCodeQW, startDate,
+#                   endDate,expanded=TRUE, reshape=TRUE)
+#  QW <- makeQWObjects(QW)
 
 ## ----importNWISqwHidden,echo=FALSE,eval=TRUE--------------
 pCodeQW <- c("00608","00613","00618")
@@ -98,7 +99,7 @@ names(QW)
 ## ----makeQWObjects,echo=TRUE,eval=FALSE-------------------
 #  
 #  QWRaw <- readNWISqw(site,pCodeQW,startDate,
-#                              endDate,expanded=TRUE)
+#                              endDate,expanded=TRUE, reshape=TRUE)
 #  QW <- makeQWObjects(QWRaw)
 
 ## ----getDataAvailability,echo=TRUE,eval=TRUE, message=FALSE----
@@ -110,22 +111,17 @@ UVcodes$parm_cd
 ## ----getMultipleUV,echo=TRUE,eval=FALSE-------------------
 #  UVpCodes <- c("00010","00060","00095","00300","00400","63680")
 #  UV <- getMultipleUV(site, startDate, endDate, UVpCodes)
-#  
+#  colnames(UV) <- gsub("_Inst","",colnames(UV))
 
 ## ----getMultipleUVHidden,echo=FALSE,eval=TRUE-------------
 UVpCodes <- c("00010","00060","00095","00300","00400","63680")
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV)) 
 
 ## ----uvColNames,echo=TRUE,eval=TRUE-----------------------
 names(UV)
 
 ## ----mergeDatasets,echo=TRUE,eval=TRUE--------------------
-QW$datetime <- as.POSIXct(paste(QW$sample_dt," ",QW$sample_tm, ":00",sep=""))
-
-# Make sure they are in consistant time zones:
-QW$datetime <- setTZ(QW$datetime, QW$tzone_cd)
-UV$datetime <- setTZ(UV$datetime, UV$tz_cd)
-
 mergeReturn <- mergeDatasets(QW, UV, QWcodes)
 DTComplete <- mergeReturn$DTComplete
 QWcodes <- mergeReturn$QWcodes
@@ -156,8 +152,11 @@ upperBoundFormula <- createFullFormula(DT,investigateResponse)
 substring(upperBoundFormula, first=0,last=59)
 substring(upperBoundFormula, first=60,last=119)
 
-## ----prelimModelDev,echo=TRUE,eval=TRUE,echo=TRUE---------
+## ----prelimModelDev,echo=TRUE,eval=TRUE-------------------
 transformResponse <- "lognormal"
+
+head(DT)
+tail(DT)
 
 returnPrelim <- prelimModelDev(DT,
                  investigateResponse,
@@ -207,7 +206,7 @@ newFormula
 
 ## ----censReg, echo=TRUE,eval=TRUE-------------------------
 newUpperFormula <- paste(investigateResponse," ~ ", newFormula, sep="")
-modelReturnCustom <- censReg(newUpperFormula, 
+modelReturnCustom <- smwrQW::censReg(newUpperFormula, 
                        dist=transformResponse, data=DT)
 modelReturnCustom
 
@@ -232,10 +231,8 @@ summaryPrintout(modelReturn, siteINFO)
 
 ## ----installFromCran,eval = FALSE-------------------------
 #  
-#  install.packages(c("USGSwsBase","USGSwsStats",
-#                     "USGSwsData","USGSwsGraphs",
-#                     "USGSwsQW","dataRetrieval","GSqwsr"),
-#        repos=c("http://usgs-r.github.com","http://cran.us.r-project.org"),
+#  install.packages(c("smwrQW","dataRetrieval","GSqwsr"),
+#        repos=c("http://owi.usgs.gov/R","http://cran.us.r-project.org"),
 #        dependencies=TRUE)
 
 ## ----openLibraryTest, eval=FALSE--------------------------

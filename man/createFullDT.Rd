@@ -22,7 +22,9 @@ If negative values are found in the raw data column that need to be log transfor
 }
 \examples{
 DTComplete <- StLouisDT
+colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete))
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
 response <- "Ammonia.N"
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)

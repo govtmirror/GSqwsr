@@ -28,6 +28,7 @@ the two datasets.
 }
 \examples{
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
 QW <- StLouisQW
 QWcodes <- StLouisQWcodes
 mergeReturn <- mergeDatasets(QW, UV, QWcodes)

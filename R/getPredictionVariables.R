@@ -10,6 +10,7 @@
 #'@export
 #'@examples
 #' UV <- StLouisUV
+#' colnames(UV) <- gsub("_Inst","",colnames(UV)) 
 #' predictVars <- getPredictVariables(names(UV))
 getPredictVariables <- function(DTnames){
   splitNames <- sapply(strsplit(DTnames, "_"),function(x)x[length(x)])
