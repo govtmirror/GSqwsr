@@ -10,11 +10,14 @@
 #'@param printSQRT logical option to print a page of square root plots (defaults to FALSE)
 #'@param printEXP logical option to print a page of exponential plots (defaults to FALSE)
 #'@keywords qq
+#'@importFrom lattice qqmath
 #'@export
 #'@examples
 #' DTComplete <- StLouisDT
-#' response <- "Ammonia.N"
+#' colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete)) 
 #' UV <- StLouisUV
+#' colnames(UV) <- gsub("_Inst","",colnames(UV)) 
+#' response <- "Ammonia.N"
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' plotQQTransforms(DT,response)

@@ -35,7 +35,9 @@ has an effect on the model outcome.
 }
 \examples{
 DTComplete <- StLouisDT
+colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete))
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
 siteINFO <- StLouisInfo
 response <- "Ammonia.N"
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]

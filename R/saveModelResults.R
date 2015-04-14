@@ -9,8 +9,6 @@
 #'@param siteINFO dataframe that includes station_nm and site.no
 #'@keywords save model results
 #'@export
-#'@examples
-#'\dontrun{}
 saveModelResults <- function(pathToSave, DT, UV, modelReturn, siteINFO){
   
   responseVariable <- rownames(attributes(modelReturn$terms)$factors)[1]

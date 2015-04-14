@@ -1,6 +1,6 @@
 %\VignetteIndexEntry{Introduction to the GSqwsr package}
 %\VignetteEngine{knitr::knitr}
-%\VignetteDepends{}
+%\VignetteDepends{MASS,dataRetrieval,smwrBase,smwrQW,smwrStats,lattice,    latticeExtra}
 %\VignetteSuggests{xtable}
 %\VignettePackage{GSqwsr}
 
@@ -312,12 +312,13 @@ Finally, the unit value data can be retrieved with the getMultipleUV function. B
 <<getMultipleUV,echo=TRUE,eval=FALSE>>=
 UVpCodes <- c("00010","00060","00095","00300","00400","63680")
 UV <- getMultipleUV(site, startDate, endDate, UVpCodes)
-
+colnames(UV) <- gsub("_Inst","",colnames(UV)) 
 @
 
 <<getMultipleUVHidden,echo=FALSE,eval=TRUE>>=
 UVpCodes <- c("00010","00060","00095","00300","00400","63680")
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV)) 
 @
 
 <<uvColNames,echo=TRUE,eval=TRUE>>=
@@ -407,6 +408,9 @@ Additionally, this function has an argument 'autoSinCos' which is a logical inpu
 
 <<prelimModelDev,echo=TRUE,eval=TRUE>>=
 transformResponse <- "lognormal"
+
+head(DT)
+tail(DT)
 
 returnPrelim <- prelimModelDev(DT,
                  investigateResponse,
@@ -506,7 +510,7 @@ From this formula, the stepwise regression routine can be re-run (if certain par
 
 <<censReg, echo=TRUE,eval=TRUE>>=
 newUpperFormula <- paste(investigateResponse," ~ ", newFormula, sep="")
-modelReturnCustom <- censReg(newUpperFormula, 
+modelReturnCustom <- smwrQW::censReg(newUpperFormula, 
                        dist=transformResponse, data=DT)
 modelReturnCustom
 @

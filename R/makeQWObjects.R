@@ -6,7 +6,7 @@
 #'@return newdf dataframe
 #'@keywords NWIS data retrieval
 #'@import dataRetrieval
-#'@importFrom smwrQW as.qw
+#'@import smwrQW
 #'@export
 #'@examples
 #'site <- "04024000"

@@ -22,10 +22,12 @@ external studentized residuals greater than 3 or less than negative 3.
 }
 \examples{
 DTComplete <- StLouisDT
+colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete))
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
 QWcodes <- StLouisQWcodes
 siteINFO <- StLouisInfo
-response <- QWcodes$colName[1]
+response <- QWcodes$colName[QWcodes$colName != ""][1]
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
 kitchenSink <- createFullFormula(DT,response)

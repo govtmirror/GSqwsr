@@ -7,10 +7,17 @@
 #'@param transformResponse string can be "normal" or "lognormal", perhaps try to generalize this more in future
 #'@keywords scatterplot
 #'@export
+#'@importFrom lattice xyplot
+#'@importFrom lattice panel.xyplot
+#'@importFrom lattice strip.custom
+#'@importFrom latticeExtra layer
+#'@importFrom latticeExtra panel.quantile
 #'@examples
 #' DTComplete <- StLouisDT
-#' response <- "Ammonia.N"
+#' colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete)) 
 #' UV <- StLouisUV
+#' colnames(UV) <- gsub("_Inst","",colnames(UV)) 
+#' response <- "Ammonia.N"
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
 #' predictVariableScatterPlots(DT,response)

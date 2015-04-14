@@ -21,7 +21,9 @@ Run the fitting routine
 }
 \examples{
 DTComplete <- StLouisDT
+colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete))
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
 response <- "Ammonia.N"
 siteINFO <- StLouisInfo
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]

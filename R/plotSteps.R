@@ -11,10 +11,13 @@
 #'@param transformResponse ring can be "normal" or "lognormal", perhaps try to generalize this more in future
 #'@return retVal list of modelStuff, steps, DT.mod
 #'@keywords plot
+#'@importFrom smwrStats rmse
 #'@export
 #'@examples
 #' DTComplete <- StLouisDT
+#' colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete)) 
 #' UV <- StLouisUV
+#' colnames(UV) <- gsub("_Inst","",colnames(UV)) 
 #' response <- "Ammonia.N"
 #' DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 #' DT <- na.omit(DT)
@@ -84,7 +87,7 @@ plotSteps <- function(steps,localDT,transformResponse="lognormal"){
     corStep <- cor(df$obs, df$pred)
     goodness <- paste("slope: ",formatC(lineFit$coefficients[2],digits=4), 
                       ", cor: ", formatC(corStep,digits=4), 
-                      ", rsme: ", formatC(rmse(modelReturn),digits=4),sep="")
+                      ", rsme: ", formatC(smwrStats::rmse(modelReturn),digits=4),sep="")
     mtext(goodness,side=1,line=-1.5,cex=0.7)
     
    

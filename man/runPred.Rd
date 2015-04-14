@@ -27,8 +27,10 @@ transformResponse is set to "lognormal", a bias correction is included.
 }
 \examples{
 DTComplete <- StLouisDT
-response <- "Ammonia.N"
+colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete))
 UV <- StLouisUV
+colnames(UV) <- gsub("_Inst","",colnames(UV))
+response <- "Ammonia.N"
 siteINFO <- StLouisInfo
 DT <- DTComplete[c(response,getPredictVariables(names(UV)), "decYear","sinDY","cosDY","datetime")]
 DT <- na.omit(DT)
