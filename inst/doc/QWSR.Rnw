@@ -269,6 +269,7 @@ Most likely, there will be a known set of parameters that are to be modeled. If 
 
 
 <<importNWISqw,echo=TRUE,eval=FALSE>>=
+library(dataRetrieval)
 pCodeQW <- c("00608","00613","00618")
 startDate <- "2011-04-22"
 endDate <- ""
