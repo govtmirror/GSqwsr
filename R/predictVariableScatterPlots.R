@@ -7,11 +7,8 @@
 #'@param transformResponse string can be "normal" or "lognormal", perhaps try to generalize this more in future
 #'@keywords scatterplot
 #'@export
-#'@importFrom lattice xyplot
-#'@importFrom lattice panel.xyplot
-#'@importFrom lattice strip.custom
-#'@importFrom latticeExtra layer
-#'@importFrom latticeExtra panel.quantile
+#'@import lattice
+#'@import latticeExtra
 #'@examples
 #' DTComplete <- StLouisDT
 #' colnames(DTComplete) <- gsub("_Inst","",colnames(DTComplete)) 
