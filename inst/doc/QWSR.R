@@ -80,6 +80,7 @@ QWcodes <- whatQW(site, minCount=20)
 head(QWcodes)
 
 ## ----importNWISqw,echo=TRUE,eval=FALSE--------------------
+#  library(dataRetrieval)
 #  pCodeQW <- c("00608","00613","00618")
 #  startDate <- "2011-04-22"
 #  endDate <- ""
