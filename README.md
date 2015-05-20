@@ -18,10 +18,10 @@ Installation
 #On CRAN:
 install.packages(c("dataRetrieval","lattice","MASS","latticeExtra"))
 #On GRAN:
-install.packages(c("smwrBase","smwrData","smwrGraphs"),
+install.packages(c("smwrBase","smwrData","smwrGraphs","smwrStats"),
       repos="http://owi.usgs.gov/R")
 #On gitHub:
-install.packages(c("smwrStats","smwrQW"), 
+install.packages(c("smwrQW"), 
     repos=c("http://usgs-r.github.com","http://cran.us.r-project.org"), 
     dependencies=TRUE, type = "both")
 
