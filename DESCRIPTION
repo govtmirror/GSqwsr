@@ -1,8 +1,8 @@
 Package: GSqwsr
 Type: Package
 Title: Surrogate Regressions for Water Quality
-Version: 1.2.0
-Date: 2015-04-13
+Version: 1.2.1
+Date: 2015-10-14
 Author: Laura DeCicco, Steve Corsi
 Maintainer: Laura DeCicco <ldecicco@usgs.gov>
 Description: A collection of functions to simplify the process of surragate
