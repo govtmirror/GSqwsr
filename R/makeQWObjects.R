@@ -25,7 +25,7 @@ makeQWObjects <- function(df){
   names(newdf)["startDateTime" == names(newdf)] <- "datetime"
   for(i in pCodes){
     subDF <- df[,grep(i,colNames)]
-    shortName <- pcodeColNames()
+    shortName <- pcodeColData
     shortName <- shortName$col_name[shortName$parm_cd == i]
     
     paramINFO <- readNWISpCode(i)
